@@ -1,11 +1,79 @@
-<!DOCTYPE html>
+# -*- coding: utf-8 -*-
+"""
+Gerador Completo da Planta Baixa 2D Técnica e Atualização do Modelo 3D
+Atende com rigor a todas as diretrizes do cliente:
+1. Rua na frente da casa (lado oeste) com asfalto, faixa amarela, calçada e meio-fio rebaixado
+2. Cercado de eucalipto (mourão) em meia-lua partindo da extremidade da garagem até a borda, seguindo aos fundos e contornando até o Quarto 1
+3. Cozinha conectada à Sala, Corredor e também à Varanda de Lazer em Conceito Aberto total
+4. No centro da cozinha há SOMENTE a bancada retangular 'centro' (2,14 x 0,54 m)
+5. Ilha de granito (1,68 x 1,26 m) com 3 banquetas na divisa da cozinha com sala/corredor
+6. Piscina redonda de plástico estruturada no deck de lazer
+7. Entrada de pedestres pela varanda frontal com luz antiga (postes coloniais) e decoração (vasos vietnamitas)
+8. Entrada da garagem decorada para carros com pavers, balizadores em LED e vaga demarcada com carro
+9. Jardins 100% conectados em manto contínuo
+10. Varandas conectadas em complexo contínuo
+"""
+
+import os
+import math
+
+def generate_fence_svg():
+    # 1. Meia lua da extremidade da garagem (127.8, 538.1) até a borda (28.5, 620.0)
+    p0 = (127.8, 538.1)
+    p1 = (45.0, 550.0)
+    p2 = (28.5, 620.0)
+    
+    posts = []
+    # Curva em meia lua
+    for i in range(7):
+        t = i / 6.0
+        x = (1-t)**2 * p0[0] + 2*(1-t)*t * p1[0] + t**2 * p2[0]
+        y = (1-t)**2 * p0[1] + 2*(1-t)*t * p1[1] + t**2 * p2[1]
+        posts.append((round(x, 1), round(y, 1)))
+        
+    # Segue para os fundos na extremidade: (28.5, 620.0) até (28.5, 749.0)
+    for y in [645.0, 670.0, 695.0, 720.0, 749.0]:
+        posts.append((28.5, y))
+        
+    # Segue pelos fundos: (28.5, 749.0) até (519.4, 749.0)
+    for x in range(65, 520, 35):
+        posts.append((float(x), 749.0))
+    posts.append((519.4, 749.0))
+    
+    # Segue pela lateral leste: (519.4, 749.0) até (519.4, 109.5)
+    for y in range(715, 105, -35):
+        posts.append((519.4, float(y)))
+    posts.append((519.4, 109.5))
+    
+    # Segue pelo fundo superior: (519.4, 109.5) até (165.2, 109.5)
+    for x in range(485, 160, -35):
+        posts.append((float(x), 109.5))
+    posts.append((165.2, 109.5))
+    
+    # Segue até o Quarto 1: (165.2, 109.5) até (165.2, 207.0)
+    for y in [135.0, 160.0, 185.0, 207.0]:
+        posts.append((165.2, y))
+        
+    # Gera SVG da linha e dos mourões
+    path_d = f"M 127.8,538.1 Q 45.0,550.0 28.5,620.0 L 28.5,749.0 L 519.4,749.0 L 519.4,109.5 L 165.2,109.5 L 165.2,207.0"
+    
+    svg_posts = []
+    for px, py in posts:
+        svg_posts.append(f'<circle cx="{px}" cy="{py}" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>')
+        svg_posts.append(f'<circle cx="{px}" cy="{py}" r="1.0" fill="#a47148"/>')
+        
+    return path_d, "\n          ".join(svg_posts)
+
+fence_path, fence_posts_svg = generate_fence_svg()
+
+html_template = f'''<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Planta Baixa 2D Técnica Oficial • Residência & Lazer Integrados</title>
   <style>
-    :root {
+    :root {{
       --bg-dark: #0f172a;
       --panel-bg: rgba(15, 23, 42, 0.92);
       --panel-border: rgba(255, 255, 255, 0.12);
@@ -18,17 +86,17 @@
       --color-lazer-conectado: #ffb703;
       --color-varanda-lilas: #e2c4f0;
       --color-jardim: #c7f9cc;
-    }
+    }}
 
-    * {
+    * {{
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
-    }
+    }}
 
-    body {
+    body {{
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: #111827;
       color: var(--text-main);
@@ -37,10 +105,10 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-    }
+    }}
 
     /* Header Bar */
-    header {
+    header {{
       height: 60px;
       background: var(--panel-bg);
       backdrop-filter: blur(12px);
@@ -51,15 +119,15 @@
       padding: 0 16px;
       z-index: 50;
       flex-shrink: 0;
-    }
+    }}
 
-    .brand {
+    .brand {{
       display: flex;
       align-items: center;
       gap: 12px;
-    }
+    }}
 
-    .brand-icon {
+    .brand-icon {{
       width: 36px;
       height: 36px;
       background: linear-gradient(135deg, #f97316, #ea580c);
@@ -68,36 +136,36 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
-    }
+    }}
 
-    .brand-icon svg {
+    .brand-icon svg {{
       width: 22px;
       height: 22px;
       stroke: #fff;
       fill: none;
       stroke-width: 2;
-    }
+    }}
 
-    .brand-text h1 {
+    .brand-text h1 {{
       font-size: 1.02rem;
       font-weight: 700;
       color: #fff;
       letter-spacing: -0.01em;
-    }
+    }}
 
-    .brand-text span {
+    .brand-text span {{
       font-size: 0.72rem;
       color: var(--text-muted);
       display: block;
-    }
+    }}
 
-    .header-actions {
+    .header-actions {{
       display: flex;
       align-items: center;
       gap: 8px;
-    }
+    }}
 
-    .btn-action {
+    .btn-action {{
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--panel-border);
       color: var(--text-main);
@@ -111,45 +179,45 @@
       gap: 6px;
       transition: all 0.2s ease;
       text-decoration: none;
-    }
+    }}
 
-    .btn-action:hover {
+    .btn-action:hover {{
       background: rgba(255, 255, 255, 0.15);
       border-color: rgba(255, 255, 255, 0.25);
-    }
+    }}
 
-    .btn-action.primary {
+    .btn-action.primary {{
       background: #0284c7;
       border-color: #38bdf8;
       color: #fff;
-    }
+    }}
 
-    .btn-action.primary:hover {
+    .btn-action.primary:hover {{
       background: #0369a1;
-    }
+    }}
 
     /* Workspace Canvas */
-    #workspace {
+    #workspace {{
       flex: 1;
       position: relative;
       overflow: hidden;
       cursor: grab;
       background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
-    }
+    }}
 
-    #workspace:active {
+    #workspace:active {{
       cursor: grabbing;
-    }
+    }}
 
-    #blueprint-svg {
+    #blueprint-svg {{
       width: 100%;
       height: 100%;
       display: block;
       transform-origin: 0 0;
-    }
+    }}
 
     /* Floating UI Controls */
-    .floating-bar {
+    .floating-bar {{
       position: absolute;
       background: var(--panel-bg);
       backdrop-filter: blur(12px);
@@ -161,19 +229,19 @@
       align-items: center;
       gap: 8px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
+    }}
 
     /* Layer Bar (Top Center) */
-    #layer-bar {
+    #layer-bar {{
       top: 16px;
       left: 50%;
       transform: translateX(-50%);
       flex-wrap: wrap;
       max-width: 95vw;
       justify-content: center;
-    }
+    }}
 
-    .chip-toggle {
+    .chip-toggle {{
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-muted);
@@ -186,43 +254,43 @@
       align-items: center;
       gap: 6px;
       transition: all 0.2s ease;
-    }
+    }}
 
-    .chip-toggle.active {
+    .chip-toggle.active {{
       background: rgba(56, 189, 248, 0.2);
       border-color: rgba(56, 189, 248, 0.6);
       color: #fff;
-    }
+    }}
 
-    .chip-toggle .dot {
+    .chip-toggle .dot {{
       width: 8px;
       height: 8px;
       border-radius: 50%;
       display: inline-block;
-    }
+    }}
 
     /* Original Overlay Opacity Slider */
-    #overlay-control {
+    #overlay-control {{
       bottom: 20px;
       left: 20px;
       font-size: 0.8rem;
-    }
+    }}
 
-    #overlay-control input[type="range"] {
+    #overlay-control input[type="range"] {{
       width: 110px;
       accent-color: var(--accent);
       cursor: pointer;
-    }
+    }}
 
     /* Zoom / Reset Controls (Bottom Right) */
-    #nav-controls {
+    #nav-controls {{
       bottom: 20px;
       right: 20px;
       gap: 6px;
       padding: 6px;
-    }
+    }}
 
-    .btn-icon {
+    .btn-icon {{
       width: 38px;
       height: 38px;
       background: rgba(255, 255, 255, 0.06);
@@ -234,23 +302,23 @@
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s ease;
-    }
+    }}
 
-    .btn-icon:hover {
+    .btn-icon:hover {{
       background: rgba(255, 255, 255, 0.15);
       border-color: var(--accent);
-    }
+    }}
 
-    .btn-icon svg {
+    .btn-icon svg {{
       width: 18px;
       height: 18px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
-    }
+    }}
 
     /* Inspector Drawer */
-    #inspector {
+    #inspector {{
       position: absolute;
       top: 16px;
       right: 16px;
@@ -268,39 +336,39 @@
       transform: translateX(380px);
       opacity: 0;
       pointer-events: none;
-    }
+    }}
 
-    #inspector.open {
+    #inspector.open {{
       transform: translateX(0);
       opacity: 1;
       pointer-events: auto;
-    }
+    }}
 
-    .inspector-header {
+    .inspector-header {{
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
       padding-bottom: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    }}
 
-    .inspector-header h3 {
+    .inspector-header h3 {{
       font-size: 1.05rem;
       font-weight: 700;
       color: #fff;
-    }
+    }}
 
-    .inspector-close {
+    .inspector-close {{
       background: none;
       border: none;
       color: var(--text-muted);
       font-size: 1.2rem;
       cursor: pointer;
       line-height: 1;
-    }
+    }}
 
-    .inspector-badge {
+    .inspector-badge {{
       display: inline-block;
       padding: 3px 8px;
       border-radius: 6px;
@@ -311,37 +379,37 @@
       background: rgba(56, 189, 248, 0.15);
       color: var(--accent);
       border: 1px solid rgba(56, 189, 248, 0.3);
-    }
+    }}
 
-    .stat-grid {
+    .stat-grid {{
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-bottom: 14px;
-    }
+    }}
 
-    .stat-card {
+    .stat-card {{
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 8px;
       padding: 10px;
-    }
+    }}
 
-    .stat-card span {
+    .stat-card span {{
       display: block;
       font-size: 0.7rem;
       color: var(--text-muted);
       margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-    }
+    }}
 
-    .stat-card strong {
+    .stat-card strong {{
       font-size: 0.95rem;
       color: #fff;
-    }
+    }}
 
-    .inspector-details {
+    .inspector-details {{
       font-size: 0.84rem;
       line-height: 1.5;
       color: #cbd5e1;
@@ -349,46 +417,46 @@
       border-radius: 8px;
       padding: 12px;
       border-left: 3px solid var(--accent);
-    }
+    }}
 
     /* SVG Interactive Highlights */
-    .room-poly {
+    .room-poly {{
       cursor: pointer;
       transition: filter 0.2s ease, opacity 0.2s ease;
-    }
+    }}
 
-    .room-poly:hover {
+    .room-poly:hover {{
       filter: brightness(1.15) drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
-    }
+    }}
 
-    .room-selected {
+    .room-selected {{
       filter: brightness(1.25) drop-shadow(0 0 10px #38bdf8) !important;
       stroke: #38bdf8 !important;
       stroke-width: 3 !important;
-    }
+    }}
 
     /* Pulse animation for open-concept dashed lines */
-    @keyframes dashPulse {
-      0% { stroke-dashoffset: 0; opacity: 0.8; }
-      50% { stroke-dashoffset: 12; opacity: 1; }
-      100% { stroke-dashoffset: 24; opacity: 0.8; }
-    }
+    @keyframes dashPulse {{
+      0% {{ stroke-dashoffset: 0; opacity: 0.8; }}
+      50% {{ stroke-dashoffset: 12; opacity: 1; }}
+      100% {{ stroke-dashoffset: 24; opacity: 0.8; }}
+    }}
 
-    .pulse-line {
+    .pulse-line {{
       animation: dashPulse 1.8s linear infinite;
-    }
+    }}
 
     /* Vintage Lantern Glow Animation */
-    @keyframes lanternFlicker {
-      0% { opacity: 0.55; transform: scale(1); }
-      50% { opacity: 0.75; transform: scale(1.05); }
-      100% { opacity: 0.55; transform: scale(1); }
-    }
+    @keyframes lanternFlicker {{
+      0% {{ opacity: 0.55; transform: scale(1); }}
+      50% {{ opacity: 0.75; transform: scale(1.05); }}
+      100% {{ opacity: 0.55; transform: scale(1); }}
+    }}
 
-    .glow-flicker {
+    .glow-flicker {{
       animation: lanternFlicker 3s ease-in-out infinite;
       transform-origin: center;
-    }
+    }}
   </style>
 </head>
 <body>
@@ -560,131 +628,12 @@
         <g id="layer-cercado-eucalipto">
           <!-- Trilho / Travessas Horizontais do Cercado de Eucalipto -->
           <path id="poly-cercado-eucalipto" class="room-poly"
-            d="M 127.8,538.1 Q 45.0,550.0 28.5,620.0 L 28.5,749.0 L 519.4,749.0 L 519.4,109.5 L 165.2,109.5 L 165.2,207.0"
+            d="{fence_path}"
             fill="none" stroke="#78350f" stroke-width="3.2" stroke-linecap="round"/>
-          <path d="M 127.8,538.1 Q 45.0,550.0 28.5,620.0 L 28.5,749.0 L 519.4,749.0 L 519.4,109.5 L 165.2,109.5 L 165.2,207.0" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="{fence_path}" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round"/>
 
           <!-- Mourões Cilíndricos Verticais de Eucalipto Tratado Cravados no Solo -->
-          <circle cx="127.8" cy="538.1" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="127.8" cy="538.1" r="1.0" fill="#a47148"/>
-          <circle cx="102.0" cy="543.7" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="102.0" cy="543.7" r="1.0" fill="#a47148"/>
-          <circle cx="80.0" cy="552.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="80.0" cy="552.5" r="1.0" fill="#a47148"/>
-          <circle cx="61.6" cy="564.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="61.6" cy="564.5" r="1.0" fill="#a47148"/>
-          <circle cx="46.9" cy="579.8" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="46.9" cy="579.8" r="1.0" fill="#a47148"/>
-          <circle cx="35.8" cy="598.3" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="35.8" cy="598.3" r="1.0" fill="#a47148"/>
-          <circle cx="28.5" cy="620.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="28.5" cy="620.0" r="1.0" fill="#a47148"/>
-          <circle cx="28.5" cy="645.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="28.5" cy="645.0" r="1.0" fill="#a47148"/>
-          <circle cx="28.5" cy="670.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="28.5" cy="670.0" r="1.0" fill="#a47148"/>
-          <circle cx="28.5" cy="695.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="28.5" cy="695.0" r="1.0" fill="#a47148"/>
-          <circle cx="28.5" cy="720.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="28.5" cy="720.0" r="1.0" fill="#a47148"/>
-          <circle cx="28.5" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="28.5" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="65.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="65.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="100.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="100.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="135.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="135.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="170.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="170.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="205.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="205.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="240.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="240.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="275.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="275.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="310.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="310.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="345.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="345.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="380.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="380.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="415.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="415.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="450.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="450.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="485.0" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="485.0" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="749.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="749.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="715.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="715.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="680.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="680.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="645.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="645.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="610.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="610.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="575.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="575.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="540.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="540.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="505.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="505.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="470.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="470.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="435.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="435.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="400.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="400.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="365.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="365.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="330.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="330.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="295.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="295.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="260.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="260.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="225.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="225.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="190.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="190.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="155.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="155.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="120.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="120.0" r="1.0" fill="#a47148"/>
-          <circle cx="519.4" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="519.4" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="485.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="485.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="450.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="450.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="415.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="415.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="380.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="380.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="345.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="345.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="310.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="310.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="275.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="275.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="240.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="240.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="205.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="205.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="170.0" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="170.0" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="165.2" cy="109.5" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="165.2" cy="109.5" r="1.0" fill="#a47148"/>
-          <circle cx="165.2" cy="135.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="165.2" cy="135.0" r="1.0" fill="#a47148"/>
-          <circle cx="165.2" cy="160.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="165.2" cy="160.0" r="1.0" fill="#a47148"/>
-          <circle cx="165.2" cy="185.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="165.2" cy="185.0" r="1.0" fill="#a47148"/>
-          <circle cx="165.2" cy="207.0" r="2.4" fill="#6c4a27" stroke="#3e2723" stroke-width="0.8"/>
-          <circle cx="165.2" cy="207.0" r="1.0" fill="#a47148"/>
+          {fence_posts_svg}
 
           <!-- Identificação do Cercado -->
           <g transform="translate(68.0, 565.0)">
@@ -1330,280 +1279,280 @@
     /* ==========================================================================
        1. DATABASE EXATO DE TODOS OS CÔMODOS E MÓVEIS
        ========================================================================== */
-    const floorPlanDatabase = {
-      'poly-rua-principal': {
+    const floorPlanDatabase = {{
+      'poly-rua-principal': {{
         name: 'Rua Principal (Frente da Casa)',
         badge: 'Via Pública Asfaltada',
         dims: 'Largura 7,00 m (Pista)',
         area: 'Via Pública',
         scale: 'Rua na Frente da Casa',
         desc: 'Rua asfaltada em frente à residência com faixa central amarela e calçada de pedestres com meio-fio rebaixado para a garagem.'
-      },
-      'poly-cercado-eucalipto': {
+      }},
+      'poly-cercado-eucalipto': {{
         name: 'Cercado de Eucalipto (Mourão)',
         badge: 'Fechamento Rústico Ecológico',
         dims: 'Extensão ~115 m lineares',
         area: 'Perímetro Protegido',
         scale: 'Mourões de Eucalipto c/ Travessas',
         desc: 'Cercado de madeira de eucalipto tratado com mourões cilíndricos cravados no solo. Inicia na extremidade da garagem, faz uma elegante meia-lua em direção à borda do terreno, segue para os fundos contornando a Casa da Árvore e o Pergolado, e sobe até o Quarto 1.'
-      },
-      'poly-espaco-social-integrado': {
+      }},
+      'poly-espaco-social-integrado': {{
         name: 'Cozinha, Sala e Corredor Integrados',
         badge: 'Espaço Social • Conceito Aberto',
         dims: 'Ambiente Fluido Integrado',
         area: '47,40 m²',
         scale: 'Cozinha (4,18x4,08 cm) + Salas + Corredor',
         desc: 'Espaço social totalmente integrado no estilo cozinha americana. Não existem paredes divisórias entre a Cozinha, a Sala e o Corredor. Além disso, a cozinha também se conecta à Varanda Gourmet num conceito aberto com linhas vermelhas tracejadas de livre circulação.'
-      },
-      'furn-Centro': {
+      }},
+      'furn-Centro': {{
         name: 'Centro: Bancada Central Retangular',
         badge: 'Bancada Central Única da Cozinha',
         dims: '2,14 × 0,54 m',
         area: '1,16 m²',
         scale: 'Centro = 2,14 x 0,54 m',
         desc: 'Única bancada retangular localizada no centro da cozinha (identificada como "centro" na planta original). Serve de bancada de preparo, apoio de corte e montagem de pratos gourmet.'
-      },
-      'furn-Ilha': {
+      }},
+      'furn-Ilha': {{
         name: 'Ilha / Balcão da Cozinha Americana',
         badge: 'Divisa Aberta & Refeições',
         dims: '1,68 × 1,26 m',
         area: '2,12 m²',
         scale: 'Ilha = 1,68 x 1,26 m',
         desc: 'Ilha de granito preto São Gabriel polido situada na divisa oeste entre a Cozinha e a Sala/Corredor. Possui 3 banquetas giratórias estofadas voltadas para a sala.'
-      },
-      'poly-piscina-redonda': {
+      }},
+      'poly-piscina-redonda': {{
         name: 'Piscina Redonda de Plástico (Estruturada)',
         badge: 'Lazer Aquático',
         dims: 'Ø ~5,00 m (Diâmetro)',
         area: '19,63 m²',
         scale: 'Piscina Redonda Estruturada no Deck',
         desc: 'Piscina redonda de plástico/lona de PVC azul laminada reforçada com suportes metálicos tubulares externos em T ao redor de todo o perímetro, anel tubular superior reforçado branco e escada externa de 3 degraus apoiada no deck.'
-      },
-      'furn-luz-antiga-norte': {
+      }},
+      'furn-luz-antiga-norte': {{
         name: 'Poste Colonial de Luz Antiga (Norte)',
         badge: 'Iluminação Vintage / Retrô',
         dims: '0,40 × 0,40 × 2,20 m',
         area: 'Halo de 2,5 m',
         scale: 'Luz Antiga Lateral da Entrada',
         desc: 'Poste colonial clássico em ferro forjado negro com lanterna hexagonal de vidros bisotados e lâmpada vintage de filamento quente âmbar (2700K).'
-      },
-      'furn-luz-antiga-sul': {
+      }},
+      'furn-luz-antiga-sul': {{
         name: 'Poste Colonial de Luz Antiga (Sul)',
         badge: 'Iluminação Vintage / Retrô',
         dims: '0,40 × 0,40 × 2,20 m',
         area: 'Halo de 2,5 m',
         scale: 'Luz Antiga Lateral da Entrada',
         desc: 'Poste colonial clássico em ferro forjado negro com lanterna hexagonal e lâmpada quente de filamento retrô, harmonizando a iluminação noturna aos lados do acesso de pedestres.'
-      },
-      'furn-vaso-norte': {
+      }},
+      'furn-vaso-norte': {{
         name: 'Vaso Vietnamita Ornamental (Norte)',
         badge: 'Decoração Paisagística',
         dims: 'Ø 0,55 m × Altura 0,90 m',
         area: '0,24 m²',
         scale: 'Decoração Lateral da Entrada',
         desc: 'Vaso cerâmico esmaltado vitificado em azul petróleo com composição paisagística de palmeira-ráfia e zamioculcas junto à entrada de pedestres.'
-      },
-      'furn-vaso-sul': {
+      }},
+      'furn-vaso-sul': {{
         name: 'Vaso Vietnamita Ornamental (Sul)',
         badge: 'Decoração Paisagística',
         dims: 'Ø 0,55 m × Altura 0,90 m',
         area: '0,24 m²',
         scale: 'Decoração Lateral da Entrada',
         desc: 'Vaso cerâmico esmaltado azul petróleo com folhagens tropicais densas compondo o portal verde de entrada para a varanda frontal.'
-      },
-      'poly-caminho-pedestres': {
+      }},
+      'poly-caminho-pedestres': {{
         name: 'Acesso de Pedestres à Varanda Frontal',
         badge: 'Circulação Principal',
         dims: '5,83 × 2,00 m',
         area: '11,66 m²',
         scale: 'Passarela de Pedras São Tomé',
         desc: 'Caminho de pedestres em lajotas de pedra natural conectando a calçada da rua diretamente à Varanda Frontal, ladeado por postes coloniais de luz antiga e vasos ornamentais.'
-      },
-      'poly-driveway-garagem': {
+      }},
+      'poly-driveway-garagem': {{
         name: 'Entrada da Garagem Decorada para Carros',
         badge: 'Acesso Automotivo',
         dims: '5,71 × 6,00 m',
         area: '34,26 m²',
         scale: 'Driveway Intertravada com Balizadores',
         desc: 'Rampa de acesso e manobra de veículos com piso intertravado (paver) antiderrapante e faixas de concreto reforçado para pneus com balizadores de LED.'
-      },
-      'furn-carro-estilizado': {
+      }},
+      'furn-carro-estilizado': {{
         name: 'Vaga 1 Garagem (Veículo Moderno)',
         badge: 'Vaga Automotiva Coberta',
         dims: '4,60 × 1,90 m (Carro)',
         area: '8,74 m²',
         scale: 'Vaga Técnica Demarcada',
         desc: 'Vaga coberta demarcada com pintura termoplástica técnica, acomodando veículo moderno com segurança e conforto térmico.'
-      },
-      'poly-garagem': {
+      }},
+      'poly-garagem': {{
         name: 'Garagem Coberta (Vaga Dupla)',
         badge: 'Garagem Residencial',
         dims: '5,71 × 3,00 m',
         area: '17,13 m²',
         scale: 'Altura: 3 cm • Largura: 5,71 cm',
         desc: 'Garagem coberta ampla para até dois veículos, com piso reforçado resinado, demarcação técnica de vagas e acesso direto pela entrada pavimentada com pavers.'
-      },
-      'poly-varanda-lilas-conectada': {
+      }},
+      'poly-varanda-lilas-conectada': {{
         name: 'Varanda Frontal Lilás (Pedestres)',
         badge: 'Varanda de Recepção',
         dims: '2,94 × 3,32 m / 2,78 × 3,26 m',
         area: '18,82 m²',
         scale: '3,26 x 2,78 cm e 3,32 x 2,94 cm',
         desc: 'Varanda de recepção frontal no tom lilás da prancha. É a entrada oficial de pedestres da residência, conectando o jardim iluminado à grande sala unificada.'
-      },
-      'poly-varanda-lazer-conectada': {
+      }},
+      'poly-varanda-lazer-conectada': {{
         name: 'Complexo de Lazer & Varandas Conectadas',
         badge: 'Lazer & Gourmet Integrados',
         dims: 'Complexo Contínuo Leste',
         area: '56,31 m²',
         scale: 'Deck Piscina + Varanda Gourmet (7,02x3,34 cm)',
         desc: 'Área externa contínua integrando o Deck da piscina redonda de plástico, a Varanda Gourmet com churrasqueira e a circulação lateral sem barreiras ou paredes intermediárias, conectada abertamente com a cozinha.'
-      },
-      'poly-jardim-conectado': {
+      }},
+      'poly-jardim-conectado': {{
         name: 'Jardins Perimetrais 100% Conectados',
         badge: 'Paisagismo & Manto Verde',
         dims: 'Perímetro Total Contínuo',
         area: '184,50 m²',
         scale: 'Jardins Norte, Oeste e Sul Conectados',
         desc: 'Manto verde contínuo e integrado ao redor de toda a residência. Conecta o Jardim Norte (superior), o Jardim Oeste, o Jardim da Casa da Árvore e o Jardim dos Fundos com Pergolado.'
-      },
-      'furn-P': {
+      }},
+      'furn-P': {{
         name: 'P: Pia Cuba Dupla',
         badge: 'Bancada Molhada',
         dims: '2,00 × 0,60 m',
         area: '1,20 m²',
         scale: 'P = 2 x 0,6 m',
         desc: 'Bancada na parede norte da cozinha (compartilhada com o banheiro), equipada com duas cubas de aço inox e torneira gourmet.'
-      },
-      'furn-AE': {
+      }},
+      'furn-AE': {{
         name: 'AE: Bancada c/ Armário Aéreo',
         badge: 'Marcenaria Superior',
         dims: '1,15 × 0,54 m',
         area: '0,62 m²',
         scale: 'AE = 1,15 x 0,54 m',
         desc: 'Bancada contígua à pia com armário aéreo superior para louças e mantimentos.'
-      },
-      'furn-F': {
+      }},
+      'furn-F': {{
         name: 'F: Fogão Cooktop & Coifa',
         badge: 'Área Quente',
         dims: '0,83 × 0,70 m',
         area: '0,58 m²',
         scale: 'F = 0,83 x 0,70 m',
         desc: 'Cooktop de 4 bocas com grelhas de ferro fundido, forno embutido e coifa em inox.'
-      },
-      'furn-BL': {
+      }},
+      'furn-BL': {{
         name: 'BL: Bancada Lado',
         badge: 'Bancada de Serviço',
         dims: '1,97 × 0,51 m',
         area: '1,00 m²',
         scale: 'BL = 1,97 x 0,51 m',
         desc: 'Bancada lateral com gaveteiros para talheres e utensílios gourmet na parede sul da cozinha.'
-      },
-      'furn-AM': {
+      }},
+      'furn-AM': {{
         name: 'AM: Armário Torre Quente',
         badge: 'Torre de Fornos',
         dims: '0,66 × 0,54 m',
         area: '0,36 m²',
         scale: 'AM = 0,66 x 0,54 m',
         desc: 'Coluna vertical com nichos embutidos para forno elétrico e micro-ondas.'
-      },
-      'furn-G': {
+      }},
+      'furn-G': {{
         name: 'G: Geladeira Duplex Inox',
         badge: 'Refrigeração',
         dims: '0,72 × 0,76 m',
         area: '0,55 m²',
         scale: 'G = 0,72 x 0,76 m',
         desc: 'Geladeira duplex frost-free com acabamento em aço inoxidável.'
-      },
-      'poly-quarto1': {
+      }},
+      'poly-quarto1': {{
         name: 'Quarto 1',
         badge: 'Dormitório Superior Esquerdo',
         dims: '3,01 × 4,00 m',
         area: '12,04 m²',
         scale: 'Altura: 4 cm • Largura: 3,01 cm',
         desc: 'Dormitório localizado no canto superior esquerdo da residência, onde o cercado de mourões de eucalipto encerra sua trajetória perimetral.'
-      },
-      'poly-quarto2': {
+      }},
+      'poly-quarto2': {{
         name: 'Quarto 2',
         badge: 'Dormitório Superior Centro',
         dims: '3,51 × 3,01 m',
         area: '10,57 m²',
         scale: 'Altura: 3,01 cm • Largura: 3,51 cm',
         desc: 'Dormitório localizado no topo da residência, ao lado do Quarto 1 e acima do Banheiro Superior.'
-      },
-      'poly-banheiro-sup': {
+      }},
+      'poly-banheiro-sup': {{
         name: 'Banheiro Superior',
         badge: 'Área Molhada Superior',
         dims: '2,43 × 1,87 m',
         area: '4,54 m²',
         scale: 'Abaixo do Quarto 2',
         desc: 'Banheiro completo da área íntima superior.'
-      },
-      'poly-quarto3': {
+      }},
+      'poly-quarto3': {{
         name: 'Quarto 3',
         badge: 'Dormitório Compacto',
         dims: '2,17 × 1,90 m',
         area: '4,12 m²',
         scale: '1,9 cm • 2,17 cm',
         desc: 'Quarto posicionado abaixo da Cozinha e ao lado do Banheiro Inferior.'
-      },
-      'poly-banheiro-inf': {
+      }},
+      'poly-banheiro-inf': {{
         name: 'Banheiro Inferior',
         badge: 'Área Molhada Social',
         dims: '1,79 × 1,52 m',
         area: '2,72 m²',
         scale: '1,79 cm • 1,52 cm',
         desc: 'Banheiro social posicionado junto ao Quarto 3 e à lavanderia.'
-      },
-      'poly-quarto5': {
+      }},
+      'poly-quarto5': {{
         name: 'Quarto 5 (Suíte Térrea)',
         badge: 'Dormitório Amplo',
         dims: '5,41 × 3,00 m',
         area: '16,23 m²',
         scale: 'Altura: 3 cm • Largura: 5,41 cm',
         desc: 'Quarto amplo no setor inferior da casa, com vista para o jardim dos fundos e pergolado.'
-      },
-      'poly-lavanderia': {
+      }},
+      'poly-lavanderia': {{
         name: 'Lavanderia & Serviços',
         badge: 'Área de Serviço',
         dims: '2,24 × 2,95 m',
         area: '6,61 m²',
         scale: '2,24 cm • 2,95 cm',
         desc: 'Área de serviço com tanque, máquina de lavar e bancada com armário de canto (AC).'
-      },
-      'poly-horta': {
+      }},
+      'poly-horta': {{
         name: 'Horta com Cerca',
         badge: 'Cultivo Orgânico',
         dims: '1,48 × 14,33 m',
         area: '21,21 m²',
         scale: 'Horta com Cerca Lateral',
         desc: 'Canteiro longitudinal protegido para cultivo de temperos e hortaliças frescas.'
-      },
-      'poly-casa-cachorro': {
+      }},
+      'poly-casa-cachorro': {{
         name: 'Casa do Cachorro',
         badge: 'Área Pet',
         dims: '2,50 × 2,60 m',
         area: '6,50 m²',
         scale: 'Canto Superior Direito',
         desc: 'Abrigo rústico de madeira com cobertura inclinada no jardim superior.'
-      },
-      'poly-casa-arvore': {
+      }},
+      'poly-casa-arvore': {{
         name: 'Casa da Árvore',
         badge: 'Espaço Lúdico',
         dims: '2,50 × 2,60 m',
         area: '6,50 m²',
         scale: 'Canto Inferior Esquerdo',
         desc: 'Casinha de madeira suspensa em tronco robusto com escada de marinheiro.'
-      },
-      'poly-pergolado': {
+      }},
+      'poly-pergolado': {{
         name: 'Pergolado de Madeira',
         badge: 'Espaço Zen & Convivência',
         dims: '3,05 × 2,91 m',
         area: '8,88 m²',
         scale: 'Altura: 3,05 cm • Largura: 2,91 cm',
         desc: 'Pergolado em vigamento de eucalipto tratado com trepadeiras e bancos de descanso.'
-      }
-    };
+      }}
+    }};
 
     /* ==========================================================================
        2. INTERATIVIDADE: PAN & ZOOM
@@ -1619,27 +1568,27 @@
     let startX = 0;
     let startY = 0;
 
-    function updateTransform() {
-      viewportGroup.setAttribute('transform', `translate(${pointX}, ${pointY}) scale(${scale})`);
-    }
+    function updateTransform() {{
+      viewportGroup.setAttribute('transform', `translate(${{pointX}}, ${{pointY}}) scale(${{scale}})`);
+    }}
 
-    workspace.addEventListener('mousedown', (e) => {
+    workspace.addEventListener('mousedown', (e) => {{
       if (e.target.closest('#inspector') || e.target.closest('.floating-bar')) return;
       isPanning = true;
       startX = e.clientX - pointX;
       startY = e.clientY - pointY;
-    });
+    }});
 
-    window.addEventListener('mousemove', (e) => {
+    window.addEventListener('mousemove', (e) => {{
       if (!isPanning) return;
       pointX = e.clientX - startX;
       pointY = e.clientY - startY;
       updateTransform();
-    });
+    }});
 
-    window.addEventListener('mouseup', () => { isPanning = false; });
+    window.addEventListener('mouseup', () => {{ isPanning = false; }});
 
-    workspace.addEventListener('wheel', (e) => {
+    workspace.addEventListener('wheel', (e) => {{
       e.preventDefault();
       const zoomFactor = 1.12;
       const rect = workspace.getBoundingClientRect();
@@ -1653,24 +1602,24 @@
       pointY = mouseY - (mouseY - pointY) * (newScale / scale);
       scale = newScale;
       updateTransform();
-    }, { passive: false });
+    }}, {{ passive: false }});
 
-    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {{
       scale = Math.min(scale * 1.25, 5.0);
       updateTransform();
-    });
+    }});
 
-    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {{
       scale = Math.max(scale / 1.25, 0.4);
       updateTransform();
-    });
+    }});
 
-    function resetView() {
+    function resetView() {{
       scale = 0.95;
       pointX = 35;
       pointY = 10;
       updateTransform();
-    }
+    }}
 
     document.getElementById('btn-zoom-reset').addEventListener('click', resetView);
     document.getElementById('btn-center-view').addEventListener('click', resetView);
@@ -1678,25 +1627,25 @@
     /* ==========================================================================
        3. CONTROLE DE CAMADAS (LAYERS)
        ========================================================================== */
-    document.querySelectorAll('.chip-toggle[data-layer]').forEach(btn => {
-      btn.addEventListener('click', () => {
+    document.querySelectorAll('.chip-toggle[data-layer]').forEach(btn => {{
+      btn.addEventListener('click', () => {{
         const layerId = btn.dataset.layer;
         const layerEl = document.getElementById(layerId);
         if (!layerEl) return;
         btn.classList.toggle('active');
         layerEl.style.display = btn.classList.contains('active') ? '' : 'none';
-      });
-    });
+      }});
+    }});
 
     const overlaySlider = document.getElementById('overlay-slider');
     const overlayVal = document.getElementById('overlay-val');
     const overlayLayer = document.getElementById('layer-original-overlay');
 
-    overlaySlider.addEventListener('input', (e) => {
+    overlaySlider.addEventListener('input', (e) => {{
       const val = e.target.value;
       overlayVal.textContent = val + '%';
       overlayLayer.setAttribute('opacity', val / 100);
-    });
+    }});
 
     /* ==========================================================================
        4. GAVETA DE INSPEÇÃO TÉCNICA (INSPECTOR DRAWER)
@@ -1710,7 +1659,7 @@
     const inspDesc = document.getElementById('insp-desc');
     let selectedElement = null;
 
-    function openInspector(data) {
+    function openInspector(data) {{
       inspTitle.textContent = data.name;
       inspBadge.textContent = data.badge;
       inspDims.textContent = data.dims;
@@ -1718,18 +1667,18 @@
       inspScale.textContent = data.scale;
       inspDesc.textContent = data.desc;
       inspector.classList.add('open');
-    }
+    }}
 
-    document.getElementById('insp-close').addEventListener('click', () => {
+    document.getElementById('insp-close').addEventListener('click', () => {{
       inspector.classList.remove('open');
-      if (selectedElement) {
+      if (selectedElement) {{
         selectedElement.classList.remove('room-selected');
         selectedElement = null;
-      }
-    });
+      }}
+    }});
 
-    document.querySelectorAll('.room-poly').forEach(poly => {
-      poly.addEventListener('click', (e) => {
+    document.querySelectorAll('.room-poly').forEach(poly => {{
+      poly.addEventListener('click', (e) => {{
         e.stopPropagation();
         if (selectedElement) selectedElement.classList.remove('room-selected');
         
@@ -1737,18 +1686,23 @@
         selectedElement.classList.add('room-selected');
 
         const key = poly.id;
-        if (floorPlanDatabase[key]) {
+        if (floorPlanDatabase[key]) {{
           openInspector(floorPlanDatabase[key]);
-        } else {
+        }} else {{
           const parentGroup = poly.closest('[id]');
-          if (parentGroup && floorPlanDatabase[parentGroup.id]) {
+          if (parentGroup && floorPlanDatabase[parentGroup.id]) {{
             openInspector(floorPlanDatabase[parentGroup.id]);
-          }
-        }
-      });
-    });
+          }}
+        }}
+      }});
+    }});
 
     resetView();
   </script>
 </body>
 </html>
+'''
+
+with open(r'F:\casa-completa-lazer-3d\index.html', 'w', encoding='utf-8') as f:
+    f.write(html_template)
+print("F:\\casa-completa-lazer-3d\\index.html atualizado com sucesso!")
