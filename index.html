@@ -3,27 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Planta Baixa 2D Técnica e Interativa • Residência Completa & Lazer</title>
+  <title>Planta Baixa 2D Técnica Oficial • Residência Completa & Cozinha Americana</title>
   <style>
     :root {
       --bg-dark: #0f172a;
-      --panel-bg: rgba(15, 23, 42, 0.88);
+      --panel-bg: rgba(15, 23, 42, 0.92);
       --panel-border: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --accent: #38bdf8;
       --accent-hover: #0ea5e9;
-      --color-quarto: #ff7d47;
-      --color-sala: #ff8c5a;
-      --color-cozinha: #ff9d6e;
-      --color-banheiro: #8ecae6;
+      --color-quarto: #ff9d6e;
+      --color-sala: #ff9d6e;
+      --color-cozinha: #ffffff;
+      --color-banheiro: #c2e9fb;
       --color-lazer: #ffb703;
-      --color-piscina: #0077b6;
+      --color-piscina: #0284c7;
       --color-jardim: #c7f9cc;
-      --color-garagem: #fca311;
-      --color-varanda: #d8b4e2;
-      --color-horta: #d9ed92;
-      --color-pergolado: #b08968;
+      --color-varanda: #e2c4f0;
+      --color-horta: #d4a373;
     }
 
     * {
@@ -36,7 +34,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg-dark);
+      background: #111827;
       color: var(--text-main);
       overflow: hidden;
       width: 100vw;
@@ -68,12 +66,12 @@
     .brand-icon {
       width: 36px;
       height: 36px;
-      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+      background: linear-gradient(135deg, #f97316, #ea580c);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
     }
 
     .brand-icon svg {
@@ -148,16 +146,19 @@
       position: relative;
       overflow: hidden;
       cursor: grab;
-      background: #090d16;
+      background: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     #workspace:active {
       cursor: grabbing;
     }
 
-    /* Blueprint Background Pattern */
+    /* Themes */
     .theme-blueprint #workspace {
-      background: #0b192c;
+      background: #0a192f;
       background-image: 
         linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
@@ -167,7 +168,7 @@
     }
 
     .theme-white #workspace {
-      background: #f8fafc;
+      background: #f1f5f9;
       background-image: 
         linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
@@ -267,7 +268,6 @@
       background: currentColor;
     }
 
-    /* Focus Cozinha Badge */
     #btn-focus-cozinha {
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.3));
       border: 1px solid #f97316;
@@ -277,42 +277,24 @@
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.35), rgba(234, 88, 12, 0.45));
     }
 
-    /* Scale Indicator at Bottom Left */
-    #scale-indicator {
-      position: absolute;
+    /* Opacity Slider Bar */
+    #overlay-control {
       bottom: 20px;
       left: 20px;
-      background: var(--panel-bg);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--panel-border);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
       display: flex;
       align-items: center;
       gap: 10px;
-      z-index: 30;
+      padding: 8px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
     }
 
-    .scale-bar-line {
-      width: 50px;
-      height: 4px;
-      background: #38bdf8;
-      border-radius: 2px;
-      position: relative;
+    #overlay-control input[type=range] {
+      width: 100px;
+      accent-color: #38bdf8;
+      cursor: pointer;
     }
-    .scale-bar-line::before, .scale-bar-line::after {
-      content: '';
-      position: absolute;
-      top: -3px;
-      width: 2px;
-      height: 10px;
-      background: #38bdf8;
-    }
-    .scale-bar-line::before { left: 0; }
-    .scale-bar-line::after { right: 0; }
 
     /* Inspector Drawer */
     #inspector {
@@ -413,727 +395,490 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* SVG Architectural Styles */
+    /* SVG Interactive Styling */
     .room-poly {
       cursor: pointer;
       transition: filter 0.2s, opacity 0.2s;
     }
 
     .room-poly:hover {
-      filter: brightness(1.18);
+      filter: brightness(1.15);
     }
 
     .room-selected {
       stroke: #38bdf8 !important;
-      stroke-width: 5px !important;
-      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.7));
+      stroke-width: 4px !important;
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7));
     }
 
-    .wall-line {
-      stroke: #1e293b;
-      stroke-width: 14;
-      stroke-linecap: square;
-      stroke-linejoin: miter;
+    /* Callout Box Vector Graphic */
+    .callout-box {
+      cursor: pointer;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18));
+      transition: transform 0.15s;
     }
-
-    .theme-blueprint .wall-line {
-      stroke: #ffffff;
-      stroke-width: 12;
-    }
-
-    .theme-white .wall-line {
-      stroke: #0f172a;
-      stroke-width: 12;
-    }
-
-    .cota-line {
-      stroke: #ef4444;
-      stroke-width: 2;
-      stroke-dasharray: 4, 3;
-    }
-
-    .cota-text {
-      font-size: 15px;
-      font-weight: 700;
-      fill: #ef4444;
-      text-anchor: middle;
-      paint-order: stroke;
-      stroke: #0f172a;
-      stroke-width: 3px;
-    }
-
-    .theme-white .cota-text {
-      stroke: #ffffff;
-    }
-
-    .room-label-title {
-      font-size: 18px;
-      font-weight: 800;
-      fill: #0f172a;
-      text-anchor: middle;
-      paint-order: stroke;
-      stroke: #ffffff;
-      stroke-width: 4px;
-    }
-
-    .room-label-sub {
-      font-size: 13px;
-      font-weight: 600;
-      fill: #334155;
-      text-anchor: middle;
-      paint-order: stroke;
-      stroke: #ffffff;
-      stroke-width: 3px;
-    }
-
-    .theme-blueprint .room-label-title {
-      fill: #ffffff;
-      stroke: #0b192c;
-    }
-    .theme-blueprint .room-label-sub {
-      fill: #94a3b8;
-      stroke: #0b192c;
-    }
-
-    /* Kitchen Connection Highlight */
-    .connection-zone {
-      stroke: #ef4444;
-      stroke-width: 3;
-      stroke-dasharray: 6, 4;
-      fill: rgba(239, 68, 68, 0.08);
-      animation: pulseZone 2.5s infinite alternate;
-    }
-
-    @keyframes pulseZone {
-      0% { fill: rgba(239, 68, 68, 0.05); }
-      100% { fill: rgba(239, 68, 68, 0.18); }
+    .callout-box:hover {
+      transform: scale(1.05);
     }
 
     /* Print media */
     @media print {
-      header, .floating-bar, #inspector, #scale-indicator {
+      header, .floating-bar, #inspector, #overlay-control {
         display: none !important;
       }
       body, #workspace {
         background: #fff !important;
         overflow: visible !important;
       }
-      svg#blueprint-svg {
-        transform: none !important;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Top Navigation Header -->
   <header>
     <div class="brand">
       <div class="brand-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
       </div>
       <div class="brand-text">
-        <h1>Planta Baixa 2D Técnica e Interativa</h1>
-        <span>Residência Completa • Cozinha Americana Integrada • Escala 1 cm = 1,00 m</span>
+        <h1>Planta Baixa 2D Técnica Oficial</h1>
+        <span>Fiel à Prancha Original • Cozinha Americana Integrada • Escala 1 cm = 1,00 m</span>
       </div>
     </div>
 
     <div class="header-actions">
-      <button class="btn" id="btn-theme-human" title="Cores Humanizadas">🎨 Humanizada</button>
+      <button class="btn active" id="btn-theme-human" title="Cores Originais da Planta">🎨 Humanizada</button>
       <button class="btn" id="btn-theme-blue" title="Prancha CAD Blueprint">📐 Blueprint</button>
-      <button class="btn" id="btn-print" title="Imprimir ou Salvar PDF">🖨️ Imprimir</button>
-      <a href="modelo3d.html" class="btn btn-3d" title="Alternar para visualização 3D">🏠 Ver Modelo 3D</a>
+      <button class="btn" id="btn-print" title="Imprimir Prancha Técnica">🖨️ Imprimir</button>
+      <a href="modelo3d.html" class="btn btn-3d" title="Alternar para Maquete 3D">🏠 Ver Modelo 3D</a>
     </div>
   </header>
 
-  <!-- Main Canvas Workspace -->
+  <!-- Workspace Canvas -->
   <div id="workspace">
-    <!-- SVG Vector Floor Plan -->
-    <svg id="blueprint-svg" viewBox="-550 -420 1950 2450">
+    <!-- SVG Vector Architecture -->
+    <svg id="blueprint-svg" viewBox="0 0 540 780" preserveAspectRatio="xMidYMid meet">
       <defs>
-        <!-- Wood Hatching Pattern -->
-        <pattern id="woodHatch" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+        <!-- Wood Slat Pattern -->
+        <pattern id="woodSlat" width="8" height="20" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
           <line x1="0" y1="0" x2="0" y2="20" stroke="rgba(0,0,0,0.06)" stroke-width="2" />
         </pattern>
-        <!-- Tile Grid Pattern -->
-        <pattern id="tileGrid" width="25" height="25" patternUnits="userSpaceOnUse">
-          <rect width="25" height="25" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
-        </pattern>
-        <!-- Pool Water Waves -->
+        <!-- Blue Pool Gradient -->
         <linearGradient id="poolGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0096c7" />
-          <stop offset="100%" stop-color="#023e8a" />
+          <stop offset="0%" stop-color="#00b4d8" />
+          <stop offset="100%" stop-color="#0077b6" />
         </linearGradient>
-        <!-- Pergola Slats Pattern -->
-        <pattern id="pergoladoSlats" width="15" height="40" patternUnits="userSpaceOnUse">
-          <rect width="4" height="40" fill="#7f5539"/>
-        </pattern>
-        <!-- Dimension Arrow Markers -->
-        <marker id="arrowRed" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-          <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#ef4444" />
-        </marker>
       </defs>
 
-      <!-- Pan & Zoom Layer Container -->
+      <!-- Viewport Pan/Zoom Group -->
       <g id="viewport-group">
 
-        <!-- 1. JARDINS & TERRENO EXTERNO -->
+        <!-- 0. OVERLAY DA PLANTA ORIGINAL (OPACIDADE CONTROLÁVEL) -->
+        <g id="layer-original-overlay" opacity="0.0">
+          <image href="planta_baixa.png" x="0" y="0" width="540" height="780" preserveAspectRatio="none"/>
+        </g>
+
+        <!-- 1. JARDINS & ÁREAS EXTERNAS (VERDE) -->
         <g id="layer-jardins">
-          <!-- Terreno Total Verde Claro -->
-          <rect x="-500" y="-380" width="1850" height="2350" fill="#e2f1e4" stroke="#475569" stroke-width="6"/>
-
-          <!-- Jardim Superior (15,38 x 4,00 m) -->
-          <rect class="room-poly" id="poly-jardim-sup" x="0" y="-400" width="1538" height="400" fill="#c7f9cc" stroke="#38a3a5" stroke-width="2"/>
+          <!-- Jardim Superior (15,38 x 4,00 cm) -->
+          <rect id="poly-jardim-sup" class="room-poly" x="165.2" y="111.3" width="354.2" height="92.1" fill="#c7f9cc" stroke="#38a3a5" stroke-width="1.5"/>
           
-          <!-- Jardim Lateral Esquerdo (5,83 x 12,13 m) -->
-          <rect class="room-poly" id="poly-jardim-esq" x="-583" y="0" width="583" height="1213" fill="#c7f9cc" stroke="#38a3a5" stroke-width="2"/>
+          <!-- Jardim Lateral Esquerdo (5,83 x 12,13 cm) -->
+          <rect id="poly-jardim-esq" class="room-poly" x="29.3" y="109.5" width="134.3" height="279.3" fill="#c7f9cc" stroke="#38a3a5" stroke-width="1.5"/>
 
-          <!-- Jardim dos Fundos (17,00 x 9,00 m) -->
-          <rect class="room-poly" id="poly-jardim-fundos" x="0" y="1704" width="1700" height="900" fill="#c7f9cc" stroke="#38a3a5" stroke-width="2"/>
+          <!-- Jardim dos Fundos (17,00 x 9,00 cm) -->
+          <rect id="poly-jardim-fundos" class="room-poly" x="127.8" y="540.9" width="391.6" height="207.2" fill="#c7f9cc" stroke="#38a3a5" stroke-width="1.5"/>
 
-          <!-- Jardim da Casa da Árvore (4,24 x 12,15 m) -->
-          <rect class="room-poly" id="poly-jardim-arvore" x="-424" y="1213" width="424" height="1215" fill="#b7e4c7" stroke="#38a3a5" stroke-width="2"/>
+          <!-- Jardim Casa da Árvore (4,24 x 12,15 cm) -->
+          <rect id="poly-jardim-arvore" class="room-poly" x="28.5" y="469.0" width="97.5" height="279.9" fill="#c7f9cc" stroke="#38a3a5" stroke-width="1.5"/>
 
-          <!-- Casa do Cachorro (1,40 x 1,20 m) -->
-          <g id="poly-casa-cachorro" class="room-poly" transform="translate(850, -350)">
-            <rect width="140" height="120" rx="6" fill="#dda15e" stroke="#bc6c25" stroke-width="3"/>
-            <!-- Telhado duas águas -->
-            <polygon points="0,0 70,-35 140,0" fill="#bc6c25"/>
-            <polygon points="0,120 70,155 140,120" fill="#bc6c25"/>
-            <line x1="70" y1="-35" x2="70" y2="155" stroke="#7f4f24" stroke-width="3"/>
-            <!-- Entrada casinha -->
-            <path d="M 50 120 Q 70 80 90 120 Z" fill="#283618"/>
-            <text x="70" y="55" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">Cachorro</text>
-            <text x="70" y="75" font-size="12" fill="#fff" text-anchor="middle">1,40×1,20m</text>
-          </g>
+          <!-- Casa do Cachorro (Canto superior direito) -->
+          <rect id="poly-casa-cachorro" class="room-poly" x="434.7" y="114.0" width="82.4" height="86.5" fill="#cca43b" stroke="#7f4f24" stroke-width="2"/>
+          <text x="475.9" y="152.0" font-size="12" font-weight="700" fill="#3e2723" text-anchor="middle">Casa do</text>
+          <text x="475.9" y="167.0" font-size="12" font-weight="700" fill="#3e2723" text-anchor="middle">cachorro</text>
 
-          <!-- Casa da Árvore (2,40 x 2,40 m) -->
-          <g id="poly-casa-arvore" class="room-poly" transform="translate(-360, 1500)">
-            <circle cx="120" cy="120" r="140" fill="#52b788" opacity="0.35"/>
-            <circle cx="120" cy="120" r="110" fill="#52b788" opacity="0.45"/>
-            <rect width="240" height="240" fill="#bc6c25" stroke="#6c584c" stroke-width="4" rx="10"/>
-            <rect x="25" y="25" width="190" height="190" fill="#dda15e" stroke="#6c584c" stroke-width="2"/>
-            <!-- Escadinha de acesso -->
-            <rect x="100" y="240" width="40" height="80" fill="#a68a64"/>
-            <line x1="100" y1="260" x2="140" y2="260" stroke="#4a3525" stroke-width="3"/>
-            <line x1="100" y1="280" x2="140" y2="280" stroke="#4a3525" stroke-width="3"/>
-            <line x1="100" y1="300" x2="140" y2="300" stroke="#4a3525" stroke-width="3"/>
-            <text x="120" y="115" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">Casa da Árvore</text>
-            <text x="120" y="145" font-size="14" font-weight="600" fill="#283618" text-anchor="middle">2,40 × 2,40 m</text>
-          </g>
+          <!-- Casa da Árvore (Canto inferior esquerdo) -->
+          <rect id="poly-casa-arvore" class="room-poly" x="37.7" y="634.3" width="82.5" height="86.5" fill="#cca43b" stroke="#7f4f24" stroke-width="2"/>
+          <text x="78.9" y="672.0" font-size="12" font-weight="700" fill="#3e2723" text-anchor="middle">Casa da</text>
+          <text x="78.9" y="687.0" font-size="12" font-weight="700" fill="#3e2723" text-anchor="middle">árvore</text>
 
-          <!-- Pergolado em Madeira (3,05 x 2,91 m) -->
-          <g id="poly-pergolado" class="room-poly" transform="translate(743, 1950)">
-            <rect width="305" height="291" fill="#d4a373" stroke="#8c5836" stroke-width="4" rx="4"/>
-            <rect width="305" height="291" fill="url(#pergoladoSlats)"/>
-            <!-- 4 Pilares -->
-            <rect x="10" y="10" width="22" height="22" fill="#582f0e"/>
-            <rect x="273" y="10" width="22" height="22" fill="#582f0e"/>
-            <rect x="10" y="259" width="22" height="22" fill="#582f0e"/>
-            <rect x="273" y="259" width="22" height="22" fill="#582f0e"/>
-            <text x="152" y="140" font-size="22" font-weight="800" fill="#fff" text-anchor="middle" paint-order="stroke" stroke="#582f0e" stroke-width="3">Pergolado</text>
-            <text x="152" y="168" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" paint-order="stroke" stroke="#582f0e" stroke-width="2">3,05 × 2,91 m</text>
-          </g>
+          <!-- Pergolado (Canto inferior direito: 3,05 x 2,91 cm) -->
+          <rect id="poly-pergolado" class="room-poly" x="382.3" y="583.1" width="114.6" height="111.1" fill="#cca43b" stroke="#7f4f24" stroke-width="2"/>
+          <text x="439.6" y="642.0" font-size="13" font-weight="700" fill="#3e2723" text-anchor="middle">Pergolado</text>
         </g>
 
-        <!-- 2. PISOS DOS CÔMODOS INTERNOS & VARANDAS -->
+        <!-- 2. CÔMODOS DA RESIDÊNCIA (EXATOS DO VETOR ORIGINAL) -->
         <g id="layer-pisos">
-          <!-- Quarto 1 (3,01 x 4,00 m) -->
-          <rect id="poly-quarto1" class="room-poly" x="0" y="0" width="301" height="400" fill="#ff7d47"/>
+          <!-- Quarto 1 (Superior Esquerdo: 3,01 x 4,00 cm) -->
+          <rect id="poly-quarto1" class="room-poly" x="165.2" y="207.0" width="69.3" height="92.1" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Quarto 2 (3,51 x 3,01 m) -->
-          <rect id="poly-quarto2" class="room-poly" x="0" y="400" width="351" height="301" fill="#ff7d47"/>
+          <!-- Quarto 2 (Superior Centro: 3,51 x 3,01 cm) -->
+          <rect id="poly-quarto2" class="room-poly" x="236.7" y="208.1" width="80.9" height="69.4" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Banheiro Superior (1,79 x 1,52 m) -->
-          <rect id="poly-banheiro-sup" class="room-poly" x="351" y="400" width="179" height="152" fill="#8ecae6"/>
+          <!-- Banheiro Superior (Abaixo do Quarto 2) -->
+          <rect id="poly-banheiro-sup" class="room-poly" x="260.8" y="279.6" width="55.9" height="43.0" fill="#bde0fe" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Sala Superior (3,01 x 4,01 m) -->
-          <rect id="poly-sala-sup" class="room-poly" x="0" y="701" width="301" height="401" fill="#ff8c5a"/>
+          <!-- Corredor (Hall de Circulação entre Q1/Sala e Banheiro/Cozinha) -->
+          <rect id="poly-corredor" class="room-poly" x="237.6" y="281.2" width="20.3" height="112.4" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Sala Inferior (4,63 x 3,02 m) -->
-          <rect id="poly-sala-inf" class="room-poly" x="0" y="1102" width="463" height="302" fill="#ff8c5a"/>
+          <!-- Sala Superior (Abaixo do Quarto 1: 3,01 x 4,01 cm) -->
+          <rect id="poly-sala-sup" class="room-poly" x="165.9" y="301.6" width="69.3" height="92.4" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Varanda Lilás Superior (2,78 x 3,26 m) -->
-          <rect id="poly-varanda-sup" class="room-poly" x="-278" y="701" width="278" height="326" fill="#d8b4e2"/>
+          <!-- Varanda Lilás (À esquerda da Sala: 3,26x2,78 e 3,32x2,94 cm) -->
+          <rect id="poly-varanda-lilas" class="room-poly" x="96.0" y="390.7" width="67.7" height="76.5" fill="#e2c4f0" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Varanda Lilás Inferior (2,94 x 3,32 m) -->
-          <rect id="poly-varanda-inf" class="room-poly" x="-294" y="1027" width="294" height="332" fill="#d8b4e2"/>
+          <!-- COZINHA CENTRAL (Centro da Casa: 4,18 x 4,08 cm) -->
+          <rect id="poly-cozinha" class="room-poly" x="260.9" y="325.3" width="96.2" height="93.9" fill="#ffffff" stroke="#000" stroke-width="1.8"/>
 
-          <!-- COZINHA AMERICANA (4,16 x 4,08 m) -->
-          <rect id="poly-cozinha" class="room-poly" x="301" y="701" width="416" height="408" fill="#ff9d6e"/>
+          <!-- Sala Inferior (Abaixo da Sala Superior: 4,63 x 3,02 cm) -->
+          <rect id="poly-sala-inf" class="room-poly" x="165.8" y="396.5" width="106.6" height="69.6" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Quarto 3 (2,17 x 1,90 m) -->
-          <rect id="poly-quarto3" class="room-poly" x="463" y="1109" width="217" height="190" fill="#ff7d47"/>
+          <!-- Quarto 3 (Abaixo da Cozinha: 2,17 x 1,90 cm) -->
+          <rect id="poly-quarto3" class="room-poly" x="272.4" y="421.9" width="50.0" height="43.8" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Banheiro Inferior (1,79 x 1,52 m) -->
-          <rect id="poly-banheiro-inf" class="room-poly" x="463" y="1299" width="179" height="152" fill="#8ecae6"/>
+          <!-- Banheiro Inferior (Ao lado do Quarto 3: 1,79 x 1,52 cm) -->
+          <rect id="poly-banheiro-inf" class="room-poly" x="324.3" y="423.7" width="35.0" height="41.2" fill="#bde0fe" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Garagem (5,71 x 3,00 m) -->
-          <rect id="poly-garagem" class="room-poly" x="0" y="1404" width="571" height="300" fill="#fca311"/>
+          <!-- Garagem (Inferior Esquerdo: 5,71 x 3,00 cm) -->
+          <rect id="poly-garagem" class="room-poly" x="127.8" y="469.0" width="131.5" height="69.1" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Quarto 5 (5,41 x 3,00 m) -->
-          <rect id="poly-quarto5" class="room-poly" x="571" y="1404" width="541" height="300" fill="#ff7d47"/>
+          <!-- Quarto 5 (Inferior Centro: 5,41 x 3,00 cm) -->
+          <rect id="poly-quarto5" class="room-poly" x="261.7" y="468.4" width="124.6" height="69.1" fill="#ffa07a" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Lavanderia (2,04 x 2,85 m) -->
-          <rect id="poly-lavanderia" class="room-poly" x="1112" y="1404" width="204" height="285" fill="#e9d8a6"/>
+          <!-- Lavanderia (Inferior Direito: 2,24 x 2,95 cm) -->
+          <rect id="poly-lavanderia" class="room-poly" x="388.7" y="468.2" width="51.6" height="68.0" fill="#ffb703" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Varanda Piscina Superior (3,34 x 4,50 m) -->
-          <rect id="poly-varanda-piscina" class="room-poly" x="717" y="0" width="334" height="450" fill="#ffb703"/>
+          <!-- Varanda Superior com Piscina (Deck) -->
+          <rect id="poly-varanda-piscina" class="room-poly" x="319.3" y="207.3" width="158.8" height="95.2" fill="#ffb703" stroke="#000" stroke-width="1.8"/>
+          
+          <!-- Piscina Oval Azul -->
+          <ellipse id="poly-piscina" class="room-poly" cx="401.2" cy="268.5" rx="28.7" ry="28.1" fill="url(#poolGrad)" stroke="#023e8a" stroke-width="2"/>
+          <text x="401.2" y="271.0" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">Piscina</text>
 
-          <!-- Piscina Oval com Água (2,60 x 3,40 m) -->
-          <ellipse cx="884" cy="225" rx="130" ry="170" fill="url(#poolGrad)" stroke="#0077b6" stroke-width="6"/>
+          <!-- Varanda Gourmet / Área de Lazer (3,34 x 7,02 cm) -->
+          <rect id="poly-varanda-lazer" class="room-poly" x="362.1" y="303.1" width="77.0" height="161.7" fill="#ffb703" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Varanda Gourmet / Área de Lazer (3,34 x 7,02 m) -->
-          <rect id="poly-varanda-lazer" class="room-poly" x="717" y="450" width="334" height="702" fill="#ffb703"/>
+          <!-- Varanda Lateral Estreita -->
+          <rect id="poly-varanda-lateral" class="room-poly" x="448.8" y="302.8" width="29.7" height="233.4" fill="#ffb703" stroke="#000" stroke-width="1.8"/>
 
-          <!-- Varanda Lateral de Circulação (3,71 x 2,52 m) -->
-          <rect id="poly-varanda-lateral" class="room-poly" x="680" y="1152" width="371" height="252" fill="#ffc300"/>
-
-          <!-- Horta com Cerca (1,20 x 11,50 m) -->
-          <rect id="poly-horta" class="room-poly" x="1080" y="0" width="120" height="1150" fill="#d9ed92"/>
+          <!-- Horta com Cerca (Faixa Lateral Direita) -->
+          <rect id="poly-horta" class="room-poly" x="484.6" y="206.2" width="34.1" height="330.0" fill="#cca43b" stroke="#7f4f24" stroke-width="2"/>
         </g>
 
-        <!-- 3. MOBILIÁRIO COMPLETO & DETALHES TÉCNICOS -->
+        <!-- 3. MOBILIÁRIO COMPLETO DA COZINHA & SALA -->
         <g id="layer-mobiliario">
-          <!-- ------------------------------------------------------------- -->
-          <!-- COZINHA AMERICANA DETALHADA                                   -->
-          <!-- ------------------------------------------------------------- -->
           <!-- P: Pia de Cuba Dupla (2,00 x 0,60 m) -->
-          <g id="furn-P" class="room-poly" transform="translate(301, 701)">
-            <rect width="200" height="60" fill="#334155" stroke="#1e293b" stroke-width="2"/>
-            <!-- 2 Cubas Inox -->
-            <rect x="25" y="12" width="65" height="36" rx="4" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
-            <rect x="110" y="12" width="65" height="36" rx="4" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
-            <circle cx="100" cy="8" r="5" fill="#f8fafc"/>
-            <text x="100" y="36" font-size="14" font-weight="800" fill="#0f172a" text-anchor="middle">P</text>
+          <g id="furn-P" class="room-poly">
+            <rect x="262.4" y="327.8" width="46.1" height="12.9" fill="#e2e8f0" stroke="#000" stroke-width="1.2"/>
+            <rect x="278.7" y="331.5" width="8.3" height="6.2" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+            <rect x="289.8" y="331.5" width="8.2" height="6.2" fill="#94a3b8" stroke="#475569" stroke-width="0.8"/>
+            <text x="271.0" y="337.0" font-size="8" font-weight="800" fill="#000">P</text>
           </g>
 
           <!-- AE: Bancada com Armário Aéreo (1,15 x 0,54 m) -->
-          <g id="furn-AE" class="room-poly" transform="translate(501, 701)">
-            <rect width="115" height="54" fill="#475569" stroke="#1e293b" stroke-width="2"/>
-            <line x1="57" y1="0" x2="57" y2="54" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,2"/>
-            <text x="57" y="32" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">AE</text>
+          <g id="furn-AE" class="room-poly">
+            <rect x="309.0" y="327.5" width="25.6" height="12.5" fill="#e2e8f0" stroke="#000" stroke-width="1.2"/>
+            <text x="321.8" y="336.5" font-size="8" font-weight="800" fill="#000" text-anchor="middle">AE</text>
           </g>
 
-          <!-- F: Fogão com Coifa (0,83 x 0,70 m) -->
-          <g id="furn-F" class="room-poly" transform="translate(616, 701)">
-            <rect width="83" height="70" fill="#1e293b" stroke="#000" stroke-width="2"/>
-            <!-- 4 Bocas Cooktop -->
-            <circle cx="25" cy="22" r="10" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
-            <circle cx="58" cy="22" r="10" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
-            <circle cx="25" cy="48" r="8" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
-            <circle cx="58" cy="48" r="12" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
-            <text x="41" y="40" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">F</text>
+          <!-- F: Fogão com 4 bocas (0,83 x 0,70 m) -->
+          <g id="furn-F" class="room-poly">
+            <rect x="335.8" y="327.7" width="19.2" height="15.5" fill="#1e293b" stroke="#000" stroke-width="1.2"/>
+            <circle cx="339.8" cy="332.0" r="2.2" fill="#f97316"/>
+            <circle cx="350.3" cy="331.7" r="2.2" fill="#f97316"/>
+            <circle cx="339.7" cy="338.7" r="2.2" fill="#f97316"/>
+            <circle cx="351.2" cy="339.1" r="2.2" fill="#f97316"/>
+            <text x="345.4" y="336.5" font-size="7" font-weight="800" fill="#fff" text-anchor="middle">F</text>
           </g>
 
-          <!-- BALCÃO AMERICANO / ILHA (1,68 x 1,26 m) + 3 BANQUETAS -->
-          <g id="furn-Ilha" class="room-poly" transform="translate(238, 820)">
-            <!-- Tampo em Granito Preto São Gabriel -->
-            <rect width="126" height="168" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
-            <!-- Linha da Mureta / Armário Base -->
-            <line x1="72" y1="2" x2="72" y2="166" stroke="#475569" stroke-width="3"/>
-            
-            <!-- 3 Luminárias Pendentes no Balcão -->
-            <circle cx="63" cy="32" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
-            <circle cx="63" cy="84" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
-            <circle cx="63" cy="136" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
-
-            <!-- Texto no Balcão -->
-            <text x="63" y="75" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">Ilha / Balcão</text>
-            <text x="63" y="96" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Americano</text>
-            <text x="63" y="112" font-size="10" fill="#94a3b8" text-anchor="middle">1,68 × 1,26 m</text>
-
-            <!-- 3 Banquetas Altas Modernas no lado da Sala (X < 238) -->
-            <!-- Banqueta 1 -->
-            <circle cx="-18" cy="32" r="14" fill="#9b633d" stroke="#582f0e" stroke-width="2"/>
-            <line x1="-30" y1="32" x2="-6" y2="32" stroke="#fff" stroke-width="2"/>
-            <!-- Banqueta 2 -->
-            <circle cx="-18" cy="84" r="14" fill="#9b633d" stroke="#582f0e" stroke-width="2"/>
-            <line x1="-30" y1="84" x2="-6" y2="84" stroke="#fff" stroke-width="2"/>
-            <!-- Banqueta 3 -->
-            <circle cx="-18" cy="136" r="14" fill="#9b633d" stroke="#582f0e" stroke-width="2"/>
-            <line x1="-30" y1="136" x2="-6" y2="136" stroke="#fff" stroke-width="2"/>
+          <!-- ILHA / BALCÃO AMERICANO (1,68 x 1,26 m) -->
+          <g id="furn-Ilha" class="room-poly">
+            <rect x="236.7" y="364.7" width="37.3" height="27.5" fill="#334155" stroke="#000" stroke-width="1.5" rx="1"/>
+            <text x="255.3" y="380.0" font-size="8" font-weight="800" fill="#fff" text-anchor="middle">Ilha</text>
+            <!-- 3 Banquetas no lado da Sala -->
+            <circle cx="231.5" cy="369.5" r="3.2" fill="#9b633d" stroke="#000" stroke-width="0.8"/>
+            <circle cx="231.5" cy="378.5" r="3.2" fill="#9b633d" stroke="#000" stroke-width="0.8"/>
+            <circle cx="231.5" cy="387.5" r="3.2" fill="#9b633d" stroke="#000" stroke-width="0.8"/>
           </g>
 
           <!-- CENTRO: Bancada Central (2,14 x 0,54 m) -->
-          <g id="furn-Centro" class="room-poly" transform="translate(420, 830)">
-            <rect width="214" height="54" fill="#334155" stroke="#1e293b" stroke-width="2" rx="3"/>
-            <text x="107" y="32" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">Centro</text>
-            <text x="107" y="46" font-size="9" fill="#94a3b8" text-anchor="middle">2,14 × 0,54 m</text>
+          <g id="furn-Centro" class="room-poly">
+            <rect x="287.9" y="367.1" width="49.2" height="12.5" fill="#e2e8f0" stroke="#000" stroke-width="1.2"/>
+            <text x="312.5" y="376.0" font-size="8" font-weight="800" fill="#000" text-anchor="middle">centro</text>
           </g>
 
           <!-- BL: Bancada Lado (1,97 x 0,51 m) -->
-          <g id="furn-BL" class="room-poly" transform="translate(428, 940)">
-            <rect width="197" height="51" fill="#334155" stroke="#1e293b" stroke-width="2" rx="3"/>
-            <text x="98" y="30" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">BL</text>
-            <text x="98" y="44" font-size="9" fill="#94a3b8" text-anchor="middle">1,97 × 0,51 m</text>
+          <g id="furn-BL" class="room-poly">
+            <rect x="274.4" y="406.1" width="45.4" height="11.7" fill="#e2e8f0" stroke="#000" stroke-width="1.2"/>
+            <text x="285.0" y="415.0" font-size="8" font-weight="800" fill="#000">BL</text>
           </g>
 
-          <!-- AM: Armário Torre Quente / Forno (0,66 x 0,54 m) -->
-          <g id="furn-AM" class="room-poly" transform="translate(301, 1055)">
-            <rect width="66" height="54" fill="#1e293b" stroke="#000" stroke-width="2"/>
-            <text x="33" y="32" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">AM</text>
-          </g>
-
-          <!-- AC: Bancada de Canto com Chanfro 45° (1,33 x 0,94 m) -->
-          <g id="furn-AC" class="room-poly" transform="translate(510, 1015)">
-            <polygon points="0,94 133,94 133,0 78,0 0,55" fill="#334155" stroke="#1e293b" stroke-width="2"/>
-            <text x="80" y="60" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">AC</text>
-            <text x="80" y="76" font-size="9" fill="#94a3b8" text-anchor="middle">1,33×0,94m</text>
+          <!-- AM: Armário Torre Quente Forno (0,66 x 0,54 m) -->
+          <g id="furn-AM" class="room-poly">
+            <rect x="321.7" y="405.0" width="15.2" height="12.6" fill="#1e293b" stroke="#000" stroke-width="1.2"/>
+            <text x="329.3" y="414.0" font-size="7" font-weight="800" fill="#fff" text-anchor="middle">AM</text>
           </g>
 
           <!-- G: Geladeira Duplex (0,72 x 0,76 m) -->
-          <g id="furn-G" class="room-poly" transform="translate(645, 1033)">
-            <rect width="72" height="76" fill="#cbd5e1" stroke="#475569" stroke-width="2" rx="4"/>
-            <line x1="0" y1="28" x2="72" y2="28" stroke="#475569" stroke-width="2"/>
-            <text x="36" y="55" font-size="16" font-weight="800" fill="#0f172a" text-anchor="middle">G</text>
+          <g id="furn-G" class="room-poly">
+            <rect x="338.8" y="401.8" width="16.5" height="16.0" fill="#cbd5e1" stroke="#000" stroke-width="1.2"/>
+            <text x="347.0" y="413.0" font-size="8" font-weight="800" fill="#000" text-anchor="middle">G</text>
           </g>
 
-          <!-- ------------------------------------------------------------- -->
-          <!-- MOBILIÁRIO DA SALA INTEGRADA                                  -->
-          <!-- ------------------------------------------------------------- -->
-          <!-- Mesa de Jantar (1,40 x 0,85 m) com 4 Cadeiras -->
-          <g id="furn-mesa-jantar" class="room-poly" transform="translate(100, 750)">
-            <rect width="85" height="140" fill="#8c6747" stroke="#582f0e" stroke-width="2" rx="4"/>
-            <!-- 4 Cadeiras -->
-            <rect x="-24" y="20" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
-            <rect x="-24" y="80" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
-            <rect x="89" y="20" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
-            <rect x="89" y="80" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
-            <text x="42" y="75" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">Jantar</text>
+          <!-- AC: Armário de Canto (1,33 x 0,94 m) na Lavanderia -->
+          <g id="furn-AC" class="room-poly">
+            <rect x="418.3" y="522.4" width="20.9" height="12.5" fill="#e2e8f0" stroke="#000" stroke-width="1.2"/>
+            <text x="428.7" y="531.5" font-size="7" font-weight="800" fill="#000" text-anchor="middle">AC</text>
           </g>
 
-          <!-- Sofá e Home Theater da Sala Inferior -->
-          <g id="furn-sala-estar" transform="translate(30, 1130)">
-            <!-- Rack e TV na Parede Oeste -->
-            <rect x="0" y="30" width="35" height="180" fill="#1e293b" stroke="#000"/>
-            <line x1="6" y1="50" x2="6" y2="190" stroke="#38bdf8" stroke-width="4"/>
-            <!-- Mesa de Centro -->
-            <rect x="120" y="80" width="50" height="80" fill="#8c6747" rx="3"/>
-            <!-- Sofá Confortável em L -->
-            <rect x="220" y="30" width="80" height="180" fill="#52606d" stroke="#334155" rx="6"/>
-            <rect x="140" y="150" width="80" height="60" fill="#52606d" stroke="#334155" rx="6"/>
-          </g>
-
-          <!-- ------------------------------------------------------------- -->
-          <!-- QUARTOS & BANHEIROS                                           -->
-          <!-- ------------------------------------------------------------- -->
-          <!-- Quarto 1: Cama de Casal + Guarda-Roupa -->
-          <g transform="translate(50, 40)">
-            <rect x="40" y="0" width="160" height="200" fill="#ece9e4" stroke="#64748b" stroke-width="2" rx="4"/>
-            <!-- Travesseiros -->
-            <rect x="55" y="10" width="60" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
-            <rect x="125" y="10" width="60" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
-            <!-- Guarda-roupa -->
-            <rect x="225" y="0" width="55" height="180" fill="#785638" stroke="#4a3525"/>
-          </g>
-
-          <!-- Quarto 2: Cama de Casal -->
-          <g transform="translate(90, 450)">
-            <rect width="150" height="190" fill="#ece9e4" stroke="#64748b" stroke-width="2" rx="4"/>
-            <rect x="15" y="10" width="55" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
-            <rect x="80" y="10" width="55" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
-          </g>
-
-          <!-- Banheiros: Box e Vasos Sanitários -->
-          <g transform="translate(351, 400)">
-            <!-- Box -->
-            <rect x="99" y="0" width="80" height="80" fill="rgba(56,189,248,0.2)" stroke="#38bdf8" stroke-width="2"/>
-            <circle cx="139" cy="40" r="10" fill="none" stroke="#38bdf8" stroke-width="2"/>
-            <!-- Vaso Sanitário -->
-            <ellipse cx="40" cy="35" rx="14" ry="18" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
-            <rect x="25" y="10" width="30" height="12" rx="2" fill="#f8fafc" stroke="#64748b"/>
-          </g>
-
-          <!-- Garagem: Carro Ilustrativo -->
-          <g transform="translate(180, 1440)">
-            <rect width="210" height="420" rx="40" fill="#334155" stroke="#64748b" stroke-width="4" transform="rotate(90 105 210)"/>
-            <rect x="40" y="40" width="340" height="130" rx="20" fill="#1e293b"/>
-            <text x="210" y="115" font-size="24" font-weight="800" fill="#94a3b8" text-anchor="middle">VAGA GARAGEM</text>
-          </g>
-
-          <!-- Lazer: Churrasqueira e Mesa Gourmet -->
-          <g transform="translate(730, 480)">
-            <!-- Churrasqueira de Tijolos Refratários -->
-            <rect x="0" y="0" width="70" height="120" fill="#a34731" stroke="#6b2d1f" stroke-width="3"/>
-            <rect x="12" y="15" width="46" height="90" fill="#1e293b"/>
-            <text x="35" y="65" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">Churrasq.</text>
-            <!-- Mesa Gourmet Grande com 6 Lugares -->
-            <rect x="110" y="40" width="180" height="80" fill="#8c6747" stroke="#582f0e" stroke-width="2" rx="4"/>
-            <text x="200" y="85" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">Mesa Lazer</text>
-          </g>
-
-          <!-- Horta: 4 Canteiros de Plantio -->
-          <g transform="translate(1085, 40)">
-            <rect x="0" y="0" width="90" height="220" fill="#582f0e" rx="4"/>
-            <rect x="5" y="5" width="80" height="210" fill="#3e2723"/>
-            <!-- Plantas verdes -->
-            <circle cx="25" cy="40" r="10" fill="#2d6a4f"/>
-            <circle cx="65" cy="40" r="10" fill="#52b788"/>
-            <circle cx="25" cy="90" r="10" fill="#52b788"/>
-            <circle cx="65" cy="90" r="10" fill="#2d6a4f"/>
-            <circle cx="25" cy="140" r="10" fill="#2d6a4f"/>
-            <circle cx="65" cy="140" r="10" fill="#52b788"/>
-            <circle cx="25" cy="190" r="10" fill="#52b788"/>
-            <circle cx="65" cy="190" r="10" fill="#2d6a4f"/>
-
-            <rect x="0" y="270" width="90" height="220" fill="#582f0e" rx="4"/>
-            <rect x="5" y="275" width="80" height="210" fill="#3e2723"/>
-            <rect x="0" y="540" width="90" height="220" fill="#582f0e" rx="4"/>
-            <rect x="5" y="545" width="80" height="210" fill="#3e2723"/>
-            <rect x="0" y="810" width="90" height="220" fill="#582f0e" rx="4"/>
-            <rect x="5" y="815" width="80" height="210" fill="#3e2723"/>
-          </g>
+          <!-- Churrasqueira e TV na Varanda de Lazer -->
+          <rect x="366.0" y="430.0" width="24.0" height="30.0" fill="#a34731" stroke="#000" stroke-width="1"/>
+          <text x="378.0" y="448.0" font-size="6" font-weight="700" fill="#fff" text-anchor="middle">Churr.</text>
         </g>
 
-        <!-- 4. PAREDES ESTRUTURAIS (12 CM / 14 PX) -->
-        <g id="layer-paredes">
-          <!-- Parede Norte Quarto 1 -->
-          <line x1="0" y1="0" x2="301" y2="0" class="wall-line"/>
-          <!-- Parede Oeste Quarto 1 e Quarto 2 -->
-          <line x1="0" y1="0" x2="0" y2="701" class="wall-line"/>
-          <!-- Parede Divisória Q1 e Q2 -->
-          <line x1="0" y1="400" x2="301" y2="400" class="wall-line"/>
-          <!-- Parede Leste Q1 -->
-          <line x1="301" y1="0" x2="301" y2="400" class="wall-line"/>
-          <!-- Parede Leste Q2 e Banheiro Sup -->
-          <line x1="301" y1="400" x2="351" y2="400" class="wall-line"/>
-          <line x1="351" y1="400" x2="351" y2="552" class="wall-line"/>
-          <line x1="351" y1="400" x2="530" y2="400" class="wall-line"/>
-          <line x1="530" y1="400" x2="530" y2="552" class="wall-line"/>
-          <line x1="351" y1="552" x2="530" y2="552" class="wall-line"/>
-
-          <!-- Parede Superior da Cozinha (Apoio de P, AE, F) -->
-          <line x1="301" y1="701" x2="717" y2="701" class="wall-line"/>
-
-          <!-- Parede Oeste Sala Superior -->
-          <line x1="0" y1="701" x2="0" y2="1102" class="wall-line"/>
-
-          <!-- Parede Oeste Sala Inferior e Garagem -->
-          <line x1="0" y1="1102" x2="0" y2="1704" class="wall-line"/>
-
-          <!-- Parede Sul da Cozinha (Divisão Quarto 3) -->
-          <line x1="463" y1="1109" x2="717" y2="1109" class="wall-line"/>
-
-          <!-- Parede Divisória Q3 e Banheiro Inf -->
-          <line x1="463" y1="1109" x2="463" y2="1451" class="wall-line"/>
-          <line x1="463" y1="1299" x2="680" y2="1299" class="wall-line"/>
-          <line x1="680" y1="1109" x2="680" y2="1299" class="wall-line"/>
-          <line x1="642" y1="1299" x2="642" y2="1451" class="wall-line"/>
-          <line x1="463" y1="1451" x2="642" y2="1451" class="wall-line"/>
-
-          <!-- Parede Sul Garagem e Q5 -->
-          <line x1="0" y1="1704" x2="1112" y2="1704" class="wall-line"/>
-          <line x1="571" y1="1404" x2="571" y2="1704" class="wall-line"/>
-
-          <!-- Parede Lavanderia -->
-          <line x1="1112" y1="1404" x2="1316" y2="1404" class="wall-line"/>
-          <line x1="1316" y1="1404" x2="1316" y2="1689" class="wall-line"/>
-          <line x1="1112" y1="1689" x2="1316" y2="1689" class="wall-line"/>
-
-          <!-- Guarda-corpo de vidro Piscina & Varanda Gourmet -->
-          <line x1="1051" y1="0" x2="1051" y2="1152" stroke="#38bdf8" stroke-width="4" stroke-dasharray="10,5"/>
-          <line x1="717" y1="0" x2="1051" y2="0" stroke="#38bdf8" stroke-width="4" stroke-dasharray="10,5"/>
+        <!-- 4. LINHAS VERMELHAS TRACEJADAS DE ABERTURA DA COZINHA -->
+        <g id="layer-linhas-vermelhas">
+          <!-- Abertura Oeste da Cozinha para o Corredor / Sala -->
+          <line x1="260.9" y1="325.3" x2="260.9" y2="419.2" stroke="#dc2626" stroke-width="3" stroke-dasharray="6,4"/>
+          <!-- Abertura Leste da Cozinha para a Varanda Gourmet -->
+          <line x1="357.1" y1="325.3" x2="357.1" y2="419.2" stroke="#dc2626" stroke-width="3" stroke-dasharray="6,4"/>
         </g>
 
-        <!-- 5. DESTAQUE: LIGAÇÃO COZINHA AMERICANA & SALA -->
-        <g id="layer-ligacao-americana">
-          <!-- Zona Aberta Tracejada de Integração -->
-          <rect x="230" y="705" width="80" height="400" class="connection-zone" rx="6"/>
+        <!-- 5. NOMES DOS CÔMODOS (TEXTOS DA PRANCHA ORIGINAL) -->
+        <g id="layer-textos">
+          <text x="200.0" y="255.0" font-size="12" font-weight="700" fill="#000" text-anchor="middle">quarto1</text>
+          <text x="277.0" y="222.0" font-size="12" font-weight="700" fill="#000" text-anchor="middle">quarto2</text>
+          <text x="288.0" y="302.0" font-size="10" font-weight="700" fill="#000" text-anchor="middle">banheiro</text>
+
+          <!-- Corredor Vertical -->
+          <text x="247.5" y="300.0" font-size="8" font-weight="700" fill="#000" text-anchor="middle">c</text>
+          <text x="247.5" y="310.0" font-size="8" font-weight="700" fill="#000" text-anchor="middle">or</text>
+          <text x="247.5" y="320.0" font-size="8" font-weight="700" fill="#000" text-anchor="middle">re</text>
+          <text x="247.5" y="330.0" font-size="8" font-weight="700" fill="#000" text-anchor="middle">d</text>
+          <text x="247.5" y="340.0" font-size="8" font-weight="700" fill="#000" text-anchor="middle">or</text>
+
+          <text x="200.5" y="350.0" font-size="12" font-weight="700" fill="#000" text-anchor="middle">sala</text>
+          <text x="311.0" y="355.0" font-size="13" font-weight="800" fill="#000" text-anchor="middle">cozinha</text>
+          <text x="219.0" y="433.0" font-size="12" font-weight="700" fill="#000" text-anchor="middle">sala</text>
+
+          <text x="297.4" y="432.0" font-size="9" font-weight="700" fill="#000" text-anchor="middle">quarto3</text>
+          <text x="341.8" y="432.0" font-size="8" font-weight="700" fill="#000" text-anchor="middle">banheiro</text>
+
+          <text x="193.5" y="505.0" font-size="12" font-weight="700" fill="#000" text-anchor="middle">garagem</text>
+          <text x="324.0" y="505.0" font-size="12" font-weight="700" fill="#000" text-anchor="middle">quarto5</text>
           
-          <!-- Indicação de Fluxo / Passagem Norte (1,19 m) -->
-          <line x1="235" y1="760" x2="315" y2="760" stroke="#ef4444" stroke-width="3" marker-end="url(#arrowRed)" marker-start="url(#arrowRed)"/>
-          <text x="275" y="750" font-size="11" font-weight="700" fill="#ef4444" text-anchor="middle">Passagem 1,19 m</text>
+          <!-- Lavanderia Vertical -->
+          <text x="414.5" y="505.0" font-size="9" font-weight="700" fill="#000" text-anchor="middle">lavanderia</text>
 
-          <!-- Indicação de Fluxo / Passagem Sul (0,67 m) -->
-          <line x1="235" y1="1025" x2="305" y2="1025" stroke="#ef4444" stroke-width="3" marker-end="url(#arrowRed)" marker-start="url(#arrowRed)"/>
-          <text x="270" y="1045" font-size="11" font-weight="700" fill="#ef4444" text-anchor="middle">Passagem 0,67 m</text>
+          <!-- Varanda Lazer -->
+          <text x="400.6" y="342.0" font-size="11" font-weight="700" fill="#000" text-anchor="middle">Varanda –</text>
+          <text x="402.0" y="358.0" font-size="10" font-weight="700" fill="#000" text-anchor="middle">área de lazer</text>
+          <text x="400.0" y="380.0" font-size="9" font-weight="600" fill="#000" text-anchor="middle">churrasquei-</text>
+          <text x="400.0" y="393.0" font-size="9" font-weight="600" fill="#000" text-anchor="middle">ra, tv, mesa,</text>
+          <text x="400.0" y="406.0" font-size="9" font-weight="600" fill="#000" text-anchor="middle">etc</text>
 
-          <!-- Rótulo de Integração Aberta -->
-          <text x="275" y="805" font-size="13" font-weight="800" fill="#ef4444" text-anchor="middle" letter-spacing="1">LIGAÇÃO ABERTA</text>
+          <!-- Varanda Lilás -->
+          <text x="129.8" y="425.0" font-size="12" font-weight="700" fill="#4a044e" text-anchor="middle">Varanda</text>
+
+          <!-- Varanda Lateral Letras Verticais -->
+          <text x="463.5" y="386.0" font-size="10" font-weight="700" fill="#000" text-anchor="middle">va</text>
+          <text x="463.5" y="403.0" font-size="10" font-weight="700" fill="#000" text-anchor="middle">ra</text>
+          <text x="463.5" y="420.0" font-size="10" font-weight="700" fill="#000" text-anchor="middle">n</text>
+          <text x="463.5" y="434.0" font-size="10" font-weight="700" fill="#000" text-anchor="middle">da</text>
+
+          <!-- Horta com cerca Letras Verticais -->
+          <text x="501.5" y="310.0" font-size="11" font-weight="700" fill="#1b4332" text-anchor="middle">Hor-</text>
+          <text x="501.5" y="325.0" font-size="11" font-weight="700" fill="#1b4332" text-anchor="middle">ta</text>
+          <text x="501.5" y="340.0" font-size="11" font-weight="700" fill="#1b4332" text-anchor="middle">co-</text>
+          <text x="501.5" y="355.0" font-size="11" font-weight="700" fill="#1b4332" text-anchor="middle">m -</text>
+          <text x="501.5" y="370.0" font-size="11" font-weight="700" fill="#1b4332" text-anchor="middle">cer-</text>
+          <text x="501.5" y="385.0" font-size="11" font-weight="700" fill="#1b4332" text-anchor="middle">ca</text>
+
+          <!-- Rótulos dos Jardins -->
+          <text x="342.2" y="159.0" font-size="13" font-weight="700" fill="#1b4332" text-anchor="middle">jardim</text>
+          <text x="96.4" y="250.0" font-size="13" font-weight="700" fill="#1b4332" text-anchor="middle">jardim</text>
+          <text x="77.2" y="610.0" font-size="13" font-weight="700" fill="#1b4332" text-anchor="middle">jardim</text>
+          <text x="323.7" y="645.0" font-size="14" font-weight="800" fill="#1b4332" text-anchor="middle">Jardim</text>
         </g>
 
-        <!-- 6. COTAS & MEDIDAS TÉCNICAS (EM METROS / CM DA PLANTA) -->
-        <g id="layer-cotas">
-          <!-- Quarto 1: Altura 4,00 m, Largura 3,01 m -->
-          <g>
-            <line x1="0" y1="-20" x2="301" y2="-20" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="150" y="-28" class="cota-text">Largura: 3,01 m (3,01 cm)</text>
-
-            <line x1="-20" y1="0" x2="-20" y2="400" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="-30" y="205" class="cota-text" transform="rotate(-90 -30 205)">Altura: 4,00 m (4 cm)</text>
+        <!-- 6. CAIXAS DE MEDIDAS TÉCNICAS (IDÊNTICAS À PRANCHA ORIGINAL) -->
+        <g id="layer-caixas-medidas">
+          <!-- Jardim Superior: Altura: 4 cm, Largura: 15,38 cm -->
+          <g class="callout-box" transform="translate(191.5, 130.6)">
+            <rect width="117.0" height="56.7" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.2"/>
+            <text x="12" y="24" font-size="9" fill="#1f2937">↕ Altura:</text>
+            <rect x="52" y="12" width="54" height="17" rx="3" fill="#fff" stroke="#9ca3af" stroke-width="1"/>
+            <text x="56" y="24" font-size="9" font-weight="700" fill="#111827">4 cm</text>
+            <text x="12" y="47" font-size="9" fill="#1f2937">↔ Largura:</text>
+            <rect x="52" y="35" width="54" height="17" rx="3" fill="#fff" stroke="#9ca3af" stroke-width="1"/>
+            <text x="56" y="47" font-size="9" font-weight="700" fill="#111827">15,38 cm</text>
           </g>
 
-          <!-- Quarto 2: Altura 3,01 m, Largura 3,51 m -->
-          <g>
-            <line x1="-20" y1="400" x2="-20" y2="701" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="-30" y="555" class="cota-text" transform="rotate(-90 -30 555)">Altura: 3,01 m (3,01 cm)</text>
-            <line x1="0" y1="380" x2="351" y2="380" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="175" y="372" class="cota-text">Largura: 3,51 m (3,51 cm)</text>
+          <!-- Jardim Esquerdo: Altura: 12,13 cm, Largura: 5,83 cm -->
+          <g class="callout-box" transform="translate(39.2, 274.7)">
+            <rect width="115.8" height="50.6" rx="6" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.2"/>
+            <text x="10" y="21" font-size="8.5" fill="#1f2937">↕ Altura:</text>
+            <rect x="48" y="10" width="58" height="15" rx="3" fill="#fff" stroke="#9ca3af" stroke-width="1"/>
+            <text x="52" y="21" font-size="8.5" font-weight="700" fill="#111827">12,13 cm</text>
+            <text x="10" y="42" font-size="8.5" fill="#1f2937">↔ Largura:</text>
+            <rect x="48" y="31" width="58" height="15" rx="3" fill="#fff" stroke="#9ca3af" stroke-width="1"/>
+            <text x="52" y="42" font-size="8.5" font-weight="700" fill="#111827">5,83 cm</text>
           </g>
 
-          <!-- Sala Superior: Altura 4,01 m, Largura 3,01 m -->
-          <g>
-            <line x1="-310" y1="701" x2="-310" y2="1102" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="-320" y="905" class="cota-text" transform="rotate(-90 -320 905)">Altura: 4,01 m (4,01 cm)</text>
+          <!-- Quarto 1: Altura: 4 cm, Largura: 3,01 cm -->
+          <g class="callout-box" transform="translate(167.6, 265.3)">
+            <rect width="65.8" height="28.7" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="4" y="12" font-size="6.5" fill="#1f2937">↕ Altura: 4 cm</text>
+            <text x="4" y="23" font-size="6.5" fill="#1f2937">↔ Largura: 3,01 cm</text>
           </g>
 
-          <!-- Sala Inferior: Altura 3,02 m, Largura 4,63 m -->
-          <g>
-            <line x1="0" y1="1380" x2="463" y2="1380" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="231" y="1372" class="cota-text">Largura: 4,63 m (4,63 cm) • Altura: 3,02 m</text>
+          <!-- Quarto 2: Altura: 3,01 cm, Largura: 3,51 cm -->
+          <g class="callout-box" transform="translate(236.4, 239.1)">
+            <rect width="77.5" height="35.8" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="6" y="15" font-size="7.5" fill="#1f2937">↕ Altura: 3,01 cm</text>
+            <text x="6" y="29" font-size="7.5" fill="#1f2937">↔ Largura: 3,51 cm</text>
           </g>
 
-          <!-- Cozinha: Largura 4,16 m, Altura 4,08 m -->
-          <g>
-            <line x1="301" y1="680" x2="717" y2="680" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="509" y="670" class="cota-text">Largura Cozinha: 4,16 m • Altura: 4,08 m</text>
+          <!-- Sala Superior: Altura: 4,01 cm, Largura: 3,01 cm -->
+          <g class="callout-box" transform="translate(172.0, 359.8)">
+            <rect width="61.6" height="27.8" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="4" y="11" font-size="6.5" fill="#1f2937">↕ Altura: 4,01 cm</text>
+            <text x="4" y="22" font-size="6.5" fill="#1f2937">↔ Largura: 3,01 cm</text>
           </g>
 
-          <!-- Garagem: Altura 3,00 m, Largura 5,71 m -->
-          <g>
-            <line x1="0" y1="1725" x2="571" y2="1725" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="285" y="1745" class="cota-text">Garagem: 5,71 m × 3,00 m (5,71 × 3 cm)</text>
+          <!-- Varanda Lilás Superior: 3,26 x 2,78 cm -->
+          <g class="callout-box" transform="translate(34.2, 399.9)">
+            <rect width="53.8" height="43.8" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <rect x="6" y="6" width="41.8" height="14" rx="2" fill="#fff" stroke="#9ca3af"/>
+            <text x="10" y="16" font-size="7.5" font-weight="700">3,26 cm</text>
+            <rect x="6" y="24" width="41.8" height="14" rx="2" fill="#fff" stroke="#9ca3af"/>
+            <text x="10" y="34" font-size="7.5" font-weight="700">2,78 cm</text>
           </g>
 
-          <!-- Quarto 5: Altura 3,00 m, Largura 5,41 m -->
-          <g>
-            <line x1="571" y1="1725" x2="1112" y2="1725" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
-            <text x="841" y="1745" class="cota-text">Quarto 5: 5,41 m × 3,00 m (5,41 × 3 cm)</text>
+          <!-- Varanda Lilás Inferior: 3,32 x 2,94 cm -->
+          <g class="callout-box" transform="translate(103.9, 400.2)">
+            <rect width="54.2" height="42.1" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <rect x="6" y="5" width="42.2" height="14" rx="2" fill="#fff" stroke="#9ca3af"/>
+            <text x="10" y="15" font-size="7.5" font-weight="700">3,32 cm</text>
+            <rect x="6" y="23" width="42.2" height="14" rx="2" fill="#fff" stroke="#9ca3af"/>
+            <text x="10" y="33" font-size="7.5" font-weight="700">2,94 cm</text>
           </g>
 
-          <!-- Quarto 3: 2,17 x 1,90 m -->
-          <g>
-            <text x="571" y="1205" class="cota-text" font-size="11">2,17 × 1,90 m</text>
+          <!-- Cozinha: Altura: 4,08 cm, Largura: 4,18 cm -->
+          <g class="callout-box" transform="translate(282.0, 381.6)">
+            <rect width="51.8" height="22.9" rx="3" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="3" y="9" font-size="6.5" fill="#1f2937">↕ Altura: 4,08 cm</text>
+            <text x="3" y="18" font-size="6.5" fill="#1f2937">↔ Largura: 4,18 cm</text>
+          </g>
+
+          <!-- Varanda Lazer: Altura: 7,02 cm, Largura: 3,34 cm -->
+          <g class="callout-box" transform="translate(365.5, 304.6)">
+            <rect width="72.5" height="29.0" rx="3" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="4" y="11" font-size="6.8" fill="#1f2937">↕ Altura: 7,02 cm</text>
+            <text x="4" y="23" font-size="6.8" fill="#1f2937">↔ Largura: 3,34 cm</text>
+          </g>
+
+          <!-- Sala Inferior: Altura: 3,02 cm, Largura: 4,63 cm -->
+          <g class="callout-box" transform="translate(166.9, 438.6)">
+            <rect width="59.6" height="25.7" rx="3" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="3" y="10" font-size="6.5" fill="#1f2937">↕ Altura: 3,02 cm</text>
+            <text x="3" y="20" font-size="6.5" fill="#1f2937">↔ Largura: 4,63 cm</text>
+          </g>
+
+          <!-- Quarto 3: 1,9 x 2,17 cm -->
+          <g class="callout-box" transform="translate(282.0, 436.4)">
+            <rect width="33.2" height="28.1" rx="2" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="3" y="11" font-size="6.5" font-weight="700">1,9 cm</text>
+            <text x="3" y="22" font-size="6.5" font-weight="700">2,17 cm</text>
+          </g>
+
+          <!-- Banheiro Inferior: 1,79 x 1,52 cm -->
+          <g class="callout-box" transform="translate(325.6, 440.9)">
+            <rect width="29.3" height="23.9" rx="2" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="2" y="9" font-size="6" font-weight="700">1,79 cm</text>
+            <text x="2" y="19" font-size="6" font-weight="700">1,52 cm</text>
+          </g>
+
+          <!-- Garagem: Altura: 3 cm, Largura: 5,71 cm -->
+          <g class="callout-box" transform="translate(127.2, 513.0)">
+            <rect width="58.7" height="25.5" rx="3" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="3" y="10" font-size="6.5" fill="#1f2937">↕ Altura: 3 cm</text>
+            <text x="3" y="20" font-size="6.5" fill="#1f2937">↔ Largura: 5,71 cm</text>
+          </g>
+
+          <!-- Quarto 5: Altura: 3 cm, Largura: 5,41 cm -->
+          <g class="callout-box" transform="translate(265.4, 512.2)">
+            <rect width="49.9" height="24.5" rx="3" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="3" y="10" font-size="6.5" fill="#1f2937">↕ Altura: 3 cm</text>
+            <text x="3" y="20" font-size="6.5" fill="#1f2937">↔ Largura: 5,41 cm</text>
+          </g>
+
+          <!-- Lavanderia: 2,24 x 2,95 cm -->
+          <g class="callout-box" transform="translate(389.3, 469.0)">
+            <rect width="23.8" height="21.0" rx="2" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="2" y="8" font-size="5.5" font-weight="700">2,24 cm</text>
+            <text x="2" y="17" font-size="5.5" font-weight="700">2,95 cm</text>
+          </g>
+
+          <!-- Jardim Casa da Árvore: Altura: 12,15 cm, Largura: 4,24 cm -->
+          <g class="callout-box" transform="translate(37.6, 513.6)">
+            <rect width="82.0" height="43.8" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="4" y="16" font-size="7.5" fill="#1f2937">↕ Altura: 12,15 cm</text>
+            <text x="4" y="34" font-size="7.5" fill="#1f2937">↔ Largura: 4,24 cm</text>
+          </g>
+
+          <!-- Jardim dos Fundos: Altura: 9 cm, Largura: 17 cm -->
+          <g class="callout-box" transform="translate(163.6, 557.3)">
+            <rect width="114.5" height="55.5" rx="5" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.2"/>
+            <text x="10" y="24" font-size="9" fill="#1f2937">↕ Altura: 9 cm</text>
+            <text x="10" y="46" font-size="9" fill="#1f2937">↔ Largura: 17 cm</text>
+          </g>
+
+          <!-- Pergolado: Altura: 3,05 cm, Largura: 2,91 cm -->
+          <g class="callout-box" transform="translate(386.5, 650.9)">
+            <rect width="82.2" height="40.2" rx="4" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1"/>
+            <text x="4" y="16" font-size="7.5" fill="#1f2937">↕ Altura: 3,05 cm</text>
+            <text x="4" y="32" font-size="7.5" fill="#1f2937">↔ Largura: 2,91 cm</text>
           </g>
         </g>
 
-        <!-- 7. NOMES DOS AMBIENTES & ÁREAS (M²) -->
-        <g id="layer-labels">
-          <!-- Quarto 1 -->
-          <g transform="translate(150, 200)">
-            <text class="room-label-title">quarto 1</text>
-            <text class="room-label-sub" y="22">12,04 m²</text>
-          </g>
+        <!-- 7. LEGENDA OFICIAL DOS MÓVEIS (CANTO SUPERIOR ESQUERDO) -->
+        <g id="layer-legenda" transform="translate(30.6, 9.9)">
+          <text font-size="6.8" font-weight="800" fill="#1e293b" y="10">Largura x Profundidade (metros)</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="20">G = geladeira = 0,72 x 0,76</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="30">Ilha = ilha de granito = 1,68 x 1,26</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="40">F = fogão = 0,83 x 0,70</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="50">P = pia cuba dupla = 2 x 0,6</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="60">AC = banca de canto com armário aéreo = 1,33 x 0,94</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="70">AE = bancada com armário aéreo = 1,15 x 0,54</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="80">AM = armário vertical forno = 0,66 x 0,54</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="90">BL = Bancada Lado = 1,97 x 0,51</text>
+          <text font-size="6.2" font-weight="600" fill="#334155" y="100">Centro = 2,14 x 0,54</text>
+        </g>
 
-          <!-- Quarto 2 -->
-          <g transform="translate(175, 550)">
-            <text class="room-label-title">quarto 2</text>
-            <text class="room-label-sub" y="22">10,57 m²</text>
-          </g>
-
-          <!-- Banheiro Superior -->
-          <g transform="translate(440, 480)">
-            <text class="room-label-title" font-size="15">banheiro</text>
-            <text class="room-label-sub" y="18" font-size="11">2,72 m²</text>
-          </g>
-
-          <!-- Sala Superior -->
-          <g transform="translate(150, 910)">
-            <text class="room-label-title">sala</text>
-            <text class="room-label-sub" y="22">12,07 m²</text>
-          </g>
-
-          <!-- Sala Inferior -->
-          <g transform="translate(260, 1260)">
-            <text class="room-label-title">sala</text>
-            <text class="room-label-sub" y="22">13,98 m²</text>
-          </g>
-
-          <!-- Varandas Lilás -->
-          <g transform="translate(-139, 864)">
-            <text class="room-label-title" fill="#6b21a8">Varanda</text>
-            <text class="room-label-sub" y="20">9,06 m²</text>
-          </g>
-          <g transform="translate(-147, 1193)">
-            <text class="room-label-title" fill="#6b21a8">Varanda</text>
-            <text class="room-label-sub" y="20">9,76 m²</text>
-          </g>
-
-          <!-- Cozinha Americana -->
-          <g transform="translate(515, 785)">
-            <text class="room-label-title" font-size="22" fill="#c2410c">COZINHA AMERICANA</text>
-            <text class="room-label-sub" y="24" font-weight="700">16,97 m² • Conceito Aberto</text>
-          </g>
-
-          <!-- Quarto 3 -->
-          <g transform="translate(571, 1160)">
-            <text class="room-label-title" font-size="15">quarto 3</text>
-            <text class="room-label-sub" y="18" font-size="11">4,12 m²</text>
-          </g>
-
-          <!-- Banheiro Inferior -->
-          <g transform="translate(552, 1375)">
-            <text class="room-label-title" font-size="15">banheiro</text>
-            <text class="room-label-sub" y="18" font-size="11">2,72 m²</text>
-          </g>
-
-          <!-- Garagem -->
-          <g transform="translate(285, 1580)">
-            <text class="room-label-title">garagem</text>
-            <text class="room-label-sub" y="22">17,13 m²</text>
-          </g>
-
-          <!-- Quarto 5 -->
-          <g transform="translate(841, 1580)">
-            <text class="room-label-title">quarto 5</text>
-            <text class="room-label-sub" y="22">16,23 m²</text>
-          </g>
-
-          <!-- Lavanderia -->
-          <g transform="translate(1214, 1540)">
-            <text class="room-label-title" font-size="16">lavanderia</text>
-            <text class="room-label-sub" y="20" font-size="12">5,81 m²</text>
-          </g>
-
-          <!-- Piscina -->
-          <g transform="translate(884, 230)">
-            <text class="room-label-title" font-size="20" fill="#fff" stroke="#0077b6">Piscina</text>
-            <text class="room-label-sub" y="22" fill="#e0f2fe" stroke="#0077b6">Deck & Água</text>
-          </g>
-
-          <!-- Varanda / Área de Lazer -->
-          <g transform="translate(884, 780)">
-            <text class="room-label-title" font-size="20" fill="#78350f">Varanda –</text>
-            <text class="room-label-title" y="26" font-size="18" fill="#78350f">área de lazer</text>
-            <text class="room-label-sub" y="52">churrasqueira, tv, mesa, etc.</text>
-          </g>
-
-          <!-- Horta com Cerca -->
-          <g transform="translate(1140, 575)">
-            <text class="room-label-title" font-size="16" fill="#365314" transform="rotate(90)">Horta com cerca</text>
-          </g>
-
-          <!-- Jardins -->
-          <g transform="translate(769, -200)">
-            <text class="room-label-title" fill="#2d6a4f">jardim</text>
-            <text class="room-label-sub" y="22">15,38 × 4,00 m</text>
-          </g>
-          <g transform="translate(-291, 606)">
-            <text class="room-label-title" fill="#2d6a4f">jardim</text>
-            <text class="room-label-sub" y="22">5,83 × 12,13 m</text>
-          </g>
-          <g transform="translate(850, 1850)">
-            <text class="room-label-title" fill="#2d6a4f">Jardim</text>
-            <text class="room-label-sub" y="22">17,00 × 9,00 m</text>
-          </g>
+        <!-- 8. RODAPÉ DA PRANCHA -->
+        <g transform="translate(180, 765)">
+          <text font-size="7" font-weight="600" fill="#64748b" text-anchor="middle">( X ) Público   ( ) Interno   ( ) Setorial   ( ) Confidencial</text>
+          <text font-size="6.5" font-weight="500" fill="#94a3b8" text-anchor="middle" y="10">Dados Pessoais</text>
         </g>
 
       </g>
     </svg>
 
-    <!-- Layer Toggles Chip Bar (Top Left) -->
+    <!-- Layer Toggles Floating Bar -->
     <div id="layer-bar" class="floating-bar">
-      <button class="chip-toggle active" data-layer="layer-cotas">
-        <span class="dot" style="background:#ef4444"></span> Cotas & Medidas
+      <button class="chip-toggle active" data-layer="layer-caixas-medidas">
+        <span class="dot" style="background:#ef4444"></span> Caixas da Prancha
       </button>
       <button class="chip-toggle active" data-layer="layer-mobiliario">
-        <span class="dot" style="background:#38bdf8"></span> Mobiliário
+        <span class="dot" style="background:#38bdf8"></span> Móveis & Bancadas
       </button>
-      <button class="chip-toggle active" data-layer="layer-labels">
-        <span class="dot" style="background:#facc15"></span> Nomes & Áreas
+      <button class="chip-toggle active" data-layer="layer-linhas-vermelhas">
+        <span class="dot" style="background:#dc2626"></span> Aberturas Vermelhas
+      </button>
+      <button class="chip-toggle active" data-layer="layer-textos">
+        <span class="dot" style="background:#facc15"></span> Nomes dos Cômodos
       </button>
       <button class="chip-toggle active" data-layer="layer-jardins">
         <span class="dot" style="background:#52b788"></span> Jardins & Lazer
@@ -1143,7 +888,14 @@
       </button>
     </div>
 
-    <!-- Navigation Pan/Zoom Dock (Bottom Right) -->
+    <!-- Opacity Slider for Original Overlay Comparison -->
+    <div id="overlay-control" class="floating-bar">
+      <span>Comparar com Desenho Original:</span>
+      <input type="range" id="overlay-slider" min="0" max="100" value="0">
+      <span id="overlay-val">0%</span>
+    </div>
+
+    <!-- Navigation Pan/Zoom Controls -->
     <div id="nav-controls" class="floating-bar">
       <button class="btn-icon" id="btn-zoom-in" title="Aproximar Zoom ( + )">
         <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -1151,18 +903,12 @@
       <button class="btn-icon" id="btn-zoom-out" title="Afastar Zoom ( - )">
         <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
-      <button class="btn-icon" id="btn-zoom-reset" title="Ajustar à Tela (Reset)">
+      <button class="btn-icon" id="btn-zoom-reset" title="Ver Prancha Completa">
         <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
       </button>
     </div>
 
-    <!-- Scale Indicator (Bottom Left) -->
-    <div id="scale-indicator">
-      <div class="scale-bar-line"></div>
-      <span>1,00 m (1 cm na prancha)</span>
-    </div>
-
-    <!-- Interactive Inspector Drawer -->
+    <!-- Inspector Drawer on Click -->
     <aside id="inspector">
       <div class="inspector-header">
         <h3 id="insp-title">Detalhes do Ambiente</h3>
@@ -1172,7 +918,7 @@
 
       <div class="stat-grid">
         <div class="stat-card">
-          <span>Dimensões Reais</span>
+          <span>Dimensões Reais (m)</span>
           <strong id="insp-dims">0,00 × 0,00 m</strong>
         </div>
         <div class="stat-card">
@@ -1182,258 +928,281 @@
       </div>
 
       <div class="stat-card" style="margin-bottom: 10px;">
-        <span>Escala do Desenho Original</span>
+        <span>Medida na Prancha Original</span>
         <strong id="insp-scale">0,00 × 0,00 cm</strong>
       </div>
 
       <div class="inspector-details" id="insp-desc">
-        Clique em qualquer cômodo, bancada ou móvel da planta baixa para ver especificações completas.
+        Clique em qualquer cômodo ou móvel para inspecionar medidas e especificações técnicas.
       </div>
     </aside>
   </div>
 
-  <!-- JavaScript Implementation -->
   <script>
     /* ==========================================================================
-       1. DATA DICTIONARY DOS AMBIENTES E MÓVEIS DA PLANTA BAIXA
+       1. DATABASE EXATO DE TODOS OS CÔMODOS E MÓVEIS
        ========================================================================== */
     const floorPlanDatabase = {
       'poly-cozinha': {
         name: 'Cozinha Americana Integrada',
-        badge: 'Ambiente Gourmet',
-        dims: '4,16 × 4,08 m',
-        area: '16,97 m²',
-        scale: '4,16 × 4,08 cm',
-        desc: 'Cozinha americana planejada com integração total à sala de estar e jantar. Composta por pia de cuba dupla (P), armário aéreo (AE), fogão com coifa (F), ilha/balcão americano com banquetas, bancada central (Centro), bancada lateral (BL), torre quente (AM), bancada de canto (AC) e geladeira duplex (G).'
+        badge: 'Coração da Residência',
+        dims: '4,18 × 4,08 m',
+        area: '17,05 m²',
+        scale: 'Altura: 4,08 cm • Largura: 4,18 cm',
+        desc: 'Cozinha americana planejada posicionada no centro da residência. Possui aberturas totais (linhas vermelhas tracejadas) conectando-a à Sala de Estar/Corredor à esquerda e à Varanda Gourmet à direita. Equipada com pia dupla (P), armário aéreo (AE), fogão (F), ilha/balcão americano com banquetas, bancada central, bancada lateral (BL), torre quente (AM) e geladeira (G).'
       },
       'furn-Ilha': {
-        name: 'Balcão Americano & Ilha',
-        badge: 'Mobiliário Integrado',
+        name: 'Ilha / Balcão Americano',
+        badge: 'Divisa Aberta & Refeições',
         dims: '1,68 × 1,26 m',
         area: '2,12 m²',
-        scale: '1,68 × 1,26 cm (Ilha)',
-        desc: 'Bancada em granito nobre Preto São Gabriel interligando a cozinha à sala. Possui beiral de refeições com 3 banquetas altas voltadas para a sala, 3 luminárias pendentes modernas e passagens livres de circulação ao norte (1,19 m) e ao sul (0,67 m).'
+        scale: 'Ilha = 1,68 x 1,26 m',
+        desc: 'Ilha de granito localizada na abertura oeste entre a Cozinha e a Sala/Corredor. Serve como balcão passa-pratos e refeições rápidas com 3 banquetas altas voltadas para a sala.'
       },
       'furn-P': {
-        name: 'P: Pia de Cozinha Cuba Dupla',
-        badge: 'Móvel Planejado',
+        name: 'P: Pia Cuba Dupla',
+        badge: 'Bancada Molhada',
         dims: '2,00 × 0,60 m',
         area: '1,20 m²',
-        scale: '2,00 × 0,60 cm',
-        desc: 'Bancada contínua com 2 cubas em aço inox escovado e torneira monocomando gourmet com ducha extensível.'
+        scale: 'P = 2 x 0,6 m',
+        desc: 'Bancada na parede norte da cozinha (compartilhada com o banheiro), equipada com duas cubas de aço inox e torneira gourmet.'
       },
       'furn-AE': {
-        name: 'AE: Bancada com Armário Aéreo',
-        badge: 'Móvel Planejado',
+        name: 'AE: Bancada c/ Armário Aéreo',
+        badge: 'Marcenaria Superior',
         dims: '1,15 × 0,54 m',
         area: '0,62 m²',
-        scale: '1,15 × 0,54 cm',
-        desc: 'Módulo de marcenaria com balcão inferior e armário aéreo suspenso com portas basculantes.'
+        scale: 'AE = 1,15 x 0,54 m',
+        desc: 'Bancada contígua à pia com armário aéreo superior para louças e mantimentos.'
       },
       'furn-F': {
         name: 'F: Fogão & Coifa',
-        badge: 'Eletrodoméstico',
+        badge: 'Área Quente',
         dims: '0,83 × 0,70 m',
         area: '0,58 m²',
-        scale: '0,83 × 0,70 cm',
-        desc: 'Cooktop de 4 bocas a gás/indução sobre forno embutido, acompanhado de coifa piramidal de aço inoxidável.'
+        scale: 'F = 0,83 x 0,70 m',
+        desc: 'Fogão com cooktop de 4 bocas e forno, situado na extremidade direita da parede superior da cozinha.'
       },
       'furn-Centro': {
-        name: 'Centro: Bancada Ilha Central',
-        badge: 'Móvel Planejado',
+        name: 'Centro: Bancada Central',
+        badge: 'Ilha de Preparo',
         dims: '2,14 × 0,54 m',
         area: '1,16 m²',
-        scale: '2,14 × 0,54 cm',
-        desc: 'Bancada de apoio gourmet localizada no coração da cozinha, facilitando o corte e preparo simultâneo de alimentos.'
+        scale: 'Centro = 2,14 x 0,54 m',
+        desc: 'Bancada livre no miolo da cozinha, facilitando o corte, montagem e empratamento durante o preparo gourmet.'
       },
       'furn-BL': {
-        name: 'BL: Bancada Lateral',
-        badge: 'Móvel Planejado',
+        name: 'BL: Bancada Lado',
+        badge: 'Bancada de Serviço',
         dims: '1,97 × 0,51 m',
         area: '1,00 m²',
-        scale: '1,97 × 0,51 cm',
-        desc: 'Bancada lateral de serviço equipada com gaveteiros profundos para panelas e talheres.'
+        scale: 'BL = 1,97 x 0,51 m',
+        desc: 'Bancada paralela ao centro, equipada com gaveteiros para talheres, utensílios e panelas.'
       },
       'furn-AM': {
-        name: 'AM: Armário Vertical Torre Quente',
-        badge: 'Móvel Planejado',
+        name: 'AM: Armário Vertical Forno',
+        badge: 'Torre Quente',
         dims: '0,66 × 0,54 m',
         area: '0,36 m²',
-        scale: '0,66 × 0,54 cm',
-        desc: 'Coluna vertical de armário (altura 2,20 m) abrigando nicho para forno elétrico e micro-ondas embutidos.'
-      },
-      'furn-AC': {
-        name: 'AC: Bancada de Canto em L',
-        badge: 'Móvel Planejado',
-        dims: '1,33 × 0,94 m',
-        area: '0,88 m²',
-        scale: '1,33 × 0,94 cm',
-        desc: 'Móvel de canto com corte chanfrado a 45° idêntico ao desenho da prancha técnica, otimizando o aproveitamento de espaço.'
+        scale: 'AM = 0,66 x 0,54 m',
+        desc: 'Coluna vertical com nichos embutidos para forno elétrico e micro-ondas.'
       },
       'furn-G': {
         name: 'G: Geladeira Duplex',
-        badge: 'Eletrodoméstico',
+        badge: 'Refrigeração',
         dims: '0,72 × 0,76 m',
         area: '0,55 m²',
-        scale: '0,72 × 0,76 cm',
-        desc: 'Refrigerador duplex frost-free em aço inox com dispenser externo de água.'
+        scale: 'G = 0,72 x 0,76 m',
+        desc: 'Geladeira duplex frost-free com acabamento em aço inoxidável.'
       },
-      'furn-mesa-jantar': {
-        name: 'Mesa de Jantar Integrada',
-        badge: 'Mobiliário Social',
-        dims: '1,40 × 0,85 m',
-        area: '1,19 m²',
-        scale: '1,40 × 0,85 cm',
-        desc: 'Mesa de jantar de 4 lugares em madeira carvalho com cadeiras estofadas, posicionada em frente à passagem da cozinha americana para servir refeições com máxima comodidade.'
+      'furn-AC': {
+        name: 'AC: Bancada de Canto',
+        badge: 'Armário Aéreo de Canto',
+        dims: '1,33 × 0,94 m',
+        area: '1,25 m²',
+        scale: 'AC = 1,33 x 0,94 m',
+        desc: 'Móvel de canto com armário aéreo, posicionado na lavanderia com chanfro ergonômico.'
       },
       'poly-quarto1': {
         name: 'Quarto 1',
-        badge: 'Área Íntima',
+        badge: 'Canto Superior Esquerdo',
         dims: '3,01 × 4,00 m',
         area: '12,04 m²',
-        scale: 'Largura: 3,01 cm • Altura: 4 cm',
-        desc: 'Dormitório no canto superior esquerdo com cama de casal, armário embutido e ótima ventilação voltada para o jardim.'
+        scale: 'Altura: 4 cm • Largura: 3,01 cm',
+        desc: 'Dormitório localizado no canto superior esquerdo da casa, com acesso ao corredor central.'
       },
       'poly-quarto2': {
         name: 'Quarto 2',
-        badge: 'Área Íntima',
+        badge: 'Topo Central',
         dims: '3,51 × 3,01 m',
         area: '10,57 m²',
-        scale: 'Largura: 3,51 cm • Altura: 3,01 cm',
-        desc: 'Dormitório central superior com espaço para cama de casal, criado-mudo e bancada de estudos.'
+        scale: 'Altura: 3,01 cm • Largura: 3,51 cm',
+        desc: 'Dormitório localizado no topo da residência, ao lado do Quarto 1 e acima do Banheiro Superior.'
       },
       'poly-banheiro-sup': {
-        name: 'Banheiro Social Superior',
+        name: 'Banheiro Superior',
         badge: 'Área Molhada',
-        dims: '1,79 × 1,52 m',
-        area: '2,72 m²',
-        scale: 'Largura: 1,79 cm • Altura: 1,52 cm',
-        desc: 'Banheiro completo com box de vidro temperado, cuba com espelho e vaso sanitário com caixa acoplada.'
+        dims: '2,43 × 1,87 m',
+        area: '4,54 m²',
+        scale: 'Abaixo do Quarto 2',
+        desc: 'Banheiro posicionado logo abaixo do Quarto 2. Sua parede inferior é a parede superior da Cozinha.'
+      },
+      'poly-corredor': {
+        name: 'Corredor Central de Circulação',
+        badge: 'Circulação',
+        dims: '0,88 × 4,88 m',
+        area: '4,29 m²',
+        scale: 'Faixa Vertical de Passagem',
+        desc: 'Corredor vertical conectando o Quarto 1, Quarto 2, Banheiro Superior, Sala de Estar e Cozinha Americana.'
       },
       'poly-sala-sup': {
-        name: 'Sala Superior (Estar & Jantar)',
+        name: 'Sala Superior (Estar / Jantar)',
         badge: 'Área Social',
         dims: '3,01 × 4,01 m',
         area: '12,07 m²',
-        scale: 'Largura: 3,01 cm • Altura: 4,01 cm',
-        desc: 'Ambiente social integrado diretamente com a cozinha americana e com acesso à varanda lateral lilás.'
+        scale: 'Altura: 4,01 cm • Largura: 3,01 cm',
+        desc: 'Ambiente de estar localizado abaixo do Quarto 1 e diretamente conectado à Cozinha Americana através do balcão.'
+      },
+      'poly-varanda-lilas': {
+        name: 'Varanda Lilás (Lateral Esquerda)',
+        badge: 'Varanda Coberta',
+        dims: '2,94 × 3,32 m / 2,78 × 3,26 m',
+        area: '18,82 m²',
+        scale: '3,26 x 2,78 cm e 3,32 x 2,94 cm',
+        desc: 'Varanda em tom lilás posicionada à esquerda da residência, proporcionando circulação e vista para o jardim.'
       },
       'poly-sala-inf': {
-        name: 'Sala Inferior (Home Theater)',
+        name: 'Sala Inferior (Living / TV)',
         badge: 'Área Social',
         dims: '4,63 × 3,02 m',
         area: '13,98 m²',
-        scale: 'Largura: 4,63 cm • Altura: 3,02 cm',
-        desc: 'Espaço de estar e TV com sofá espaçoso, mesa de centro e painel de TV na parede oeste.'
-      },
-      'poly-varanda-sup': {
-        name: 'Varanda Lateral Superior',
-        badge: 'Área Externa',
-        dims: '2,78 × 3,26 m',
-        area: '9,06 m²',
-        scale: 'Largura: 2,78 cm • Altura: 3,26 cm',
-        desc: 'Varanda arejada conectada à sala e aberta para o jardim lateral esquerdo.'
-      },
-      'poly-varanda-inf': {
-        name: 'Varanda Lateral Inferior',
-        badge: 'Área Externa',
-        dims: '2,94 × 3,32 m',
-        area: '9,76 m²',
-        scale: 'Largura: 2,94 cm • Altura: 3,32 cm',
-        desc: 'Extensão coberta da varanda lilás para circulação e relaxamento ao ar livre.'
+        scale: 'Altura: 3,02 cm • Largura: 4,63 cm',
+        desc: 'Sala de estar ampla, localizada abaixo da sala superior e abaixo do balcão da cozinha.'
       },
       'poly-quarto3': {
-        name: 'Quarto 3 (Home Office / Hóspedes)',
-        badge: 'Área Íntima',
+        name: 'Quarto 3',
+        badge: 'Dormitório Compacto',
         dims: '2,17 × 1,90 m',
         area: '4,12 m²',
-        scale: 'Largura: 2,17 cm • Altura: 1,9 cm',
-        desc: 'Quarto compacto multifuncional, ideal para home office ou quarto de hóspedes.'
+        scale: '1,9 cm • 2,17 cm',
+        desc: 'Quarto localizado logo abaixo da Cozinha e ao lado do Banheiro Inferior.'
       },
       'poly-banheiro-inf': {
         name: 'Banheiro Inferior',
         badge: 'Área Molhada',
         dims: '1,79 × 1,52 m',
         area: '2,72 m²',
-        scale: 'Largura: 1,79 cm • Altura: 1,52 cm',
-        desc: 'Banheiro privativo de apoio para a área íntima inferior e quartos.'
+        scale: '1,79 cm • 1,52 cm',
+        desc: 'Banheiro ao lado do Quarto 3, servindo à área íntima inferior.'
       },
       'poly-garagem': {
-        name: 'Garagem Coberta',
-        badge: 'Área de Veículos',
+        name: 'Garagem (Quarto 4)',
+        badge: 'Vaga Coberta',
         dims: '5,71 × 3,00 m',
         area: '17,13 m²',
-        scale: 'Largura: 5,71 cm • Altura: 3 cm',
-        desc: 'Garagem coberta para veículos com acesso frontal e ligação direta para a residência.'
+        scale: 'Altura: 3 cm • Largura: 5,71 cm',
+        desc: 'Garagem coberta para veículos no canto inferior esquerdo da residência.'
       },
       'poly-quarto5': {
-        name: 'Quarto 5 (Suíte Master)',
-        badge: 'Área Íntima',
+        name: 'Quarto 5 (Suíte)',
+        badge: 'Área Íntima Inferior',
         dims: '5,41 × 3,00 m',
         area: '16,23 m²',
-        scale: 'Largura: 5,41 cm • Altura: 3 cm',
-        desc: 'Quarto amplo com espaço para cama king-size, closet planejado e janelas com vista para o jardim e pergolado.'
+        scale: 'Altura: 3 cm • Largura: 5,41 cm',
+        desc: 'Quarto amplo ao lado da garagem e da lavanderia, com vista para o jardim dos fundos.'
       },
       'poly-lavanderia': {
-        name: 'Lavanderia & Área de Serviço',
+        name: 'Lavanderia & Serviço',
         badge: 'Área de Serviço',
-        dims: '2,04 × 2,85 m',
-        area: '5,81 m²',
-        scale: 'Largura: ~2,04 cm • Altura: ~2,85 cm',
-        desc: 'Área de serviço independente equipada com tanque de lavar roupas duplo e máquina de lavar.'
+        dims: '2,24 × 2,95 m',
+        area: '6,61 m²',
+        scale: '2,24 cm • 2,95 cm',
+        desc: 'Área de serviço com tanque, máquina e armário de canto (AC).'
       },
       'poly-varanda-piscina': {
-        name: 'Varanda com Piscina',
-        badge: 'Área de Lazer',
-        dims: '3,34 × 4,50 m',
-        area: '15,03 m²',
-        scale: 'Deck de Lazer Superior',
-        desc: 'Deck ensolarado em madeira teca abrigando piscina aquecida de água azul com borda de segurança.'
+        name: 'Varanda Deck Piscina',
+        badge: 'Área de Lazer Superior',
+        dims: '6,90 × 4,14 m',
+        area: '28,57 m²',
+        scale: 'Deck de Madeira e Piscina',
+        desc: 'Deck de lazer com piscina de água azul translúcida para natação e descanso ao sol.'
+      },
+      'poly-piscina': {
+        name: 'Piscina de Alvenaria',
+        badge: 'Lazer Aquático',
+        dims: '2,50 × 2,45 m',
+        area: '4,81 m²',
+        scale: 'Piscina Oval',
+        desc: 'Piscina com revestimento cerâmico e sistema de filtragem.'
       },
       'poly-varanda-lazer': {
-        name: 'Varanda Gourmet & Churrasqueira',
-        badge: 'Área Gourmet',
+        name: 'Varanda – Área de Lazer',
+        badge: 'Espaço Gourmet',
         dims: '3,34 × 7,02 m',
         area: '23,45 m²',
-        scale: 'Varanda – área de lazer',
-        desc: 'Grande espaço gourmet com churrasqueira de tijolos refratários, TV 65", mesa de jantar e integração direta com a cozinha americana.'
+        scale: 'Altura: 7,02 cm • Largura: 3,34 cm',
+        desc: 'Espaço gourmet amplo com churrasqueira de tijolos, TV, mesa para refeições e integração aberta para a cozinha.'
       },
       'poly-horta': {
-        name: 'Horta Orgânica com Cerca',
-        badge: 'Paisagismo & Cultivo',
-        dims: '1,20 × 11,50 m',
-        area: '13,80 m²',
-        scale: 'Horta com cerca',
-        desc: 'Faixa ajardinada lateral com 4 canteiros elevados de madeira para cultivo de hortaliças frescas, protegida por cerquinha de piquete branca.'
-      },
-      'poly-casa-arvore': {
-        name: 'Casa na Árvore',
-        badge: 'Lazer Infantil & Família',
-        dims: '2,40 × 2,40 m',
-        area: '5,76 m²',
-        scale: 'Jardim: 4,24 × 12,15 cm',
-        desc: 'Casinha rústica de madeira construída sobre árvore no jardim lateral, com plataforma elevada a 1,85 m e escada de acesso.'
-      },
-      'poly-pergolado': {
-        name: 'Pergolado em Madeira',
-        badge: 'Área de Descanso',
-        dims: '3,05 × 2,91 m',
-        area: '8,88 m²',
-        scale: 'Largura: 2,91 cm • Altura: 3,05 cm',
-        desc: 'Estrutura contemporânea em madeira nobre com vigas ripadas, deck de piso e lounge sombreado para relaxar no jardim dos fundos.'
+        name: 'Horta com Cerca',
+        badge: 'Cultivo Orgânico',
+        dims: '1,48 × 14,33 m',
+        area: '21,21 m²',
+        scale: 'Faixa Lateral Leste',
+        desc: 'Horta fechada com cerquinha rústica de madeira para hortaliças e temperos frescos.'
       },
       'poly-casa-cachorro': {
         name: 'Casa do Cachorro',
         badge: 'Espaço Pet',
-        dims: '1,40 × 1,20 m',
-        area: '1,68 m²',
-        scale: 'Casa do cachorro',
-        desc: 'Casinha de alvenaria e madeira com telhado inclinado duas águas para abrigo e conforto pet.'
+        dims: '3,58 × 3,76 m',
+        area: '13,46 m²',
+        scale: 'Canto Superior Direito',
+        desc: 'Casinha protegida e confortável para os animais de estimação no jardim superior.'
+      },
+      'poly-casa-arvore': {
+        name: 'Casa da Árvore',
+        badge: 'Lazer Família',
+        dims: '3,58 × 3,76 m',
+        area: '13,46 m²',
+        scale: 'Jardim 4,24 x 12,15 cm',
+        desc: 'Casinha suspensa em madeira com plataforma elevada e escada no jardim lateral esquerdo.'
+      },
+      'poly-pergolado': {
+        name: 'Pergolado em Madeira',
+        badge: 'Lounge Externo',
+        dims: '2,91 × 3,05 m',
+        area: '8,88 m²',
+        scale: 'Altura: 3,05 cm • Largura: 2,91 cm',
+        desc: 'Estrutura contemporânea de pergolado ripado para descanso ao ar livre no jardim dos fundos.'
+      },
+      'poly-jardim-sup': {
+        name: 'Jardim Superior',
+        badge: 'Paisagismo',
+        dims: '15,38 × 4,00 m',
+        area: '61,52 m²',
+        scale: 'Altura: 4 cm • Largura: 15,38 cm',
+        desc: 'Área ajardinada frontal/superior da propriedade.'
+      },
+      'poly-jardim-esq': {
+        name: 'Jardim Lateral Esquerdo',
+        badge: 'Paisagismo',
+        dims: '5,83 × 12,13 m',
+        area: '70,72 m²',
+        scale: 'Altura: 12,13 cm • Largura: 5,83 cm',
+        desc: 'Gramado lateral com arborização.'
+      },
+      'poly-jardim-fundos': {
+        name: 'Jardim dos Fundos',
+        badge: 'Paisagismo & Lazer',
+        dims: '17,00 × 9,00 m',
+        area: '153,00 m²',
+        scale: 'Altura: 9 cm • Largura: 17 cm',
+        desc: 'Grande quintal gramado dos fundos contendo o Pergolado de descanso.'
       }
     };
 
     /* ==========================================================================
-       2. PAN, ZOOM & ENGINE DE INTERAÇÃO SVG
+       2. CONTROLE DE PAN E ZOOM
        ========================================================================== */
     const svg = document.getElementById('blueprint-svg');
     const viewportGroup = document.getElementById('viewport-group');
@@ -1450,7 +1219,6 @@
       viewportGroup.setAttribute('transform', `translate(${pointX}, ${pointY}) scale(${currentScale})`);
     }
 
-    // Mouse / Touch Drag Pan
     workspace.addEventListener('mousedown', (e) => {
       if (e.target.closest('#inspector') || e.target.closest('.floating-bar')) return;
       isPanning = true;
@@ -1467,8 +1235,8 @@
 
     window.addEventListener('mouseup', () => { isPanning = false; });
 
-    // Touch Support for Mobile & Tablets
-    let initialTouchDistance = null;
+    // Touch Pinch & Pan
+    let touchDist = null;
     workspace.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         isPanning = true;
@@ -1476,7 +1244,7 @@
         startY = e.touches[0].clientY - pointY;
       } else if (e.touches.length === 2) {
         isPanning = false;
-        initialTouchDistance = Math.hypot(
+        touchDist = Math.hypot(
           e.touches[0].clientX - e.touches[1].clientX,
           e.touches[0].clientY - e.touches[1].clientY
         );
@@ -1488,27 +1256,22 @@
         pointX = e.touches[0].clientX - startX;
         pointY = e.touches[0].clientY - startY;
         updateTransform();
-      } else if (e.touches.length === 2 && initialTouchDistance) {
-        const currentDistance = Math.hypot(
+      } else if (e.touches.length === 2 && touchDist) {
+        const curDist = Math.hypot(
           e.touches[0].clientX - e.touches[1].clientX,
           e.touches[0].clientY - e.touches[1].clientY
         );
-        const factor = currentDistance / initialTouchDistance;
-        zoomAt(e.touches[0].clientX, e.touches[0].clientY, factor > 1 ? 1.04 : 0.96);
-        initialTouchDistance = currentDistance;
+        zoomAt(e.touches[0].clientX, e.touches[0].clientY, curDist / touchDist > 1 ? 1.04 : 0.96);
+        touchDist = curDist;
       }
     }, { passive: true });
 
-    workspace.addEventListener('touchend', () => {
-      isPanning = false;
-      initialTouchDistance = null;
-    });
+    workspace.addEventListener('touchend', () => { isPanning = false; touchDist = null; });
 
     // Mouse Wheel Zoom
     workspace.addEventListener('wheel', (e) => {
       e.preventDefault();
-      const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
-      zoomAt(e.clientX, e.clientY, zoomFactor);
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 0.89);
     }, { passive: false });
 
     function zoomAt(clientX, clientY, factor) {
@@ -1516,7 +1279,7 @@
       const mouseX = clientX - rect.left;
       const mouseY = clientY - rect.top;
 
-      const newScale = Math.min(Math.max(currentScale * factor, 0.4), 4.5);
+      const newScale = Math.min(Math.max(currentScale * factor, 0.4), 6.0);
       const ratio = newScale / currentScale;
 
       pointX = mouseX - (mouseX - pointX) * ratio;
@@ -1526,37 +1289,34 @@
       updateTransform();
     }
 
-    // Zoom Buttons
     document.getElementById('btn-zoom-in').addEventListener('click', () => {
-      const rect = workspace.getBoundingClientRect();
-      zoomAt(rect.width / 2, rect.height / 2, 1.25);
+      const r = workspace.getBoundingClientRect();
+      zoomAt(r.width/2, r.height/2, 1.25);
     });
 
     document.getElementById('btn-zoom-out').addEventListener('click', () => {
-      const rect = workspace.getBoundingClientRect();
-      zoomAt(rect.width / 2, rect.height / 2, 0.8);
+      const r = workspace.getBoundingClientRect();
+      zoomAt(r.width/2, r.height/2, 0.8);
     });
 
-    document.getElementById('btn-zoom-reset').addEventListener('click', resetView);
-
-    function resetView() {
+    document.getElementById('btn-zoom-reset').addEventListener('click', () => {
       currentScale = 1;
       pointX = 0;
       pointY = 0;
       updateTransform();
-    }
+    });
 
-    // Focus Cozinha Americana Button
+    // Foco Cozinha Americana
     document.getElementById('btn-focus-cozinha').addEventListener('click', () => {
-      currentScale = 2.0;
-      pointX = -320;
-      pointY = -850;
+      currentScale = 3.2;
+      pointX = -750;
+      pointY = -1050;
       updateTransform();
       selectElement('poly-cozinha');
     });
 
     /* ==========================================================================
-       3. LAYER TOGGLE (CHIPS)
+       3. CONTROLE DE CAMADAS (LAYERS)
        ========================================================================== */
     document.querySelectorAll('.chip-toggle[data-layer]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1570,32 +1330,42 @@
     });
 
     /* ==========================================================================
-       4. TEMAS VISUAIS (HUMANIZADA, BLUEPRINT CAD)
+       4. SUPERPOSIÇÃO DA IMAGEM ORIGINAL (SLIDER OPACIDADE)
        ========================================================================== */
-    const btnThemeHuman = document.getElementById('btn-theme-human');
-    const btnThemeBlue = document.getElementById('btn-theme-blue');
+    const overlaySlider = document.getElementById('overlay-slider');
+    const overlayVal = document.getElementById('overlay-val');
+    const layerOverlay = document.getElementById('layer-original-overlay');
 
-    btnThemeHuman.addEventListener('click', () => {
+    overlaySlider.addEventListener('input', (e) => {
+      const val = e.target.value;
+      overlayVal.textContent = `${val}%`;
+      layerOverlay.setAttribute('opacity', val / 100);
+    });
+
+    /* ==========================================================================
+       5. TEMAS VISUAIS
+       ========================================================================== */
+    const btnHuman = document.getElementById('btn-theme-human');
+    const btnBlue = document.getElementById('btn-theme-blue');
+
+    btnHuman.addEventListener('click', () => {
       document.body.className = '';
-      btnThemeHuman.classList.add('active');
-      btnThemeBlue.classList.remove('active');
+      btnHuman.classList.add('active');
+      btnBlue.classList.remove('active');
     });
 
-    btnThemeBlue.addEventListener('click', () => {
+    btnBlue.addEventListener('click', () => {
       document.body.className = 'theme-blueprint';
-      btnThemeBlue.classList.add('active');
-      btnThemeHuman.classList.remove('active');
+      btnBlue.classList.add('active');
+      btnHuman.classList.remove('active');
     });
 
-    btnThemeHuman.classList.add('active');
-
-    // Botão Imprimir
     document.getElementById('btn-print').addEventListener('click', () => {
       window.print();
     });
 
     /* ==========================================================================
-       5. INSPETOR INTERATIVO AO CLICAR EM QUALQUER ELEMENTO
+       6. INSPETOR DE ELEMENTOS CLICADOS
        ========================================================================== */
     const inspector = document.getElementById('inspector');
     const inspTitle = document.getElementById('insp-title');
@@ -1604,20 +1374,18 @@
     const inspArea = document.getElementById('insp-area');
     const inspScale = document.getElementById('insp-scale');
     const inspDesc = document.getElementById('insp-desc');
-    let selectedElement = null;
+    let selectedEl = null;
 
     function selectElement(id) {
       const data = floorPlanDatabase[id];
       if (!data) return;
 
-      if (selectedElement) {
-        selectedElement.classList.remove('room-selected');
-      }
+      if (selectedEl) selectedEl.classList.remove('room-selected');
 
       const el = document.getElementById(id);
       if (el) {
         el.classList.add('room-selected');
-        selectedElement = el;
+        selectedEl = el;
       }
 
       inspTitle.textContent = data.name;
@@ -1639,24 +1407,21 @@
 
     document.getElementById('insp-close').addEventListener('click', () => {
       inspector.classList.remove('open');
-      if (selectedElement) {
-        selectedElement.classList.remove('room-selected');
-        selectedElement = null;
+      if (selectedEl) {
+        selectedEl.classList.remove('room-selected');
+        selectedEl = null;
       }
     });
 
     workspace.addEventListener('click', (e) => {
-      if (!e.target.closest('.room-poly') && !e.target.closest('#inspector')) {
+      if (!e.target.closest('.room-poly') && !e.target.closest('#inspector') && !e.target.closest('.floating-bar')) {
         inspector.classList.remove('open');
-        if (selectedElement) {
-          selectedElement.classList.remove('room-selected');
-          selectedElement = null;
+        if (selectedEl) {
+          selectedEl.classList.remove('room-selected');
+          selectedEl = null;
         }
       }
     });
-
-    // Inicia focado suavemente no conjunto residencial
-    resetView();
   </script>
 </body>
 </html>
