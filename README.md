@@ -1,7 +1,11 @@
-# Residência Completa, Lazer & Jardins 3D
-### Modelo Interativo com Three.js • Cozinha Americana Integrada à Sala
+# Residência Completa, Lazer & Jardins (2D & 3D)
+### Planta Baixa Técnica 2D Interativa • Cozinha Americana Integrada à Sala
 
-Modelo 3D arquitetônico interativo e imersivo desenvolvido em **Three.js** a partir da planta baixa técnica (escala $1\text{ cm} = 1{,}00\text{ m}$, lote total de ~400 m² / $17 \times 24\text{ m}$).
+Projeto arquitetônico técnico e interativo desenvolvido a partir da planta baixa real (escala $1\text{ cm} = 1{,}00\text{ m}$, lote total de ~400 m² / $17 \times 24\text{ m}$).
+
+O projeto conta com:
+- **Planta Baixa 2D Técnica e Interativa (`index.html`)**: Desenho vetorial SVG de alta definição, pan/zoom contínuo, controle de camadas (cotas, mobiliário, nomes e áreas em m²), inspetor de cômodos com clique e alternância entre tema humanizado e blueprint CAD.
+- **Modelo 3D Imersivo (`modelo3d.html`)**: Maquete virtual em Three.js com navegação em tempo real, 60 FPS no tablet, personalização de cores de marcenaria e visão direta da cozinha americana e área de lazer.
 
 ---
 
@@ -45,23 +49,18 @@ Modelo 3D arquitetônico interativo e imersivo desenvolvido em **Three.js** a pa
 - **Casa na Árvore ($2{,}40 \times 2{,}40\text{ m}$)**: Plataforma rústica elevada a $1{,}85\text{ m}$ com escada e telhado 4 águas.
 - **Casa do Cachorro ($1{,}40 \times 1{,}20\text{ m}$)**: Casinha pet estruturada com telhado inclinado.
 - **Horta com Cerca ($1{,}20 \times 11{,}50\text{ m}$)**: 4 canteiros elevados com terra fértil, hortaliças e cerquinha de piquete.
-- **Área Íntima**: 5 quartos (incluindo Suíte Master), 2 banheiros e lavanderia independente.
+- **Área Íntima & Social**: 5 quartos (incluindo Suíte Master), garagem coberta ($5{,}71 \times 3{,}00\text{ m}$), 2 banheiros e lavanderia independente.
 
 ---
 
-## ⚡ Otimizações para 60 FPS em Tablets e Celulares
-1. **Luzes Sem Cubemaps Excessivos**: Apenas a luz do Sol (DirectionalLight) projeta sombras dinâmicas suaves, evitando sobrecarga na GPU móvel.
-2. **Transformações GPU no DOM**: Rótulos e cotas 3D utilizam `transform: translate3d(...)`, eliminando layout reflows na CPU do tablet.
-3. **Resolução de Sombras Calibrada**: Mapa de sombra a $1024 \times 1024$, reduzindo em 75% o uso de banda de memória em relação a resoluções pesadas.
-4. **Materiais PBR Otimizados**: Dispensado o uso de `transmission` que gerava passagens de renderização extras na tela.
-5. **PixelRatio Adaptativo**: Limitado dinamicamente a `1.25` em telas touch para prevenir quedas de framerate em displays de altíssima densidade de pixels.
-
----
-
-## 🎮 Controles e Interatividade
-- **Girar / Orbitar**: 1 dedo no tablet/smartphone ou clique esquerdo do mouse.
-- **Mover (Pan)**: 2 dedos no tablet ou clique direito do mouse.
-- **Zoom**: Pinça na tela ou roda de rolagem do mouse.
-- **Botão Cozinha Americana**: Transfere a câmera imediatamente para a perspectiva humana da sala, observando a integração do balcão e da cozinha.
-- **Personalização de Cores**: Paleta interativa com Verde-Sálvia, Azul Petróleo, Grafite, Terracota, Areia e seletor HEX livre.
-- **Alternância de Paredes**: Alterne em tempo real entre paredes completas ($2{,}60\text{ m}$) e paredes rebaixadas ($1{,}10\text{ m}$) para visualização panorâmica.
+## 🎮 Recursos da Planta Baixa 2D
+- **Pan & Zoom**: Arraste livre com mouse ou toque e zoom com roda de rolagem ou pinça na tela.
+- **Camadas Ativas**:
+  - `Cotas & Medidas`: Linhas de cota e valores técnicos em metros.
+  - `Mobiliário`: Representação arquitetônica do layout interno.
+  - `Nomes & Áreas`: Identificação de cada ambiente e metragem quadrada calculada.
+  - `Jardins & Lazer`: Paisagismo, piscina, horta e estruturas externas.
+  - `Foco Cozinha Americana`: Zoom dinâmico que centraliza e inspeciona a cozinha americana e a sala integrada.
+- **Inspetor Lateral**: Clique em qualquer cômodo ou móvel para visualizar dimensões reais, área útil e especificações detalhadas.
+- **Alternador de Temas**: Alterne entre a paleta **Humanizada** colorida e a prancha técnica **Blueprint CAD**.
+- **Impressão**: Botão para impressão limpa sem barras de interface.

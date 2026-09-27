@@ -3,18 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Casa Completa & Área de Lazer 3D • Planta Arquitetônica</title>
+  <title>Planta Baixa 2D Técnica e Interativa • Residência Completa & Lazer</title>
   <style>
     :root {
-      --bg-primary: #0F1216;
-      --panel-bg: rgba(20, 24, 30, 0.88);
+      --bg-dark: #0f172a;
+      --panel-bg: rgba(15, 23, 42, 0.88);
       --panel-border: rgba(255, 255, 255, 0.12);
-      --text-main: #F0F6FC;
-      --text-muted: #8B949E;
-      --accent: #8FA58A;
-      --accent-hover: #A1B89C;
-      --accent-glow: rgba(143, 165, 138, 0.35);
-      --card-radius: 14px;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --color-quarto: #ff7d47;
+      --color-sala: #ff8c5a;
+      --color-cozinha: #ff9d6e;
+      --color-banheiro: #8ecae6;
+      --color-lazer: #ffb703;
+      --color-piscina: #0077b6;
+      --color-jardim: #c7f9cc;
+      --color-garagem: #fca311;
+      --color-varanda: #d8b4e2;
+      --color-horta: #d9ed92;
+      --color-pergolado: #b08968;
     }
 
     * {
@@ -25,1985 +34,1629 @@
       user-select: none;
     }
 
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-primary);
+      background: var(--bg-dark);
       color: var(--text-main);
-    }
-
-    #webgl-container {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    /* Glassmorphism UI Panels */
-    .glass-panel {
-      background: var(--panel-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--card-radius);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-      z-index: 10;
-      pointer-events: auto;
-    }
-
-    /* Top Bar Header */
-    #top-bar {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      right: 16px;
-      padding: 12px 20px;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.3s ease;
+      flex-direction: column;
     }
 
-    .brand-title {
+    /* Header Bar */
+    header {
+      height: 60px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+
+    .brand {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .brand-badge {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #38BDF8;
-      box-shadow: 0 0 10px #38BDF8;
-      animation: pulse 2s infinite ease-in-out;
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.3); opacity: 0.5; }
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
     }
 
-    .brand-title h1 {
+    .brand-text h1 {
       font-size: 1.05rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      color: #fff;
+      letter-spacing: -0.01em;
     }
 
-    .brand-title span {
-      font-size: 0.8rem;
+    .brand-text span {
+      font-size: 0.72rem;
       color: var(--text-muted);
-      font-weight: 400;
       display: block;
     }
 
-    .status-badge {
-      font-size: 0.72rem;
-      padding: 4px 12px;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #7DD3FC;
-      border-radius: 20px;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
       font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+    }
+
+    .btn-3d {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #10b981;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-3d:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      border-color: #059669;
+    }
+
+    /* Main Workspace */
+    #workspace {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+      background: #090d16;
+    }
+
+    #workspace:active {
+      cursor: grabbing;
+    }
+
+    /* Blueprint Background Pattern */
+    .theme-blueprint #workspace {
+      background: #0b192c;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    }
+
+    .theme-white #workspace {
+      background: #f8fafc;
+      background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    svg#blueprint-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transform-origin: 0 0;
+    }
+
+    /* Floating Toolbars */
+    .floating-bar {
+      position: absolute;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 6px;
+      display: flex;
+      gap: 6px;
+      z-index: 40;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    #nav-controls {
+      bottom: 20px;
+      right: 20px;
+      flex-direction: column;
+    }
+
+    #nav-controls .btn-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--panel-border);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    #nav-controls .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    #nav-controls .btn-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    #layer-bar {
+      top: 16px;
+      left: 16px;
+      flex-wrap: wrap;
+      max-width: calc(100vw - 32px);
+    }
+
+    .chip-toggle {
       display: flex;
       align-items: center;
       gap: 6px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--panel-border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    /* Bottom Control Bar */
-    #bottom-dock {
+    .chip-toggle:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .chip-toggle.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+
+    .chip-toggle .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Focus Cozinha Badge */
+    #btn-focus-cozinha {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.3));
+      border: 1px solid #f97316;
+      color: #ffedd5;
+    }
+    #btn-focus-cozinha:hover {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.35), rgba(234, 88, 12, 0.45));
+    }
+
+    /* Scale Indicator at Bottom Left */
+    #scale-indicator {
       position: absolute;
       bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 16px;
+      left: 20px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
       gap: 10px;
-      max-width: 95vw;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    #bottom-dock::-webkit-scrollbar {
-      display: none;
+      z-index: 30;
     }
 
-    .btn-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(0, 0, 0, 0.35);
-      padding: 4px;
-      border-radius: 10px;
+    .scale-bar-line {
+      width: 50px;
+      height: 4px;
+      background: #38bdf8;
+      border-radius: 2px;
+      position: relative;
     }
-
-    .btn-action {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      color: var(--text-main);
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .btn-action:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .btn-action.active {
-      background: var(--accent);
-      color: #121814;
-      box-shadow: 0 0 14px var(--accent-glow);
-    }
-
-    .btn-action svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
-
-    /* Floating Color & Settings Drawer */
-    #color-panel {
+    .scale-bar-line::before, .scale-bar-line::after {
+      content: '';
       position: absolute;
+      top: -3px;
+      width: 2px;
+      height: 10px;
+      background: #38bdf8;
+    }
+    .scale-bar-line::before { left: 0; }
+    .scale-bar-line::after { right: 0; }
+
+    /* Inspector Drawer */
+    #inspector {
+      position: absolute;
+      top: 16px;
       right: 16px;
-      top: 80px;
+      width: 320px;
+      max-width: calc(100vw - 32px);
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
       padding: 16px;
-      width: 250px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      z-index: 45;
+      transform: translateX(360px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .panel-title {
-      font-size: 0.82rem;
+    #inspector.open {
+      transform: translateX(0);
+    }
+
+    .inspector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .inspector-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .inspector-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .inspector-close:hover { color: #fff; }
+
+    .inspector-badge {
+      display: inline-block;
+      font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      margin-bottom: 8px;
     }
 
-    .color-swatches {
+    .stat-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
-      margin-top: 4px;
+      margin: 12px 0;
     }
 
-    .color-swatch {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .color-swatch:hover, .color-swatch.active {
-      transform: scale(1.18);
-      border-color: #ffffff;
-      box-shadow: 0 0 10px rgba(255,255,255,0.4);
-    }
-
-    .custom-color-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 4px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 0.8rem;
-    }
-
-    input[type="color"] {
-      -webkit-appearance: none;
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      cursor: pointer;
-      background: transparent;
-    }
-    input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-    input[type="color"]::-webkit-color-swatch {
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 6px;
-    }
-
-    /* Detail Card Overlay */
-    #info-card {
-      position: absolute;
-      left: 16px;
-      bottom: 90px;
-      padding: 16px 20px;
-      max-width: 330px;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    #info-card.visible {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    #info-card h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #93C5FD;
-      margin-bottom: 6px;
-    }
-
-    #info-card p {
-      font-size: 0.82rem;
-      line-height: 1.45;
-      color: #D0D7DE;
-    }
-
-    .dim-tag {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 3px 8px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 6px;
-      font-family: monospace;
-      font-size: 0.76rem;
-      color: #FCD34D;
-    }
-
-    /* 3D Label Markers (Canvas / HTML Overlays - Aceleração GPU) */
-    .annotation-label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      will-change: transform, opacity;
-      transform: translate3d(0, 0, 0);
-      pointer-events: none;
-      font-family: inherit;
-      white-space: nowrap;
-      transition: opacity 0.2s ease;
-      z-index: 5;
-    }
-
-    .room-badge, .furniture-badge {
-      transform: translate(-50%, -50%);
-    }
-
-    .room-badge {
-      background: rgba(15, 20, 26, 0.92);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .room-badge .sub {
-      font-size: 0.65rem;
-      font-weight: 500;
-      color: #93C5FD;
-    }
-
-    .furniture-badge {
-      background: rgba(143, 165, 138, 0.95);
-      color: #121814;
-      padding: 3px 8px;
+    .stat-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 8px;
+      padding: 8px;
+    }
+
+    .stat-card span {
+      display: block;
       font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 0.95rem;
+      color: #fff;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .inspector-details {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* SVG Architectural Styles */
+    .room-poly {
+      cursor: pointer;
+      transition: filter 0.2s, opacity 0.2s;
+    }
+
+    .room-poly:hover {
+      filter: brightness(1.18);
+    }
+
+    .room-selected {
+      stroke: #38bdf8 !important;
+      stroke-width: 5px !important;
+      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.7));
+    }
+
+    .wall-line {
+      stroke: #1e293b;
+      stroke-width: 14;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+    }
+
+    .theme-blueprint .wall-line {
+      stroke: #ffffff;
+      stroke-width: 12;
+    }
+
+    .theme-white .wall-line {
+      stroke: #0f172a;
+      stroke-width: 12;
+    }
+
+    .cota-line {
+      stroke: #ef4444;
+      stroke-width: 2;
+      stroke-dasharray: 4, 3;
+    }
+
+    .cota-text {
+      font-size: 15px;
+      font-weight: 700;
+      fill: #ef4444;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: #0f172a;
+      stroke-width: 3px;
+    }
+
+    .theme-white .cota-text {
+      stroke: #ffffff;
+    }
+
+    .room-label-title {
+      font-size: 18px;
       font-weight: 800;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      fill: #0f172a;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: #ffffff;
+      stroke-width: 4px;
     }
 
-    .furniture-badge .dims {
+    .room-label-sub {
+      font-size: 13px;
       font-weight: 600;
-      font-size: 0.62rem;
-      opacity: 0.85;
-      font-family: monospace;
+      fill: #334155;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: #ffffff;
+      stroke-width: 3px;
     }
 
-    /* Quick Guide Toast */
-    #hint-toast {
-      position: absolute;
-      top: 80px;
-      left: 16px;
-      padding: 8px 14px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      font-size: 0.74rem;
-      color: #C9D1D9;
-      pointer-events: none;
-      transition: opacity 0.6s ease;
+    .theme-blueprint .room-label-title {
+      fill: #ffffff;
+      stroke: #0b192c;
+    }
+    .theme-blueprint .room-label-sub {
+      fill: #94a3b8;
+      stroke: #0b192c;
     }
 
-    /* Mobile Responsive Adjustments */
-    @media (max-width: 768px) {
-      #top-bar {
-        padding: 10px 14px;
+    /* Kitchen Connection Highlight */
+    .connection-zone {
+      stroke: #ef4444;
+      stroke-width: 3;
+      stroke-dasharray: 6, 4;
+      fill: rgba(239, 68, 68, 0.08);
+      animation: pulseZone 2.5s infinite alternate;
+    }
+
+    @keyframes pulseZone {
+      0% { fill: rgba(239, 68, 68, 0.05); }
+      100% { fill: rgba(239, 68, 68, 0.18); }
+    }
+
+    /* Print media */
+    @media print {
+      header, .floating-bar, #inspector, #scale-indicator {
+        display: none !important;
       }
-      .brand-title h1 {
-        font-size: 0.92rem;
+      body, #workspace {
+        background: #fff !important;
+        overflow: visible !important;
       }
-      .brand-title span {
-        display: none;
-      }
-      #color-panel {
-        width: 190px;
-        right: 10px;
-        top: 65px;
-        padding: 12px;
-      }
-      .color-swatches {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      #bottom-dock {
-        bottom: 12px;
-        padding: 8px 10px;
-        gap: 6px;
-      }
-      .btn-action {
-        padding: 7px 10px;
-        font-size: 0.74rem;
-      }
-      .btn-action svg {
-        width: 14px;
-        height: 14px;
-      }
-      #info-card {
-        bottom: 80px;
-        left: 10px;
-        right: 10px;
-        max-width: none;
+      svg#blueprint-svg {
+        transform: none !important;
       }
     }
   </style>
-  <!-- Three.js, OrbitControls and Tween.js (Local com fallback para CDN) -->
-  <script src="js/vendor/three.min.js"></script>
-  <script>window.THREE || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>')</script>
-
-  <script src="js/vendor/OrbitControls.js"></script>
-  <script>(window.THREE && window.THREE.OrbitControls) || document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\/script>')</script>
-
-  <script src="js/vendor/tween.umd.js"></script>
-  <script>window.TWEEN || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"><\/script>')</script>
 </head>
 <body>
 
-  <!-- WebGL Render Canvas Container -->
-  <div id="webgl-container"></div>
-
-  <!-- 3D HTML Labels Overlay Layer -->
-  <div id="labels-container" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 5;"></div>
-
-  <!-- Top Bar -->
-  <header id="top-bar" class="glass-panel">
-    <div class="brand-title">
-      <div class="brand-badge"></div>
-      <div>
-        <h1>Residência Completa, Lazer & Jardins 3D</h1>
-        <span>Cozinha americana integrada à sala, piscina, área gourmet, horta e casa na árvore</span>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Planta Baixa 2D Técnica e Interativa</h1>
+        <span>Residência Completa • Cozinha Americana Integrada • Escala 1 cm = 1,00 m</span>
       </div>
     </div>
-    <div class="status-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-      </svg>
-      Lote ~400 m² (17 × 24 m)
+
+    <div class="header-actions">
+      <button class="btn" id="btn-theme-human" title="Cores Humanizadas">🎨 Humanizada</button>
+      <button class="btn" id="btn-theme-blue" title="Prancha CAD Blueprint">📐 Blueprint</button>
+      <button class="btn" id="btn-print" title="Imprimir ou Salvar PDF">🖨️ Imprimir</button>
+      <a href="modelo3d.html" class="btn btn-3d" title="Alternar para visualização 3D">🏠 Ver Modelo 3D</a>
     </div>
   </header>
 
-  <!-- Help Hint -->
-  <div id="hint-toast">
-    💡 Toque/arraste para orbitar • Role para zoom • Clique num ambiente ou móvel para detalhes
+  <!-- Main Canvas Workspace -->
+  <div id="workspace">
+    <!-- SVG Vector Floor Plan -->
+    <svg id="blueprint-svg" viewBox="-550 -420 1950 2450">
+      <defs>
+        <!-- Wood Hatching Pattern -->
+        <pattern id="woodHatch" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="20" stroke="rgba(0,0,0,0.06)" stroke-width="2" />
+        </pattern>
+        <!-- Tile Grid Pattern -->
+        <pattern id="tileGrid" width="25" height="25" patternUnits="userSpaceOnUse">
+          <rect width="25" height="25" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+        </pattern>
+        <!-- Pool Water Waves -->
+        <linearGradient id="poolGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0096c7" />
+          <stop offset="100%" stop-color="#023e8a" />
+        </linearGradient>
+        <!-- Pergola Slats Pattern -->
+        <pattern id="pergoladoSlats" width="15" height="40" patternUnits="userSpaceOnUse">
+          <rect width="4" height="40" fill="#7f5539"/>
+        </pattern>
+        <!-- Dimension Arrow Markers -->
+        <marker id="arrowRed" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#ef4444" />
+        </marker>
+      </defs>
+
+      <!-- Pan & Zoom Layer Container -->
+      <g id="viewport-group">
+
+        <!-- 1. JARDINS & TERRENO EXTERNO -->
+        <g id="layer-jardins">
+          <!-- Terreno Total Verde Claro -->
+          <rect x="-500" y="-380" width="1850" height="2350" fill="#e2f1e4" stroke="#475569" stroke-width="6"/>
+
+          <!-- Jardim Superior (15,38 x 4,00 m) -->
+          <rect class="room-poly" id="poly-jardim-sup" x="0" y="-400" width="1538" height="400" fill="#c7f9cc" stroke="#38a3a5" stroke-width="2"/>
+          
+          <!-- Jardim Lateral Esquerdo (5,83 x 12,13 m) -->
+          <rect class="room-poly" id="poly-jardim-esq" x="-583" y="0" width="583" height="1213" fill="#c7f9cc" stroke="#38a3a5" stroke-width="2"/>
+
+          <!-- Jardim dos Fundos (17,00 x 9,00 m) -->
+          <rect class="room-poly" id="poly-jardim-fundos" x="0" y="1704" width="1700" height="900" fill="#c7f9cc" stroke="#38a3a5" stroke-width="2"/>
+
+          <!-- Jardim da Casa da Árvore (4,24 x 12,15 m) -->
+          <rect class="room-poly" id="poly-jardim-arvore" x="-424" y="1213" width="424" height="1215" fill="#b7e4c7" stroke="#38a3a5" stroke-width="2"/>
+
+          <!-- Casa do Cachorro (1,40 x 1,20 m) -->
+          <g id="poly-casa-cachorro" class="room-poly" transform="translate(850, -350)">
+            <rect width="140" height="120" rx="6" fill="#dda15e" stroke="#bc6c25" stroke-width="3"/>
+            <!-- Telhado duas águas -->
+            <polygon points="0,0 70,-35 140,0" fill="#bc6c25"/>
+            <polygon points="0,120 70,155 140,120" fill="#bc6c25"/>
+            <line x1="70" y1="-35" x2="70" y2="155" stroke="#7f4f24" stroke-width="3"/>
+            <!-- Entrada casinha -->
+            <path d="M 50 120 Q 70 80 90 120 Z" fill="#283618"/>
+            <text x="70" y="55" font-size="16" font-weight="700" fill="#fff" text-anchor="middle">Cachorro</text>
+            <text x="70" y="75" font-size="12" fill="#fff" text-anchor="middle">1,40×1,20m</text>
+          </g>
+
+          <!-- Casa da Árvore (2,40 x 2,40 m) -->
+          <g id="poly-casa-arvore" class="room-poly" transform="translate(-360, 1500)">
+            <circle cx="120" cy="120" r="140" fill="#52b788" opacity="0.35"/>
+            <circle cx="120" cy="120" r="110" fill="#52b788" opacity="0.45"/>
+            <rect width="240" height="240" fill="#bc6c25" stroke="#6c584c" stroke-width="4" rx="10"/>
+            <rect x="25" y="25" width="190" height="190" fill="#dda15e" stroke="#6c584c" stroke-width="2"/>
+            <!-- Escadinha de acesso -->
+            <rect x="100" y="240" width="40" height="80" fill="#a68a64"/>
+            <line x1="100" y1="260" x2="140" y2="260" stroke="#4a3525" stroke-width="3"/>
+            <line x1="100" y1="280" x2="140" y2="280" stroke="#4a3525" stroke-width="3"/>
+            <line x1="100" y1="300" x2="140" y2="300" stroke="#4a3525" stroke-width="3"/>
+            <text x="120" y="115" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">Casa da Árvore</text>
+            <text x="120" y="145" font-size="14" font-weight="600" fill="#283618" text-anchor="middle">2,40 × 2,40 m</text>
+          </g>
+
+          <!-- Pergolado em Madeira (3,05 x 2,91 m) -->
+          <g id="poly-pergolado" class="room-poly" transform="translate(743, 1950)">
+            <rect width="305" height="291" fill="#d4a373" stroke="#8c5836" stroke-width="4" rx="4"/>
+            <rect width="305" height="291" fill="url(#pergoladoSlats)"/>
+            <!-- 4 Pilares -->
+            <rect x="10" y="10" width="22" height="22" fill="#582f0e"/>
+            <rect x="273" y="10" width="22" height="22" fill="#582f0e"/>
+            <rect x="10" y="259" width="22" height="22" fill="#582f0e"/>
+            <rect x="273" y="259" width="22" height="22" fill="#582f0e"/>
+            <text x="152" y="140" font-size="22" font-weight="800" fill="#fff" text-anchor="middle" paint-order="stroke" stroke="#582f0e" stroke-width="3">Pergolado</text>
+            <text x="152" y="168" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" paint-order="stroke" stroke="#582f0e" stroke-width="2">3,05 × 2,91 m</text>
+          </g>
+        </g>
+
+        <!-- 2. PISOS DOS CÔMODOS INTERNOS & VARANDAS -->
+        <g id="layer-pisos">
+          <!-- Quarto 1 (3,01 x 4,00 m) -->
+          <rect id="poly-quarto1" class="room-poly" x="0" y="0" width="301" height="400" fill="#ff7d47"/>
+
+          <!-- Quarto 2 (3,51 x 3,01 m) -->
+          <rect id="poly-quarto2" class="room-poly" x="0" y="400" width="351" height="301" fill="#ff7d47"/>
+
+          <!-- Banheiro Superior (1,79 x 1,52 m) -->
+          <rect id="poly-banheiro-sup" class="room-poly" x="351" y="400" width="179" height="152" fill="#8ecae6"/>
+
+          <!-- Sala Superior (3,01 x 4,01 m) -->
+          <rect id="poly-sala-sup" class="room-poly" x="0" y="701" width="301" height="401" fill="#ff8c5a"/>
+
+          <!-- Sala Inferior (4,63 x 3,02 m) -->
+          <rect id="poly-sala-inf" class="room-poly" x="0" y="1102" width="463" height="302" fill="#ff8c5a"/>
+
+          <!-- Varanda Lilás Superior (2,78 x 3,26 m) -->
+          <rect id="poly-varanda-sup" class="room-poly" x="-278" y="701" width="278" height="326" fill="#d8b4e2"/>
+
+          <!-- Varanda Lilás Inferior (2,94 x 3,32 m) -->
+          <rect id="poly-varanda-inf" class="room-poly" x="-294" y="1027" width="294" height="332" fill="#d8b4e2"/>
+
+          <!-- COZINHA AMERICANA (4,16 x 4,08 m) -->
+          <rect id="poly-cozinha" class="room-poly" x="301" y="701" width="416" height="408" fill="#ff9d6e"/>
+
+          <!-- Quarto 3 (2,17 x 1,90 m) -->
+          <rect id="poly-quarto3" class="room-poly" x="463" y="1109" width="217" height="190" fill="#ff7d47"/>
+
+          <!-- Banheiro Inferior (1,79 x 1,52 m) -->
+          <rect id="poly-banheiro-inf" class="room-poly" x="463" y="1299" width="179" height="152" fill="#8ecae6"/>
+
+          <!-- Garagem (5,71 x 3,00 m) -->
+          <rect id="poly-garagem" class="room-poly" x="0" y="1404" width="571" height="300" fill="#fca311"/>
+
+          <!-- Quarto 5 (5,41 x 3,00 m) -->
+          <rect id="poly-quarto5" class="room-poly" x="571" y="1404" width="541" height="300" fill="#ff7d47"/>
+
+          <!-- Lavanderia (2,04 x 2,85 m) -->
+          <rect id="poly-lavanderia" class="room-poly" x="1112" y="1404" width="204" height="285" fill="#e9d8a6"/>
+
+          <!-- Varanda Piscina Superior (3,34 x 4,50 m) -->
+          <rect id="poly-varanda-piscina" class="room-poly" x="717" y="0" width="334" height="450" fill="#ffb703"/>
+
+          <!-- Piscina Oval com Água (2,60 x 3,40 m) -->
+          <ellipse cx="884" cy="225" rx="130" ry="170" fill="url(#poolGrad)" stroke="#0077b6" stroke-width="6"/>
+
+          <!-- Varanda Gourmet / Área de Lazer (3,34 x 7,02 m) -->
+          <rect id="poly-varanda-lazer" class="room-poly" x="717" y="450" width="334" height="702" fill="#ffb703"/>
+
+          <!-- Varanda Lateral de Circulação (3,71 x 2,52 m) -->
+          <rect id="poly-varanda-lateral" class="room-poly" x="680" y="1152" width="371" height="252" fill="#ffc300"/>
+
+          <!-- Horta com Cerca (1,20 x 11,50 m) -->
+          <rect id="poly-horta" class="room-poly" x="1080" y="0" width="120" height="1150" fill="#d9ed92"/>
+        </g>
+
+        <!-- 3. MOBILIÁRIO COMPLETO & DETALHES TÉCNICOS -->
+        <g id="layer-mobiliario">
+          <!-- ------------------------------------------------------------- -->
+          <!-- COZINHA AMERICANA DETALHADA                                   -->
+          <!-- ------------------------------------------------------------- -->
+          <!-- P: Pia de Cuba Dupla (2,00 x 0,60 m) -->
+          <g id="furn-P" class="room-poly" transform="translate(301, 701)">
+            <rect width="200" height="60" fill="#334155" stroke="#1e293b" stroke-width="2"/>
+            <!-- 2 Cubas Inox -->
+            <rect x="25" y="12" width="65" height="36" rx="4" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+            <rect x="110" y="12" width="65" height="36" rx="4" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+            <circle cx="100" cy="8" r="5" fill="#f8fafc"/>
+            <text x="100" y="36" font-size="14" font-weight="800" fill="#0f172a" text-anchor="middle">P</text>
+          </g>
+
+          <!-- AE: Bancada com Armário Aéreo (1,15 x 0,54 m) -->
+          <g id="furn-AE" class="room-poly" transform="translate(501, 701)">
+            <rect width="115" height="54" fill="#475569" stroke="#1e293b" stroke-width="2"/>
+            <line x1="57" y1="0" x2="57" y2="54" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,2"/>
+            <text x="57" y="32" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">AE</text>
+          </g>
+
+          <!-- F: Fogão com Coifa (0,83 x 0,70 m) -->
+          <g id="furn-F" class="room-poly" transform="translate(616, 701)">
+            <rect width="83" height="70" fill="#1e293b" stroke="#000" stroke-width="2"/>
+            <!-- 4 Bocas Cooktop -->
+            <circle cx="25" cy="22" r="10" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+            <circle cx="58" cy="22" r="10" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+            <circle cx="25" cy="48" r="8" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+            <circle cx="58" cy="48" r="12" fill="#0f172a" stroke="#f97316" stroke-width="2"/>
+            <text x="41" y="40" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">F</text>
+          </g>
+
+          <!-- BALCÃO AMERICANO / ILHA (1,68 x 1,26 m) + 3 BANQUETAS -->
+          <g id="furn-Ilha" class="room-poly" transform="translate(238, 820)">
+            <!-- Tampo em Granito Preto São Gabriel -->
+            <rect width="126" height="168" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+            <!-- Linha da Mureta / Armário Base -->
+            <line x1="72" y1="2" x2="72" y2="166" stroke="#475569" stroke-width="3"/>
+            
+            <!-- 3 Luminárias Pendentes no Balcão -->
+            <circle cx="63" cy="32" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+            <circle cx="63" cy="84" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+            <circle cx="63" cy="136" r="6" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+
+            <!-- Texto no Balcão -->
+            <text x="63" y="75" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">Ilha / Balcão</text>
+            <text x="63" y="96" font-size="11" font-weight="600" fill="#38bdf8" text-anchor="middle">Americano</text>
+            <text x="63" y="112" font-size="10" fill="#94a3b8" text-anchor="middle">1,68 × 1,26 m</text>
+
+            <!-- 3 Banquetas Altas Modernas no lado da Sala (X < 238) -->
+            <!-- Banqueta 1 -->
+            <circle cx="-18" cy="32" r="14" fill="#9b633d" stroke="#582f0e" stroke-width="2"/>
+            <line x1="-30" y1="32" x2="-6" y2="32" stroke="#fff" stroke-width="2"/>
+            <!-- Banqueta 2 -->
+            <circle cx="-18" cy="84" r="14" fill="#9b633d" stroke="#582f0e" stroke-width="2"/>
+            <line x1="-30" y1="84" x2="-6" y2="84" stroke="#fff" stroke-width="2"/>
+            <!-- Banqueta 3 -->
+            <circle cx="-18" cy="136" r="14" fill="#9b633d" stroke="#582f0e" stroke-width="2"/>
+            <line x1="-30" y1="136" x2="-6" y2="136" stroke="#fff" stroke-width="2"/>
+          </g>
+
+          <!-- CENTRO: Bancada Central (2,14 x 0,54 m) -->
+          <g id="furn-Centro" class="room-poly" transform="translate(420, 830)">
+            <rect width="214" height="54" fill="#334155" stroke="#1e293b" stroke-width="2" rx="3"/>
+            <text x="107" y="32" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">Centro</text>
+            <text x="107" y="46" font-size="9" fill="#94a3b8" text-anchor="middle">2,14 × 0,54 m</text>
+          </g>
+
+          <!-- BL: Bancada Lado (1,97 x 0,51 m) -->
+          <g id="furn-BL" class="room-poly" transform="translate(428, 940)">
+            <rect width="197" height="51" fill="#334155" stroke="#1e293b" stroke-width="2" rx="3"/>
+            <text x="98" y="30" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">BL</text>
+            <text x="98" y="44" font-size="9" fill="#94a3b8" text-anchor="middle">1,97 × 0,51 m</text>
+          </g>
+
+          <!-- AM: Armário Torre Quente / Forno (0,66 x 0,54 m) -->
+          <g id="furn-AM" class="room-poly" transform="translate(301, 1055)">
+            <rect width="66" height="54" fill="#1e293b" stroke="#000" stroke-width="2"/>
+            <text x="33" y="32" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">AM</text>
+          </g>
+
+          <!-- AC: Bancada de Canto com Chanfro 45° (1,33 x 0,94 m) -->
+          <g id="furn-AC" class="room-poly" transform="translate(510, 1015)">
+            <polygon points="0,94 133,94 133,0 78,0 0,55" fill="#334155" stroke="#1e293b" stroke-width="2"/>
+            <text x="80" y="60" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">AC</text>
+            <text x="80" y="76" font-size="9" fill="#94a3b8" text-anchor="middle">1,33×0,94m</text>
+          </g>
+
+          <!-- G: Geladeira Duplex (0,72 x 0,76 m) -->
+          <g id="furn-G" class="room-poly" transform="translate(645, 1033)">
+            <rect width="72" height="76" fill="#cbd5e1" stroke="#475569" stroke-width="2" rx="4"/>
+            <line x1="0" y1="28" x2="72" y2="28" stroke="#475569" stroke-width="2"/>
+            <text x="36" y="55" font-size="16" font-weight="800" fill="#0f172a" text-anchor="middle">G</text>
+          </g>
+
+          <!-- ------------------------------------------------------------- -->
+          <!-- MOBILIÁRIO DA SALA INTEGRADA                                  -->
+          <!-- ------------------------------------------------------------- -->
+          <!-- Mesa de Jantar (1,40 x 0,85 m) com 4 Cadeiras -->
+          <g id="furn-mesa-jantar" class="room-poly" transform="translate(100, 750)">
+            <rect width="85" height="140" fill="#8c6747" stroke="#582f0e" stroke-width="2" rx="4"/>
+            <!-- 4 Cadeiras -->
+            <rect x="-24" y="20" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
+            <rect x="-24" y="80" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
+            <rect x="89" y="20" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
+            <rect x="89" y="80" width="20" height="40" rx="3" fill="#d8d4cb" stroke="#64748b"/>
+            <text x="42" y="75" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">Jantar</text>
+          </g>
+
+          <!-- Sofá e Home Theater da Sala Inferior -->
+          <g id="furn-sala-estar" transform="translate(30, 1130)">
+            <!-- Rack e TV na Parede Oeste -->
+            <rect x="0" y="30" width="35" height="180" fill="#1e293b" stroke="#000"/>
+            <line x1="6" y1="50" x2="6" y2="190" stroke="#38bdf8" stroke-width="4"/>
+            <!-- Mesa de Centro -->
+            <rect x="120" y="80" width="50" height="80" fill="#8c6747" rx="3"/>
+            <!-- Sofá Confortável em L -->
+            <rect x="220" y="30" width="80" height="180" fill="#52606d" stroke="#334155" rx="6"/>
+            <rect x="140" y="150" width="80" height="60" fill="#52606d" stroke="#334155" rx="6"/>
+          </g>
+
+          <!-- ------------------------------------------------------------- -->
+          <!-- QUARTOS & BANHEIROS                                           -->
+          <!-- ------------------------------------------------------------- -->
+          <!-- Quarto 1: Cama de Casal + Guarda-Roupa -->
+          <g transform="translate(50, 40)">
+            <rect x="40" y="0" width="160" height="200" fill="#ece9e4" stroke="#64748b" stroke-width="2" rx="4"/>
+            <!-- Travesseiros -->
+            <rect x="55" y="10" width="60" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
+            <rect x="125" y="10" width="60" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
+            <!-- Guarda-roupa -->
+            <rect x="225" y="0" width="55" height="180" fill="#785638" stroke="#4a3525"/>
+          </g>
+
+          <!-- Quarto 2: Cama de Casal -->
+          <g transform="translate(90, 450)">
+            <rect width="150" height="190" fill="#ece9e4" stroke="#64748b" stroke-width="2" rx="4"/>
+            <rect x="15" y="10" width="55" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
+            <rect x="80" y="10" width="55" height="35" rx="4" fill="#fff" stroke="#cbd5e1"/>
+          </g>
+
+          <!-- Banheiros: Box e Vasos Sanitários -->
+          <g transform="translate(351, 400)">
+            <!-- Box -->
+            <rect x="99" y="0" width="80" height="80" fill="rgba(56,189,248,0.2)" stroke="#38bdf8" stroke-width="2"/>
+            <circle cx="139" cy="40" r="10" fill="none" stroke="#38bdf8" stroke-width="2"/>
+            <!-- Vaso Sanitário -->
+            <ellipse cx="40" cy="35" rx="14" ry="18" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+            <rect x="25" y="10" width="30" height="12" rx="2" fill="#f8fafc" stroke="#64748b"/>
+          </g>
+
+          <!-- Garagem: Carro Ilustrativo -->
+          <g transform="translate(180, 1440)">
+            <rect width="210" height="420" rx="40" fill="#334155" stroke="#64748b" stroke-width="4" transform="rotate(90 105 210)"/>
+            <rect x="40" y="40" width="340" height="130" rx="20" fill="#1e293b"/>
+            <text x="210" y="115" font-size="24" font-weight="800" fill="#94a3b8" text-anchor="middle">VAGA GARAGEM</text>
+          </g>
+
+          <!-- Lazer: Churrasqueira e Mesa Gourmet -->
+          <g transform="translate(730, 480)">
+            <!-- Churrasqueira de Tijolos Refratários -->
+            <rect x="0" y="0" width="70" height="120" fill="#a34731" stroke="#6b2d1f" stroke-width="3"/>
+            <rect x="12" y="15" width="46" height="90" fill="#1e293b"/>
+            <text x="35" y="65" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">Churrasq.</text>
+            <!-- Mesa Gourmet Grande com 6 Lugares -->
+            <rect x="110" y="40" width="180" height="80" fill="#8c6747" stroke="#582f0e" stroke-width="2" rx="4"/>
+            <text x="200" y="85" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">Mesa Lazer</text>
+          </g>
+
+          <!-- Horta: 4 Canteiros de Plantio -->
+          <g transform="translate(1085, 40)">
+            <rect x="0" y="0" width="90" height="220" fill="#582f0e" rx="4"/>
+            <rect x="5" y="5" width="80" height="210" fill="#3e2723"/>
+            <!-- Plantas verdes -->
+            <circle cx="25" cy="40" r="10" fill="#2d6a4f"/>
+            <circle cx="65" cy="40" r="10" fill="#52b788"/>
+            <circle cx="25" cy="90" r="10" fill="#52b788"/>
+            <circle cx="65" cy="90" r="10" fill="#2d6a4f"/>
+            <circle cx="25" cy="140" r="10" fill="#2d6a4f"/>
+            <circle cx="65" cy="140" r="10" fill="#52b788"/>
+            <circle cx="25" cy="190" r="10" fill="#52b788"/>
+            <circle cx="65" cy="190" r="10" fill="#2d6a4f"/>
+
+            <rect x="0" y="270" width="90" height="220" fill="#582f0e" rx="4"/>
+            <rect x="5" y="275" width="80" height="210" fill="#3e2723"/>
+            <rect x="0" y="540" width="90" height="220" fill="#582f0e" rx="4"/>
+            <rect x="5" y="545" width="80" height="210" fill="#3e2723"/>
+            <rect x="0" y="810" width="90" height="220" fill="#582f0e" rx="4"/>
+            <rect x="5" y="815" width="80" height="210" fill="#3e2723"/>
+          </g>
+        </g>
+
+        <!-- 4. PAREDES ESTRUTURAIS (12 CM / 14 PX) -->
+        <g id="layer-paredes">
+          <!-- Parede Norte Quarto 1 -->
+          <line x1="0" y1="0" x2="301" y2="0" class="wall-line"/>
+          <!-- Parede Oeste Quarto 1 e Quarto 2 -->
+          <line x1="0" y1="0" x2="0" y2="701" class="wall-line"/>
+          <!-- Parede Divisória Q1 e Q2 -->
+          <line x1="0" y1="400" x2="301" y2="400" class="wall-line"/>
+          <!-- Parede Leste Q1 -->
+          <line x1="301" y1="0" x2="301" y2="400" class="wall-line"/>
+          <!-- Parede Leste Q2 e Banheiro Sup -->
+          <line x1="301" y1="400" x2="351" y2="400" class="wall-line"/>
+          <line x1="351" y1="400" x2="351" y2="552" class="wall-line"/>
+          <line x1="351" y1="400" x2="530" y2="400" class="wall-line"/>
+          <line x1="530" y1="400" x2="530" y2="552" class="wall-line"/>
+          <line x1="351" y1="552" x2="530" y2="552" class="wall-line"/>
+
+          <!-- Parede Superior da Cozinha (Apoio de P, AE, F) -->
+          <line x1="301" y1="701" x2="717" y2="701" class="wall-line"/>
+
+          <!-- Parede Oeste Sala Superior -->
+          <line x1="0" y1="701" x2="0" y2="1102" class="wall-line"/>
+
+          <!-- Parede Oeste Sala Inferior e Garagem -->
+          <line x1="0" y1="1102" x2="0" y2="1704" class="wall-line"/>
+
+          <!-- Parede Sul da Cozinha (Divisão Quarto 3) -->
+          <line x1="463" y1="1109" x2="717" y2="1109" class="wall-line"/>
+
+          <!-- Parede Divisória Q3 e Banheiro Inf -->
+          <line x1="463" y1="1109" x2="463" y2="1451" class="wall-line"/>
+          <line x1="463" y1="1299" x2="680" y2="1299" class="wall-line"/>
+          <line x1="680" y1="1109" x2="680" y2="1299" class="wall-line"/>
+          <line x1="642" y1="1299" x2="642" y2="1451" class="wall-line"/>
+          <line x1="463" y1="1451" x2="642" y2="1451" class="wall-line"/>
+
+          <!-- Parede Sul Garagem e Q5 -->
+          <line x1="0" y1="1704" x2="1112" y2="1704" class="wall-line"/>
+          <line x1="571" y1="1404" x2="571" y2="1704" class="wall-line"/>
+
+          <!-- Parede Lavanderia -->
+          <line x1="1112" y1="1404" x2="1316" y2="1404" class="wall-line"/>
+          <line x1="1316" y1="1404" x2="1316" y2="1689" class="wall-line"/>
+          <line x1="1112" y1="1689" x2="1316" y2="1689" class="wall-line"/>
+
+          <!-- Guarda-corpo de vidro Piscina & Varanda Gourmet -->
+          <line x1="1051" y1="0" x2="1051" y2="1152" stroke="#38bdf8" stroke-width="4" stroke-dasharray="10,5"/>
+          <line x1="717" y1="0" x2="1051" y2="0" stroke="#38bdf8" stroke-width="4" stroke-dasharray="10,5"/>
+        </g>
+
+        <!-- 5. DESTAQUE: LIGAÇÃO COZINHA AMERICANA & SALA -->
+        <g id="layer-ligacao-americana">
+          <!-- Zona Aberta Tracejada de Integração -->
+          <rect x="230" y="705" width="80" height="400" class="connection-zone" rx="6"/>
+          
+          <!-- Indicação de Fluxo / Passagem Norte (1,19 m) -->
+          <line x1="235" y1="760" x2="315" y2="760" stroke="#ef4444" stroke-width="3" marker-end="url(#arrowRed)" marker-start="url(#arrowRed)"/>
+          <text x="275" y="750" font-size="11" font-weight="700" fill="#ef4444" text-anchor="middle">Passagem 1,19 m</text>
+
+          <!-- Indicação de Fluxo / Passagem Sul (0,67 m) -->
+          <line x1="235" y1="1025" x2="305" y2="1025" stroke="#ef4444" stroke-width="3" marker-end="url(#arrowRed)" marker-start="url(#arrowRed)"/>
+          <text x="270" y="1045" font-size="11" font-weight="700" fill="#ef4444" text-anchor="middle">Passagem 0,67 m</text>
+
+          <!-- Rótulo de Integração Aberta -->
+          <text x="275" y="805" font-size="13" font-weight="800" fill="#ef4444" text-anchor="middle" letter-spacing="1">LIGAÇÃO ABERTA</text>
+        </g>
+
+        <!-- 6. COTAS & MEDIDAS TÉCNICAS (EM METROS / CM DA PLANTA) -->
+        <g id="layer-cotas">
+          <!-- Quarto 1: Altura 4,00 m, Largura 3,01 m -->
+          <g>
+            <line x1="0" y1="-20" x2="301" y2="-20" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="150" y="-28" class="cota-text">Largura: 3,01 m (3,01 cm)</text>
+
+            <line x1="-20" y1="0" x2="-20" y2="400" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="-30" y="205" class="cota-text" transform="rotate(-90 -30 205)">Altura: 4,00 m (4 cm)</text>
+          </g>
+
+          <!-- Quarto 2: Altura 3,01 m, Largura 3,51 m -->
+          <g>
+            <line x1="-20" y1="400" x2="-20" y2="701" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="-30" y="555" class="cota-text" transform="rotate(-90 -30 555)">Altura: 3,01 m (3,01 cm)</text>
+            <line x1="0" y1="380" x2="351" y2="380" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="175" y="372" class="cota-text">Largura: 3,51 m (3,51 cm)</text>
+          </g>
+
+          <!-- Sala Superior: Altura 4,01 m, Largura 3,01 m -->
+          <g>
+            <line x1="-310" y1="701" x2="-310" y2="1102" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="-320" y="905" class="cota-text" transform="rotate(-90 -320 905)">Altura: 4,01 m (4,01 cm)</text>
+          </g>
+
+          <!-- Sala Inferior: Altura 3,02 m, Largura 4,63 m -->
+          <g>
+            <line x1="0" y1="1380" x2="463" y2="1380" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="231" y="1372" class="cota-text">Largura: 4,63 m (4,63 cm) • Altura: 3,02 m</text>
+          </g>
+
+          <!-- Cozinha: Largura 4,16 m, Altura 4,08 m -->
+          <g>
+            <line x1="301" y1="680" x2="717" y2="680" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="509" y="670" class="cota-text">Largura Cozinha: 4,16 m • Altura: 4,08 m</text>
+          </g>
+
+          <!-- Garagem: Altura 3,00 m, Largura 5,71 m -->
+          <g>
+            <line x1="0" y1="1725" x2="571" y2="1725" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="285" y="1745" class="cota-text">Garagem: 5,71 m × 3,00 m (5,71 × 3 cm)</text>
+          </g>
+
+          <!-- Quarto 5: Altura 3,00 m, Largura 5,41 m -->
+          <g>
+            <line x1="571" y1="1725" x2="1112" y2="1725" class="cota-line" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+            <text x="841" y="1745" class="cota-text">Quarto 5: 5,41 m × 3,00 m (5,41 × 3 cm)</text>
+          </g>
+
+          <!-- Quarto 3: 2,17 x 1,90 m -->
+          <g>
+            <text x="571" y="1205" class="cota-text" font-size="11">2,17 × 1,90 m</text>
+          </g>
+        </g>
+
+        <!-- 7. NOMES DOS AMBIENTES & ÁREAS (M²) -->
+        <g id="layer-labels">
+          <!-- Quarto 1 -->
+          <g transform="translate(150, 200)">
+            <text class="room-label-title">quarto 1</text>
+            <text class="room-label-sub" y="22">12,04 m²</text>
+          </g>
+
+          <!-- Quarto 2 -->
+          <g transform="translate(175, 550)">
+            <text class="room-label-title">quarto 2</text>
+            <text class="room-label-sub" y="22">10,57 m²</text>
+          </g>
+
+          <!-- Banheiro Superior -->
+          <g transform="translate(440, 480)">
+            <text class="room-label-title" font-size="15">banheiro</text>
+            <text class="room-label-sub" y="18" font-size="11">2,72 m²</text>
+          </g>
+
+          <!-- Sala Superior -->
+          <g transform="translate(150, 910)">
+            <text class="room-label-title">sala</text>
+            <text class="room-label-sub" y="22">12,07 m²</text>
+          </g>
+
+          <!-- Sala Inferior -->
+          <g transform="translate(260, 1260)">
+            <text class="room-label-title">sala</text>
+            <text class="room-label-sub" y="22">13,98 m²</text>
+          </g>
+
+          <!-- Varandas Lilás -->
+          <g transform="translate(-139, 864)">
+            <text class="room-label-title" fill="#6b21a8">Varanda</text>
+            <text class="room-label-sub" y="20">9,06 m²</text>
+          </g>
+          <g transform="translate(-147, 1193)">
+            <text class="room-label-title" fill="#6b21a8">Varanda</text>
+            <text class="room-label-sub" y="20">9,76 m²</text>
+          </g>
+
+          <!-- Cozinha Americana -->
+          <g transform="translate(515, 785)">
+            <text class="room-label-title" font-size="22" fill="#c2410c">COZINHA AMERICANA</text>
+            <text class="room-label-sub" y="24" font-weight="700">16,97 m² • Conceito Aberto</text>
+          </g>
+
+          <!-- Quarto 3 -->
+          <g transform="translate(571, 1160)">
+            <text class="room-label-title" font-size="15">quarto 3</text>
+            <text class="room-label-sub" y="18" font-size="11">4,12 m²</text>
+          </g>
+
+          <!-- Banheiro Inferior -->
+          <g transform="translate(552, 1375)">
+            <text class="room-label-title" font-size="15">banheiro</text>
+            <text class="room-label-sub" y="18" font-size="11">2,72 m²</text>
+          </g>
+
+          <!-- Garagem -->
+          <g transform="translate(285, 1580)">
+            <text class="room-label-title">garagem</text>
+            <text class="room-label-sub" y="22">17,13 m²</text>
+          </g>
+
+          <!-- Quarto 5 -->
+          <g transform="translate(841, 1580)">
+            <text class="room-label-title">quarto 5</text>
+            <text class="room-label-sub" y="22">16,23 m²</text>
+          </g>
+
+          <!-- Lavanderia -->
+          <g transform="translate(1214, 1540)">
+            <text class="room-label-title" font-size="16">lavanderia</text>
+            <text class="room-label-sub" y="20" font-size="12">5,81 m²</text>
+          </g>
+
+          <!-- Piscina -->
+          <g transform="translate(884, 230)">
+            <text class="room-label-title" font-size="20" fill="#fff" stroke="#0077b6">Piscina</text>
+            <text class="room-label-sub" y="22" fill="#e0f2fe" stroke="#0077b6">Deck & Água</text>
+          </g>
+
+          <!-- Varanda / Área de Lazer -->
+          <g transform="translate(884, 780)">
+            <text class="room-label-title" font-size="20" fill="#78350f">Varanda –</text>
+            <text class="room-label-title" y="26" font-size="18" fill="#78350f">área de lazer</text>
+            <text class="room-label-sub" y="52">churrasqueira, tv, mesa, etc.</text>
+          </g>
+
+          <!-- Horta com Cerca -->
+          <g transform="translate(1140, 575)">
+            <text class="room-label-title" font-size="16" fill="#365314" transform="rotate(90)">Horta com cerca</text>
+          </g>
+
+          <!-- Jardins -->
+          <g transform="translate(769, -200)">
+            <text class="room-label-title" fill="#2d6a4f">jardim</text>
+            <text class="room-label-sub" y="22">15,38 × 4,00 m</text>
+          </g>
+          <g transform="translate(-291, 606)">
+            <text class="room-label-title" fill="#2d6a4f">jardim</text>
+            <text class="room-label-sub" y="22">5,83 × 12,13 m</text>
+          </g>
+          <g transform="translate(850, 1850)">
+            <text class="room-label-title" fill="#2d6a4f">Jardim</text>
+            <text class="room-label-sub" y="22">17,00 × 9,00 m</text>
+          </g>
+        </g>
+
+      </g>
+    </svg>
+
+    <!-- Layer Toggles Chip Bar (Top Left) -->
+    <div id="layer-bar" class="floating-bar">
+      <button class="chip-toggle active" data-layer="layer-cotas">
+        <span class="dot" style="background:#ef4444"></span> Cotas & Medidas
+      </button>
+      <button class="chip-toggle active" data-layer="layer-mobiliario">
+        <span class="dot" style="background:#38bdf8"></span> Mobiliário
+      </button>
+      <button class="chip-toggle active" data-layer="layer-labels">
+        <span class="dot" style="background:#facc15"></span> Nomes & Áreas
+      </button>
+      <button class="chip-toggle active" data-layer="layer-jardins">
+        <span class="dot" style="background:#52b788"></span> Jardins & Lazer
+      </button>
+      <button class="chip-toggle active" id="btn-focus-cozinha">
+        <span class="dot" style="background:#f97316"></span> Foco Cozinha Americana
+      </button>
+    </div>
+
+    <!-- Navigation Pan/Zoom Dock (Bottom Right) -->
+    <div id="nav-controls" class="floating-bar">
+      <button class="btn-icon" id="btn-zoom-in" title="Aproximar Zoom ( + )">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="btn-icon" id="btn-zoom-out" title="Afastar Zoom ( - )">
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="btn-icon" id="btn-zoom-reset" title="Ajustar à Tela (Reset)">
+        <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      </button>
+    </div>
+
+    <!-- Scale Indicator (Bottom Left) -->
+    <div id="scale-indicator">
+      <div class="scale-bar-line"></div>
+      <span>1,00 m (1 cm na prancha)</span>
+    </div>
+
+    <!-- Interactive Inspector Drawer -->
+    <aside id="inspector">
+      <div class="inspector-header">
+        <h3 id="insp-title">Detalhes do Ambiente</h3>
+        <button class="inspector-close" id="insp-close">&times;</button>
+      </div>
+      <div class="inspector-badge" id="insp-badge">CÔMODO</div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span>Dimensões Reais</span>
+          <strong id="insp-dims">0,00 × 0,00 m</strong>
+        </div>
+        <div class="stat-card">
+          <span>Área Útil</span>
+          <strong id="insp-area">0,0 m²</strong>
+        </div>
+      </div>
+
+      <div class="stat-card" style="margin-bottom: 10px;">
+        <span>Escala do Desenho Original</span>
+        <strong id="insp-scale">0,00 × 0,00 cm</strong>
+      </div>
+
+      <div class="inspector-details" id="insp-desc">
+        Clique em qualquer cômodo, bancada ou móvel da planta baixa para ver especificações completas.
+      </div>
+    </aside>
   </div>
 
-  <!-- Color Selector Drawer -->
-  <aside id="color-panel" class="glass-panel">
-    <div class="panel-title">
-      <span>Marcenaria</span>
-      <span id="current-hex" style="font-family: monospace; font-size: 0.72rem; color: #b7d1b3;">#8FA58A</span>
-    </div>
-    <div class="color-swatches">
-      <div class="color-swatch active" style="background: #8FA58A;" data-color="#8FA58A" title="Verde-Sálvia (Padrão)"></div>
-      <div class="color-swatch" style="background: #2E4F5E;" data-color="#2E4F5E" title="Azul Petróleo"></div>
-      <div class="color-swatch" style="background: #4A4E51;" data-color="#4A4E51" title="Cinza Grafite"></div>
-      <div class="color-swatch" style="background: #B86B53;" data-color="#B86B53" title="Terracota Suave"></div>
-      <div class="color-swatch" style="background: #E0D7CB;" data-color="#E0D7CB" title="Areia / Off-White"></div>
-      <div class="color-swatch" style="background: #5C4331;" data-color="#5C4331" title="Madeira Noce"></div>
-    </div>
-    <div class="custom-color-row">
-      <span>Personalizada:</span>
-      <input type="color" id="cabinet-color-picker" value="#8FA58A">
-    </div>
-  </aside>
-
-  <!-- Selected Item Info Card -->
-  <div id="info-card" class="glass-panel">
-    <h3 id="card-title">Ambiente Selecionado</h3>
-    <p id="card-desc">Descrição e dimensões calculadas.</p>
-    <div class="dim-tag" id="card-dims">0,00 × 0,00 m</div>
-  </div>
-
-  <!-- Bottom Navigation Dock -->
-  <nav id="bottom-dock" class="glass-panel">
-    <!-- Camera Views Group -->
-    <div class="btn-group">
-      <button class="btn-action active" id="btn-view-3d" title="Visão Geral Isométrica do Lote">
-        <svg viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 8.95v6.1l6 3.38V12.3L5 8.95zm14 6.1V8.95l-6 3.35v6.13l6-3.38z"/></svg>
-        Geral
-      </button>
-      <button class="btn-action" id="btn-view-top" title="Vista Zenital / Planta Baixa">
-        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
-        Topo
-      </button>
-      <button class="btn-action" id="btn-view-cozinha" title="Cozinha Americana Integrada à Sala">
-        <svg viewBox="0 0 24 24"><path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41 9.77-9.75z"/></svg>
-        Cozinha Americana
-      </button>
-      <button class="btn-action" id="btn-view-lazer" title="Piscina e Varanda Gourmet">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-        Piscina & Lazer
-      </button>
-      <button class="btn-action" id="btn-view-jardim" title="Pergolado e Jardins">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 12h3v8h14v-8h3L12 3zm0 4.5l5 4.5v6H7v-6l5-4.5zM10 13h4v4h-4v-4z"/></svg>
-        Jardins
-      </button>
-    </div>
-
-    <!-- Toggle Actions Group -->
-    <div class="btn-group">
-      <button class="btn-action" id="btn-toggle-walls" title="Alternar entre Paredes Altas (2,60 m) e Baixas (1,10 m)">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h10v4H7z"/></svg>
-        Paredes Baixas
-      </button>
-      <button class="btn-action active" id="btn-toggle-labels" title="Mostrar ou Ocultar Rótulos e Medidas">
-        <svg viewBox="0 0 24 24"><path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16zM16 17H5V7h11l3.55 5L16 17z"/></svg>
-        Rótulos
-      </button>
-    </div>
-  </nav>
-
-  <!-- Script Implementation -->
+  <!-- JavaScript Implementation -->
   <script>
     /* ==========================================================================
-       1. CONSTANTS, SCALE & COORDINATE SYSTEM
-       --------------------------------------------------------------------------
-       Origin (0,0,0) is placed at the NW corner of Quarto 1.
-       X: West to East (m)
-       Y: Vertical Up (m)
-       Z: North to South (m)
+       1. DATA DICTIONARY DOS AMBIENTES E MÓVEIS DA PLANTA BAIXA
        ========================================================================== */
-
-    const WALL_HEIGHT_HIGH = 2.60;
-    const WALL_HEIGHT_LOW = 1.10;
-    let areWallsLow = false;
-    let showLabels = true;
-    let cabinetColorHex = "#8FA58A";
-
-    const isTabletOrMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Tablet/i.test(navigator.userAgent) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
-
-    let scene, camera, renderer, controls;
-    let wallMeshes = [];
-    let cabinetMaterials = [];
-    let interactiveObjects = [];
-    let labelElements = [];
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-
-    /* ==========================================================================
-       2. PROCEDURAL TEXTURES (100% Standalone, Zero CORS, Instant Load)
-       ========================================================================== */
-    function createGrassTexture() {
-      const c = document.createElement('canvas');
-      c.width = 512; c.height = 512;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#4D7C3F';
-      ctx.fillRect(0, 0, 512, 512);
-
-      // Blades of grass noise
-      ctx.lineWidth = 1.5;
-      for (let i = 0; i < 4000; i++) {
-        const x = Math.random() * 512;
-        const y = Math.random() * 512;
-        ctx.strokeStyle = Math.random() > 0.5 ? '#5B8C4B' : (Math.random() > 0.5 ? '#3F6834' : '#689B55');
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + (Math.random() - 0.5) * 6, y - Math.random() * 8);
-        ctx.stroke();
+    const floorPlanDatabase = {
+      'poly-cozinha': {
+        name: 'Cozinha Americana Integrada',
+        badge: 'Ambiente Gourmet',
+        dims: '4,16 × 4,08 m',
+        area: '16,97 m²',
+        scale: '4,16 × 4,08 cm',
+        desc: 'Cozinha americana planejada com integração total à sala de estar e jantar. Composta por pia de cuba dupla (P), armário aéreo (AE), fogão com coifa (F), ilha/balcão americano com banquetas, bancada central (Centro), bancada lateral (BL), torre quente (AM), bancada de canto (AC) e geladeira duplex (G).'
+      },
+      'furn-Ilha': {
+        name: 'Balcão Americano & Ilha',
+        badge: 'Mobiliário Integrado',
+        dims: '1,68 × 1,26 m',
+        area: '2,12 m²',
+        scale: '1,68 × 1,26 cm (Ilha)',
+        desc: 'Bancada em granito nobre Preto São Gabriel interligando a cozinha à sala. Possui beiral de refeições com 3 banquetas altas voltadas para a sala, 3 luminárias pendentes modernas e passagens livres de circulação ao norte (1,19 m) e ao sul (0,67 m).'
+      },
+      'furn-P': {
+        name: 'P: Pia de Cozinha Cuba Dupla',
+        badge: 'Móvel Planejado',
+        dims: '2,00 × 0,60 m',
+        area: '1,20 m²',
+        scale: '2,00 × 0,60 cm',
+        desc: 'Bancada contínua com 2 cubas em aço inox escovado e torneira monocomando gourmet com ducha extensível.'
+      },
+      'furn-AE': {
+        name: 'AE: Bancada com Armário Aéreo',
+        badge: 'Móvel Planejado',
+        dims: '1,15 × 0,54 m',
+        area: '0,62 m²',
+        scale: '1,15 × 0,54 cm',
+        desc: 'Módulo de marcenaria com balcão inferior e armário aéreo suspenso com portas basculantes.'
+      },
+      'furn-F': {
+        name: 'F: Fogão & Coifa',
+        badge: 'Eletrodoméstico',
+        dims: '0,83 × 0,70 m',
+        area: '0,58 m²',
+        scale: '0,83 × 0,70 cm',
+        desc: 'Cooktop de 4 bocas a gás/indução sobre forno embutido, acompanhado de coifa piramidal de aço inoxidável.'
+      },
+      'furn-Centro': {
+        name: 'Centro: Bancada Ilha Central',
+        badge: 'Móvel Planejado',
+        dims: '2,14 × 0,54 m',
+        area: '1,16 m²',
+        scale: '2,14 × 0,54 cm',
+        desc: 'Bancada de apoio gourmet localizada no coração da cozinha, facilitando o corte e preparo simultâneo de alimentos.'
+      },
+      'furn-BL': {
+        name: 'BL: Bancada Lateral',
+        badge: 'Móvel Planejado',
+        dims: '1,97 × 0,51 m',
+        area: '1,00 m²',
+        scale: '1,97 × 0,51 cm',
+        desc: 'Bancada lateral de serviço equipada com gaveteiros profundos para panelas e talheres.'
+      },
+      'furn-AM': {
+        name: 'AM: Armário Vertical Torre Quente',
+        badge: 'Móvel Planejado',
+        dims: '0,66 × 0,54 m',
+        area: '0,36 m²',
+        scale: '0,66 × 0,54 cm',
+        desc: 'Coluna vertical de armário (altura 2,20 m) abrigando nicho para forno elétrico e micro-ondas embutidos.'
+      },
+      'furn-AC': {
+        name: 'AC: Bancada de Canto em L',
+        badge: 'Móvel Planejado',
+        dims: '1,33 × 0,94 m',
+        area: '0,88 m²',
+        scale: '1,33 × 0,94 cm',
+        desc: 'Móvel de canto com corte chanfrado a 45° idêntico ao desenho da prancha técnica, otimizando o aproveitamento de espaço.'
+      },
+      'furn-G': {
+        name: 'G: Geladeira Duplex',
+        badge: 'Eletrodoméstico',
+        dims: '0,72 × 0,76 m',
+        area: '0,55 m²',
+        scale: '0,72 × 0,76 cm',
+        desc: 'Refrigerador duplex frost-free em aço inox com dispenser externo de água.'
+      },
+      'furn-mesa-jantar': {
+        name: 'Mesa de Jantar Integrada',
+        badge: 'Mobiliário Social',
+        dims: '1,40 × 0,85 m',
+        area: '1,19 m²',
+        scale: '1,40 × 0,85 cm',
+        desc: 'Mesa de jantar de 4 lugares em madeira carvalho com cadeiras estofadas, posicionada em frente à passagem da cozinha americana para servir refeições com máxima comodidade.'
+      },
+      'poly-quarto1': {
+        name: 'Quarto 1',
+        badge: 'Área Íntima',
+        dims: '3,01 × 4,00 m',
+        area: '12,04 m²',
+        scale: 'Largura: 3,01 cm • Altura: 4 cm',
+        desc: 'Dormitório no canto superior esquerdo com cama de casal, armário embutido e ótima ventilação voltada para o jardim.'
+      },
+      'poly-quarto2': {
+        name: 'Quarto 2',
+        badge: 'Área Íntima',
+        dims: '3,51 × 3,01 m',
+        area: '10,57 m²',
+        scale: 'Largura: 3,51 cm • Altura: 3,01 cm',
+        desc: 'Dormitório central superior com espaço para cama de casal, criado-mudo e bancada de estudos.'
+      },
+      'poly-banheiro-sup': {
+        name: 'Banheiro Social Superior',
+        badge: 'Área Molhada',
+        dims: '1,79 × 1,52 m',
+        area: '2,72 m²',
+        scale: 'Largura: 1,79 cm • Altura: 1,52 cm',
+        desc: 'Banheiro completo com box de vidro temperado, cuba com espelho e vaso sanitário com caixa acoplada.'
+      },
+      'poly-sala-sup': {
+        name: 'Sala Superior (Estar & Jantar)',
+        badge: 'Área Social',
+        dims: '3,01 × 4,01 m',
+        area: '12,07 m²',
+        scale: 'Largura: 3,01 cm • Altura: 4,01 cm',
+        desc: 'Ambiente social integrado diretamente com a cozinha americana e com acesso à varanda lateral lilás.'
+      },
+      'poly-sala-inf': {
+        name: 'Sala Inferior (Home Theater)',
+        badge: 'Área Social',
+        dims: '4,63 × 3,02 m',
+        area: '13,98 m²',
+        scale: 'Largura: 4,63 cm • Altura: 3,02 cm',
+        desc: 'Espaço de estar e TV com sofá espaçoso, mesa de centro e painel de TV na parede oeste.'
+      },
+      'poly-varanda-sup': {
+        name: 'Varanda Lateral Superior',
+        badge: 'Área Externa',
+        dims: '2,78 × 3,26 m',
+        area: '9,06 m²',
+        scale: 'Largura: 2,78 cm • Altura: 3,26 cm',
+        desc: 'Varanda arejada conectada à sala e aberta para o jardim lateral esquerdo.'
+      },
+      'poly-varanda-inf': {
+        name: 'Varanda Lateral Inferior',
+        badge: 'Área Externa',
+        dims: '2,94 × 3,32 m',
+        area: '9,76 m²',
+        scale: 'Largura: 2,94 cm • Altura: 3,32 cm',
+        desc: 'Extensão coberta da varanda lilás para circulação e relaxamento ao ar livre.'
+      },
+      'poly-quarto3': {
+        name: 'Quarto 3 (Home Office / Hóspedes)',
+        badge: 'Área Íntima',
+        dims: '2,17 × 1,90 m',
+        area: '4,12 m²',
+        scale: 'Largura: 2,17 cm • Altura: 1,9 cm',
+        desc: 'Quarto compacto multifuncional, ideal para home office ou quarto de hóspedes.'
+      },
+      'poly-banheiro-inf': {
+        name: 'Banheiro Inferior',
+        badge: 'Área Molhada',
+        dims: '1,79 × 1,52 m',
+        area: '2,72 m²',
+        scale: 'Largura: 1,79 cm • Altura: 1,52 cm',
+        desc: 'Banheiro privativo de apoio para a área íntima inferior e quartos.'
+      },
+      'poly-garagem': {
+        name: 'Garagem Coberta',
+        badge: 'Área de Veículos',
+        dims: '5,71 × 3,00 m',
+        area: '17,13 m²',
+        scale: 'Largura: 5,71 cm • Altura: 3 cm',
+        desc: 'Garagem coberta para veículos com acesso frontal e ligação direta para a residência.'
+      },
+      'poly-quarto5': {
+        name: 'Quarto 5 (Suíte Master)',
+        badge: 'Área Íntima',
+        dims: '5,41 × 3,00 m',
+        area: '16,23 m²',
+        scale: 'Largura: 5,41 cm • Altura: 3 cm',
+        desc: 'Quarto amplo com espaço para cama king-size, closet planejado e janelas com vista para o jardim e pergolado.'
+      },
+      'poly-lavanderia': {
+        name: 'Lavanderia & Área de Serviço',
+        badge: 'Área de Serviço',
+        dims: '2,04 × 2,85 m',
+        area: '5,81 m²',
+        scale: 'Largura: ~2,04 cm • Altura: ~2,85 cm',
+        desc: 'Área de serviço independente equipada com tanque de lavar roupas duplo e máquina de lavar.'
+      },
+      'poly-varanda-piscina': {
+        name: 'Varanda com Piscina',
+        badge: 'Área de Lazer',
+        dims: '3,34 × 4,50 m',
+        area: '15,03 m²',
+        scale: 'Deck de Lazer Superior',
+        desc: 'Deck ensolarado em madeira teca abrigando piscina aquecida de água azul com borda de segurança.'
+      },
+      'poly-varanda-lazer': {
+        name: 'Varanda Gourmet & Churrasqueira',
+        badge: 'Área Gourmet',
+        dims: '3,34 × 7,02 m',
+        area: '23,45 m²',
+        scale: 'Varanda – área de lazer',
+        desc: 'Grande espaço gourmet com churrasqueira de tijolos refratários, TV 65", mesa de jantar e integração direta com a cozinha americana.'
+      },
+      'poly-horta': {
+        name: 'Horta Orgânica com Cerca',
+        badge: 'Paisagismo & Cultivo',
+        dims: '1,20 × 11,50 m',
+        area: '13,80 m²',
+        scale: 'Horta com cerca',
+        desc: 'Faixa ajardinada lateral com 4 canteiros elevados de madeira para cultivo de hortaliças frescas, protegida por cerquinha de piquete branca.'
+      },
+      'poly-casa-arvore': {
+        name: 'Casa na Árvore',
+        badge: 'Lazer Infantil & Família',
+        dims: '2,40 × 2,40 m',
+        area: '5,76 m²',
+        scale: 'Jardim: 4,24 × 12,15 cm',
+        desc: 'Casinha rústica de madeira construída sobre árvore no jardim lateral, com plataforma elevada a 1,85 m e escada de acesso.'
+      },
+      'poly-pergolado': {
+        name: 'Pergolado em Madeira',
+        badge: 'Área de Descanso',
+        dims: '3,05 × 2,91 m',
+        area: '8,88 m²',
+        scale: 'Largura: 2,91 cm • Altura: 3,05 cm',
+        desc: 'Estrutura contemporânea em madeira nobre com vigas ripadas, deck de piso e lounge sombreado para relaxar no jardim dos fundos.'
+      },
+      'poly-casa-cachorro': {
+        name: 'Casa do Cachorro',
+        badge: 'Espaço Pet',
+        dims: '1,40 × 1,20 m',
+        area: '1,68 m²',
+        scale: 'Casa do cachorro',
+        desc: 'Casinha de alvenaria e madeira com telhado inclinado duas águas para abrigo e conforto pet.'
       }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(8, 8);
-      return tex;
-    }
-
-    function createWoodTexture() {
-      const c = document.createElement('canvas');
-      c.width = 512; c.height = 512;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#DEC8AF';
-      ctx.fillRect(0, 0, 512, 512);
-
-      ctx.strokeStyle = '#CDAE8E';
-      ctx.lineWidth = 1;
-      for (let i = 0; i < 500; i++) {
-        const y = Math.random() * 512;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.bezierCurveTo(170, y + (Math.random()-0.5)*8, 340, y + (Math.random()-0.5)*8, 512, y);
-        ctx.globalAlpha = 0.25;
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 0.6;
-      ctx.strokeStyle = '#A6886A';
-      ctx.lineWidth = 2.5;
-      for (let y = 0; y <= 512; y += 64) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(512, y); ctx.stroke();
-        const offsetX = (y / 64 % 2 === 0) ? 0 : 128;
-        for (let x = offsetX; x <= 512; x += 256) {
-          ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + 64); ctx.stroke();
-        }
-      }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(4, 4);
-      return tex;
-    }
-
-    function createDeckTexture() {
-      const c = document.createElement('canvas');
-      c.width = 512; c.height = 512;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#A87A50';
-      ctx.fillRect(0, 0, 512, 512);
-
-      ctx.strokeStyle = '#4A2F18';
-      ctx.lineWidth = 3;
-      for (let x = 0; x <= 512; x += 32) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
-      }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(2, 4);
-      return tex;
-    }
-
-    function createTileTexture() {
-      const c = document.createElement('canvas');
-      c.width = 256; c.height = 256;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#E8ECEF';
-      ctx.fillRect(0, 0, 256, 256);
-      ctx.strokeStyle = '#BAC3CC';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(0, 0, 256, 256);
-      ctx.beginPath();
-      ctx.moveTo(128, 0); ctx.lineTo(128, 256);
-      ctx.moveTo(0, 128); ctx.lineTo(256, 128);
-      ctx.stroke();
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(6, 6);
-      return tex;
-    }
-
-    function createGraniteTexture() {
-      const c = document.createElement('canvas');
-      c.width = 256; c.height = 256;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#1D2124';
-      ctx.fillRect(0, 0, 256, 256);
-      for (let i = 0; i < 1500; i++) {
-        ctx.fillStyle = Math.random() > 0.5 ? '#434A50' : '#111315';
-        ctx.fillRect(Math.random()*256, Math.random()*256, 1.5, 1.5);
-      }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(2, 2);
-      return tex;
-    }
-
-    function createPoolMosaicTexture() {
-      const c = document.createElement('canvas');
-      c.width = 256; c.height = 256;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#0284C7';
-      ctx.fillRect(0, 0, 256, 256);
-      const s = 16;
-      for (let x = 0; x < 256; x += s) {
-        for (let y = 0; y < 256; y += s) {
-          const shade = Math.floor(180 + Math.random() * 70);
-          ctx.fillStyle = `rgb(10, ${shade}, 235)`;
-          ctx.fillRect(x + 1, y + 1, s - 2, s - 2);
-        }
-      }
-      const tex = new THREE.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-      tex.repeat.set(4, 4);
-      return tex;
-    }
-
-    /* ==========================================================================
-       3. MATERIAL FACTORY (Otimizado sem overhead de transmissão pesada)
-       ========================================================================== */
-    const Materials = {
-      grass: new THREE.MeshStandardMaterial({ map: createGrassTexture(), roughness: 0.9, metalness: 0.0 }),
-      woodFloor: new THREE.MeshStandardMaterial({ map: createWoodTexture(), roughness: 0.45, metalness: 0.05 }),
-      deckFloor: new THREE.MeshStandardMaterial({ map: createDeckTexture(), roughness: 0.65, metalness: 0.02 }),
-      tileFloor: new THREE.MeshStandardMaterial({ map: createTileTexture(), roughness: 0.35, metalness: 0.05 }),
-      poolTile: new THREE.MeshStandardMaterial({ map: createPoolMosaicTexture(), roughness: 0.2, metalness: 0.1 }),
-      poolWater: new THREE.MeshStandardMaterial({ color: 0x38BDF8, transparent: true, opacity: 0.72, roughness: 0.08, metalness: 0.2 }),
-      wall: new THREE.MeshStandardMaterial({ color: 0xF3F2ED, roughness: 0.85, metalness: 0.02 }),
-      granite: new THREE.MeshStandardMaterial({ map: createGraniteTexture(), color: 0x222629, roughness: 0.22, metalness: 0.25 }),
-      stainlessSteel: new THREE.MeshStandardMaterial({ color: 0xDCE0E5, roughness: 0.25, metalness: 0.85 }),
-      chrome: new THREE.MeshStandardMaterial({ color: 0xFFFFFF, roughness: 0.1, metalness: 0.95 }),
-      blackMetal: new THREE.MeshStandardMaterial({ color: 0x1E2022, roughness: 0.5, metalness: 0.6 }),
-      glass: new THREE.MeshStandardMaterial({ color: 0xEEF7FA, transparent: true, opacity: 0.35, roughness: 0.1, metalness: 0.1 }),
-      ovenGlass: new THREE.MeshStandardMaterial({ color: 0x151515, transparent: true, opacity: 0.75, roughness: 0.1 }),
-      mirror: new THREE.MeshStandardMaterial({ color: 0xE8F0F8, roughness: 0.05, metalness: 0.98 }),
-      fabricSofa: new THREE.MeshStandardMaterial({ color: 0x52606D, roughness: 0.85, metalness: 0.0 }),
-      fabricBed: new THREE.MeshStandardMaterial({ color: 0xECE9E4, roughness: 0.9, metalness: 0.0 }),
-      woodFurniture: new THREE.MeshStandardMaterial({ color: 0x785638, roughness: 0.6, metalness: 0.05 }),
-      plantGreen: new THREE.MeshStandardMaterial({ color: 0x2E6B38, roughness: 0.8, metalness: 0.0 }),
-      treeWood: new THREE.MeshStandardMaterial({ color: 0x5D4037, roughness: 0.85, metalness: 0.0 }),
-      porcelainWhite: new THREE.MeshStandardMaterial({ color: 0xF8F9FA, roughness: 0.2, metalness: 0.05 }),
-      brickGourmet: new THREE.MeshStandardMaterial({ color: 0xA34731, roughness: 0.8, metalness: 0.05 }),
-      soilEarth: new THREE.MeshStandardMaterial({ color: 0x3E2723, roughness: 0.95, metalness: 0.0 }),
-      leatherCaramel: new THREE.MeshStandardMaterial({ color: 0x9B633D, roughness: 0.52, metalness: 0.08 }),
-      chairFabric: new THREE.MeshStandardMaterial({ color: 0xD8D4CB, roughness: 0.8, metalness: 0.0 }),
-      woodOak: new THREE.MeshStandardMaterial({ color: 0x8C6747, roughness: 0.55, metalness: 0.05 })
     };
 
-    function createCabinetMaterial(hex) {
-      const mat = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(hex),
-        roughness: 0.42,
-        metalness: 0.08
-      });
-      cabinetMaterials.push(mat);
-      return mat;
+    /* ==========================================================================
+       2. PAN, ZOOM & ENGINE DE INTERAÇÃO SVG
+       ========================================================================== */
+    const svg = document.getElementById('blueprint-svg');
+    const viewportGroup = document.getElementById('viewport-group');
+    const workspace = document.getElementById('workspace');
+
+    let currentScale = 1;
+    let pointX = 0;
+    let pointY = 0;
+    let isPanning = false;
+    let startX = 0;
+    let startY = 0;
+
+    function updateTransform() {
+      viewportGroup.setAttribute('transform', `translate(${pointX}, ${pointY}) scale(${currentScale})`);
     }
 
-    let defaultCabinetMat = createCabinetMaterial(cabinetColorHex);
+    // Mouse / Touch Drag Pan
+    workspace.addEventListener('mousedown', (e) => {
+      if (e.target.closest('#inspector') || e.target.closest('.floating-bar')) return;
+      isPanning = true;
+      startX = e.clientX - pointX;
+      startY = e.clientY - pointY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isPanning) return;
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      updateTransform();
+    });
+
+    window.addEventListener('mouseup', () => { isPanning = false; });
+
+    // Touch Support for Mobile & Tablets
+    let initialTouchDistance = null;
+    workspace.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isPanning = true;
+        startX = e.touches[0].clientX - pointX;
+        startY = e.touches[0].clientY - pointY;
+      } else if (e.touches.length === 2) {
+        isPanning = false;
+        initialTouchDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+      }
+    }, { passive: true });
+
+    workspace.addEventListener('touchmove', (e) => {
+      if (isPanning && e.touches.length === 1) {
+        pointX = e.touches[0].clientX - startX;
+        pointY = e.touches[0].clientY - startY;
+        updateTransform();
+      } else if (e.touches.length === 2 && initialTouchDistance) {
+        const currentDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        const factor = currentDistance / initialTouchDistance;
+        zoomAt(e.touches[0].clientX, e.touches[0].clientY, factor > 1 ? 1.04 : 0.96);
+        initialTouchDistance = currentDistance;
+      }
+    }, { passive: true });
+
+    workspace.addEventListener('touchend', () => {
+      isPanning = false;
+      initialTouchDistance = null;
+    });
+
+    // Mouse Wheel Zoom
+    workspace.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.12 : 0.89;
+      zoomAt(e.clientX, e.clientY, zoomFactor);
+    }, { passive: false });
+
+    function zoomAt(clientX, clientY, factor) {
+      const rect = workspace.getBoundingClientRect();
+      const mouseX = clientX - rect.left;
+      const mouseY = clientY - rect.top;
+
+      const newScale = Math.min(Math.max(currentScale * factor, 0.4), 4.5);
+      const ratio = newScale / currentScale;
+
+      pointX = mouseX - (mouseX - pointX) * ratio;
+      pointY = mouseY - (mouseY - pointY) * ratio;
+      currentScale = newScale;
+
+      updateTransform();
+    }
+
+    // Zoom Buttons
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      const rect = workspace.getBoundingClientRect();
+      zoomAt(rect.width / 2, rect.height / 2, 1.25);
+    });
+
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      const rect = workspace.getBoundingClientRect();
+      zoomAt(rect.width / 2, rect.height / 2, 0.8);
+    });
+
+    document.getElementById('btn-zoom-reset').addEventListener('click', resetView);
+
+    function resetView() {
+      currentScale = 1;
+      pointX = 0;
+      pointY = 0;
+      updateTransform();
+    }
+
+    // Focus Cozinha Americana Button
+    document.getElementById('btn-focus-cozinha').addEventListener('click', () => {
+      currentScale = 2.0;
+      pointX = -320;
+      pointY = -850;
+      updateTransform();
+      selectElement('poly-cozinha');
+    });
 
     /* ==========================================================================
-       4. SCENE INITIALIZATION & LIGHTING
+       3. LAYER TOGGLE (CHIPS)
        ========================================================================== */
-    function init() {
-      const container = document.getElementById('webgl-container');
-
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x0E1116);
-
-      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 150);
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(isTabletOrMobile ? Math.min(window.devicePixelRatio, 1.25) : Math.min(window.devicePixelRatio, 2));
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      renderer.outputEncoding = THREE.sRGBEncoding;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.05;
-      container.appendChild(renderer.domElement);
-
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.07;
-      controls.maxPolarAngle = Math.PI / 2 - 0.03;
-      controls.minDistance = 3;
-      controls.maxDistance = 60;
-
-      setCameraView('3d', false);
-
-      setupLighting();
-      buildTerrainAndGardens();
-      buildFloors();
-      buildWalls();
-      buildKitchenFurniture();
-      buildPoolAndLeisureArea();
-      buildOutdoorFeatures();
-      buildFurnishingsOtherRooms();
-      createLabels();
-      setupUIEvents();
-
-      window.addEventListener('resize', onWindowResize);
-      window.addEventListener('pointerdown', onPointerDown);
-
-      setTimeout(() => {
-        const toast = document.getElementById('hint-toast');
-        if (toast) toast.style.opacity = '0';
-      }, 5500);
-
-      animate();
-    }
-
-    function setupLighting() {
-      const ambient = new THREE.AmbientLight(0xFFFFFF, 0.7);
-      scene.add(ambient);
-
-      const hemi = new THREE.HemisphereLight(0xE0F2FE, 0x332822, 0.45);
-      scene.add(hemi);
-
-      const sun = new THREE.DirectionalLight(0xFFF7ED, 1.0);
-      sun.position.set(15, 24, 18);
-      sun.castShadow = true;
-      sun.shadow.mapSize.width = 1024;
-      sun.shadow.mapSize.height = 1024;
-      sun.shadow.camera.near = 1;
-      sun.shadow.camera.far = 65;
-      const d = 22;
-      sun.shadow.camera.left = -d;
-      sun.shadow.camera.right = d;
-      sun.shadow.camera.top = d;
-      sun.shadow.camera.bottom = -d;
-      sun.shadow.bias = -0.0004;
-      scene.add(sun);
-
-      const fill = new THREE.DirectionalLight(0xBAE6FD, 0.35);
-      fill.position.set(-15, 12, -8);
-      scene.add(fill);
-    }
-
-    /* ==========================================================================
-       5. TERRAIN, GARDENS & OUTDOOR FEATURES
-       ========================================================================== */
-    function buildTerrainAndGardens() {
-      // Base Terrain (Lawn covering the entire 18m x 32m lot area)
-      const terrainGeo = new THREE.PlaneGeometry(24, 34);
-      const terrain = new THREE.Mesh(terrainGeo, Materials.grass);
-      terrain.rotation.x = -Math.PI / 2;
-      terrain.position.set(3.5, -0.01, 10.5);
-      terrain.receiveShadow = true;
-      scene.add(terrain);
-
-      // Property Border Low Curb
-      const curbMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.8 });
-      const curbPoints = [
-        [-5.83, -4.00, 12.11, -4.00],
-        [12.11, -4.00, 12.11, 26.04],
-        [12.11, 26.04, -5.83, 26.04],
-        [-5.83, 26.04, -5.83, -4.00]
-      ];
-      curbPoints.forEach(([x1, z1, x2, z2]) => {
-        const dx = x2 - x1, dz = z2 - z1;
-        const len = Math.hypot(dx, dz);
-        const curb = new THREE.Mesh(new THREE.BoxGeometry(len, 0.25, 0.15), curbMat);
-        curb.position.set((x1 + x2)/2, 0.125, (z1 + z2)/2);
-        curb.rotation.y = -Math.atan2(dz, dx);
-        scene.add(curb);
-      });
-    }
-
-    function createFloor(x, z, w, d, mat) {
-      const geo = new THREE.PlaneGeometry(w, d);
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.rotation.x = -Math.PI / 2;
-      mesh.position.set(x + w / 2, 0.005, z + d / 2);
-      mesh.receiveShadow = true;
-      scene.add(mesh);
-      return mesh;
-    }
-
-    function buildFloors() {
-      // Wood Parquet Floors (House interior)
-      createFloor(0.00, 0.00, 3.01, 4.00, Materials.woodFloor); // Quarto 1
-      createFloor(0.00, 4.00, 3.51, 3.01, Materials.woodFloor); // Quarto 2
-      createFloor(0.00, 7.01, 3.01, 4.01, Materials.woodFloor); // Sala Sup
-      createFloor(0.00, 11.02, 4.63, 3.02, Materials.woodFloor); // Sala Inf
-      createFloor(3.01, 7.01, 4.16, 4.08, Materials.woodFloor); // Cozinha
-      createFloor(4.63, 11.09, 2.17, 1.90, Materials.woodFloor); // Quarto 3
-      createFloor(0.00, 14.04, 5.71, 3.00, Materials.woodFloor); // Quarto 4
-      createFloor(5.71, 14.04, 5.41, 3.00, Materials.woodFloor); // Quarto 5
-
-      // Ceramic Tile Floors (Bathrooms & Laundry)
-      createFloor(3.51, 4.00, 1.79, 1.52, Materials.tileFloor); // Banheiro Sup
-      createFloor(4.63, 12.99, 1.79, 1.52, Materials.tileFloor); // Banheiro Inf
-      createFloor(11.12, 14.04, 2.04, 2.85, Materials.tileFloor); // Lavanderia / AC area
-
-      // Teak Wood Decks (Varandas & Leisure)
-      createFloor(7.17, 0.00, 3.34, 4.50, Materials.deckFloor); // Varanda Piscina
-      createFloor(7.17, 4.50, 3.34, 7.02, Materials.deckFloor); // Varanda Área de Lazer
-      createFloor(6.80, 11.52, 3.71, 2.52, Materials.deckFloor); // Varanda Lateral
-    }
-
-    /* ==========================================================================
-       6. WALLS & DOOR OPENINGS
-       ========================================================================== */
-    function addWall(x1, z1, x2, z2, thickness = 0.12, initialHeight = WALL_HEIGHT_HIGH) {
-      const dx = x2 - x1, dz = z2 - z1;
-      const len = Math.hypot(dx, dz);
-      const angle = Math.atan2(dz, dx);
-
-      const geo = new THREE.BoxGeometry(len, initialHeight, thickness);
-      const mesh = new THREE.Mesh(geo, Materials.wall);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      mesh.position.set(x1 + dx / 2, initialHeight / 2, z1 + dz / 2);
-      mesh.rotation.y = -angle;
-
-      mesh.userData = { isWall: true, baseLength: len, thickness, x1, z1, x2, z2 };
-      scene.add(mesh);
-      wallMeshes.push(mesh);
-      return mesh;
-    }
-
-    function buildWalls() {
-      // Quarto 1
-      addWall(0.00, 0.00, 3.01, 0.00); // North
-      addWall(0.00, 0.00, 0.00, 4.00); // West
-      addWall(0.00, 4.00, 3.01, 4.00); // South (shared with Q2)
-      addWall(3.01, 0.00, 3.01, 4.00); // East
-
-      // Quarto 2
-      addWall(0.00, 4.00, 0.00, 7.01); // West
-      addWall(0.00, 7.01, 3.01, 7.01); // South (shared with Sala Sup)
-      addWall(3.01, 4.00, 3.51, 4.00);
-      addWall(3.51, 4.00, 3.51, 5.52); // East wall with Banheiro Sup
-
-      // Banheiro Superior (3.51 to 5.30 x 4.00 to 5.52)
-      addWall(3.51, 4.00, 5.30, 4.00);
-      addWall(5.30, 4.00, 5.30, 5.52);
-      addWall(3.51, 5.52, 5.30, 5.52);
-
-      // Sala Superior (0.00 to 3.01 x 7.01 to 11.02)
-      addWall(0.00, 7.01, 0.00, 11.02); // West
-
-      // Cozinha Central (3.01 to 7.17 x 7.01 to 11.09)
-      // Top wall supporting P, AE, F
-      addWall(3.01, 7.01, 7.17, 7.01);
-      // West opening to Sala with Ilha
-      // East opening to Varanda de Lazer (open transition)
-      // South wall dividing Quarto 3
-      addWall(4.63, 11.09, 7.17, 11.09);
-
-      // Sala Inferior (0.00 to 4.63 x 11.02 to 14.04)
-      addWall(0.00, 11.02, 0.00, 14.04);
-      addWall(0.00, 14.04, 4.63, 14.04);
-
-      // Quarto 3 (4.63 to 6.80 x 11.09 to 12.99)
-      addWall(4.63, 11.09, 4.63, 12.99);
-      addWall(6.80, 11.09, 6.80, 12.99);
-      addWall(4.63, 12.99, 6.80, 12.99);
-
-      // Banheiro Inferior (4.63 to 6.42 x 12.99 to 14.51)
-      addWall(4.63, 12.99, 4.63, 14.51);
-      addWall(6.42, 12.99, 6.42, 14.51);
-      addWall(4.63, 14.51, 6.42, 14.51);
-
-      // Quarto 4 (0.00 to 5.71 x 14.04 to 17.04)
-      addWall(0.00, 14.04, 0.00, 17.04);
-      addWall(0.00, 17.04, 5.71, 17.04);
-      addWall(5.71, 14.04, 5.71, 17.04);
-
-      // Quarto 5 (5.71 to 11.12 x 14.04 to 17.04)
-      addWall(5.71, 17.04, 11.12, 17.04);
-      addWall(11.12, 14.04, 11.12, 17.04);
-
-      // Lavanderia (11.12 to 13.16 x 14.04 to 16.89)
-      addWall(11.12, 14.04, 13.16, 14.04);
-      addWall(13.16, 14.04, 13.16, 16.89);
-      addWall(11.12, 16.89, 13.16, 16.89);
-
-      // Glass railing around Pool & Varanda Gourmet exterior
-      buildGlassRailing(10.51, 0.00, 10.51, 11.52);
-      buildGlassRailing(7.17, 0.00, 10.51, 0.00);
-    }
-
-    function buildGlassRailing(x1, z1, x2, z2) {
-      const dist = Math.hypot(x2 - x1, z2 - z1);
-      const group = new THREE.Group();
-      const glass = new THREE.Mesh(new THREE.BoxGeometry(0.02, 1.05, dist), Materials.glass);
-      glass.position.set(0, 0.55, dist / 2);
-      group.add(glass);
-
-      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, dist), Materials.chrome);
-      rail.rotation.x = Math.PI / 2;
-      rail.position.set(0, 1.10, dist / 2);
-      group.add(rail);
-
-      const posts = Math.max(2, Math.floor(dist / 1.5));
-      for (let i = 0; i <= posts; i++) {
-        const post = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.10), Materials.chrome);
-        post.position.set(0, 0.55, (i / posts) * dist);
-        group.add(post);
-      }
-      group.position.set(x1, 0, z1);
-      group.rotation.y = -Math.atan2(z2 - z1, x2 - x1) + Math.PI / 2;
-      scene.add(group);
-    }
-
-    /* ==========================================================================
-       6.1. HELPERS: MOBILIÁRIO COZINHA AMERICANA & SALA INTEGRADA
-       ========================================================================== */
-    function createBarStool(x, z, rotationY = 0) {
-      const stool = new THREE.Group();
-
-      const legGeo = new THREE.CylinderGeometry(0.015, 0.012, 0.65, 8);
-      const legMat = Materials.blackMetal;
-      const legOffsets = [
-        [-0.14, -0.14],
-        [0.14, -0.14],
-        [0.14, 0.14],
-        [-0.14, 0.14]
-      ];
-      legOffsets.forEach(([ox, oz]) => {
-        const leg = new THREE.Mesh(legGeo, legMat);
-        leg.position.set(ox, 0.325, oz);
-        leg.castShadow = true;
-        stool.add(leg);
-      });
-
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.012, 8, 16), legMat);
-      ring.rotation.x = Math.PI / 2;
-      ring.position.set(0, 0.22, 0);
-      stool.add(ring);
-
-      const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.06, 24), Materials.leatherCaramel);
-      seat.position.set(0, 0.67, 0);
-      seat.castShadow = true;
-      stool.add(seat);
-
-      const back = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.14, 0.03), Materials.leatherCaramel);
-      back.position.set(-0.16, 0.77, 0);
-      back.rotation.y = Math.PI / 2;
-      back.castShadow = true;
-      stool.add(back);
-
-      const supportL = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.15), legMat);
-      supportL.position.set(-0.15, 0.72, -0.10);
-      stool.add(supportL);
-      const supportR = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.15), legMat);
-      supportR.position.set(-0.15, 0.72, 0.10);
-      stool.add(supportR);
-
-      stool.position.set(x, 0, z);
-      stool.rotation.y = rotationY;
-      return stool;
-    }
-
-    function createDiningSet(x, z) {
-      const set = new THREE.Group();
-
-      const tableTop = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.04, 1.40), Materials.woodOak);
-      tableTop.position.set(0, 0.74, 0);
-      tableTop.castShadow = true;
-      set.add(tableTop);
-
-      const legGeo = new THREE.CylinderGeometry(0.025, 0.02, 0.72, 8);
-      const legMat = Materials.blackMetal;
-      [[-0.36, -0.62], [0.36, -0.62], [0.36, 0.62], [-0.36, 0.62]].forEach(([lx, lz]) => {
-        const leg = new THREE.Mesh(legGeo, legMat);
-        leg.position.set(lx, 0.36, lz);
-        leg.castShadow = true;
-        set.add(leg);
-      });
-
-      const chairConfigs = [
-        { x: -0.58, z: -0.35, rot: Math.PI / 2 },
-        { x: -0.58, z: 0.35, rot: Math.PI / 2 },
-        { x: 0.58, z: -0.35, rot: -Math.PI / 2 },
-        { x: 0.58, z: 0.35, rot: -Math.PI / 2 }
-      ];
-
-      chairConfigs.forEach(cfg => {
-        const chair = new THREE.Group();
-        const seat = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.05, 0.42), Materials.chairFabric);
-        seat.position.set(0, 0.45, 0);
-        seat.castShadow = true;
-        chair.add(seat);
-
-        const back = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.38, 0.40), Materials.chairFabric);
-        back.position.set(-0.19, 0.64, 0);
-        back.castShadow = true;
-        chair.add(back);
-
-        [[-0.17, -0.17], [0.17, -0.17], [0.17, 0.17], [-0.17, 0.17]].forEach(([cx, cz]) => {
-          const cleg = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.012, 0.45, 8), legMat);
-          cleg.position.set(cx, 0.225, cz);
-          cleg.castShadow = true;
-          chair.add(cleg);
-        });
-        chair.position.set(cfg.x, 0, cfg.z);
-        chair.rotation.y = cfg.rot;
-        set.add(chair);
-      });
-
-      const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.04, 0.18, 12), Materials.porcelainWhite);
-      vase.position.set(0, 0.85, 0);
-      set.add(vase);
-
-      set.position.set(x, 0, z);
-      return set;
-    }
-
-    /* ==========================================================================
-       7. COZINHA GOURMET CENTRAL (MEDIDAS EXATAS DA NOVA PLANTA)
-       ========================================================================== */
-    function buildKitchenFurniture() {
-      const kGroup = new THREE.Group();
-      kGroup.name = "Cozinha_Planejada";
-
-      // ---------------------------------------------------------
-      // [P] PIA DE CUBA DUPLA (2,00 x 0,60 m)
-      // Parede superior: X = 3.01 a 5.01, Z = 7.01 a 7.61
-      // ---------------------------------------------------------
-      const pGroup = new THREE.Group();
-      const pCab = new THREE.Mesh(new THREE.BoxGeometry(1.98, 0.77, 0.58), defaultCabinetMat);
-      pCab.position.set(4.01, 0.485, 7.31);
-      pCab.castShadow = true;
-      pGroup.add(pCab);
-
-      const pTop = new THREE.Mesh(new THREE.BoxGeometry(2.00, 0.03, 0.60), Materials.granite);
-      pTop.position.set(4.01, 0.885, 7.31);
-      pTop.castShadow = true;
-      pGroup.add(pTop);
-
-      for (let b = 0; b < 2; b++) {
-        const basin = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.16, 0.36), Materials.blackMetal);
-        basin.position.set(3.70 + b * 0.48, 0.81, 7.31);
-        pGroup.add(basin);
-      }
-
-      const tap = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.015, 12, 24, Math.PI), Materials.chrome);
-      tap.rotation.y = Math.PI / 2;
-      tap.position.set(3.94, 1.10, 7.18);
-      pGroup.add(tap);
-      registerInteractive(pGroup, "P: Pia de Cuba Dupla", "Pia de bancada com 2 cubas de aço inox e torneira gourmet.", "2,00 × 0,60 m");
-      kGroup.add(pGroup);
-
-      // ---------------------------------------------------------
-      // [AE] BANCADA COM ARMÁRIO AÉREO (1,15 x 0,54 m)
-      // Parede superior: X = 5.01 a 6.16, Z = 7.01 a 7.55
-      // ---------------------------------------------------------
-      const aeGroup = new THREE.Group();
-      const aeCab = new THREE.Mesh(new THREE.BoxGeometry(1.13, 0.77, 0.52), defaultCabinetMat);
-      aeCab.position.set(5.585, 0.485, 7.28);
-      aeCab.castShadow = true;
-      aeGroup.add(aeCab);
-
-      const aeTop = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.03, 0.54), Materials.granite);
-      aeTop.position.set(5.585, 0.885, 7.28);
-      aeTop.castShadow = true;
-      aeGroup.add(aeTop);
-
-      const aeUpper = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.75, 0.35), defaultCabinetMat);
-      aeUpper.position.set(5.585, 1.875, 7.185);
-      aeUpper.castShadow = true;
-      aeGroup.add(aeUpper);
-
-      registerInteractive(aeGroup, "AE: Bancada e Aéreo", "Armário aéreo suspenso de 1,50 m a 2,25 m e bancada inferior.", "1,15 × 0,54 m");
-      kGroup.add(aeGroup);
-
-      // ---------------------------------------------------------
-      // [F] FOGÃO 4 BOCAS COM COIFA (0,83 x 0,70 m)
-      // Canto superior direito: X = 6.34 a 7.17, Z = 7.01 a 7.71
-      // ---------------------------------------------------------
-      const fGroup = new THREE.Group();
-      const stove = new THREE.Mesh(new THREE.BoxGeometry(0.83, 0.86, 0.70), Materials.stainlessSteel);
-      stove.position.set(6.755, 0.43, 7.36);
-      stove.castShadow = true;
-      fGroup.add(stove);
-
-      const hood = new THREE.Mesh(new THREE.BoxGeometry(0.83, 0.08, 0.60), Materials.stainlessSteel);
-      hood.position.set(6.755, 1.70, 7.36);
-      fGroup.add(hood);
-
-      registerInteractive(fGroup, "F: Fogão & Coifa", "Fogão de 4 bocas com forno e coifa piramidal de inox.", "0,83 × 0,70 m");
-      kGroup.add(fGroup);
-
-      // ---------------------------------------------------------
-      // [BALCÃO AMERICANO INTEGRADO] (1,68 m vertical x 1,26 m horizontal)
-      // Divisa aberta com Sala: X = 2.38 a 3.64, Z = 8.20 a 9.88
-      // Liga a Cozinha diretamente à Sala de Estar & Jantar
-      // ---------------------------------------------------------
-      const ilhaGroup = new THREE.Group();
-      ilhaGroup.name = "Balcao_Americano_Integrado";
-
-      // Armário base voltado para a cozinha
-      const ilhaCab = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.77, 1.64), defaultCabinetMat);
-      ilhaCab.position.set(3.12, 0.485, 9.04);
-      ilhaCab.castShadow = true;
-      ilhaGroup.add(ilhaCab);
-
-      // Mureta de apoio em alvenaria sob o beiral voltada para a sala
-      const mureta = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.85, 1.64), Materials.wall);
-      mureta.position.set(2.60, 0.425, 9.04);
-      mureta.castShadow = true;
-      ilhaGroup.add(mureta);
-
-      // Tampo em Granito Preto São Gabriel com beiral de refeições para a Sala
-      const ilhaTop = new THREE.Mesh(new THREE.BoxGeometry(1.26, 0.03, 1.68), Materials.granite);
-      ilhaTop.position.set(3.01, 0.885, 9.04);
-      ilhaTop.castShadow = true;
-      ilhaGroup.add(ilhaTop);
-
-      // 3 Banquetas Altas Modernas no lado da Sala voltadas para a bancada
-      const stool1 = createBarStool(2.20, 8.52, Math.PI / 2);
-      ilhaGroup.add(stool1);
-      const stool2 = createBarStool(2.20, 9.04, Math.PI / 2);
-      ilhaGroup.add(stool2);
-      const stool3 = createBarStool(2.20, 9.56, Math.PI / 2);
-      ilhaGroup.add(stool3);
-
-      // 3 Luminárias Pendentes Modernas sobre o balcão americano
-      for (let pz of [8.52, 9.04, 9.56]) {
-        const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.85), Materials.blackMetal);
-        cord.position.set(3.01, 2.05, pz);
-        ilhaGroup.add(cord);
-
-        const shade = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.16, 20, 1, true), Materials.blackMetal);
-        shade.position.set(3.01, 1.65, pz);
-        ilhaGroup.add(shade);
-
-        const light = new THREE.PointLight(0xFFE4B5, 0.85, 2.5);
-        light.position.set(3.01, 1.55, pz);
-        ilhaGroup.add(light);
-      }
-
-      // Fruteira decorativa no balcão americano
-      const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.07, 0.05, 16), Materials.chrome);
-      bowl.position.set(3.01, 0.925, 8.85);
-      ilhaGroup.add(bowl);
-      [0xF59E0B, 0xEF4444, 0x84CC16].forEach((col, i) => {
-        const fruit = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), new THREE.MeshStandardMaterial({ color: col, roughness: 0.6 }));
-        fruit.position.set(3.01 + (i === 0 ? 0.03 : (i === 1 ? -0.03 : 0)), 0.965, 8.85 + (i === 2 ? 0.03 : -0.02));
-        ilhaGroup.add(fruit);
-      });
-
-      // Bandeja de café / recepção no balcão
-      const tray = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.02, 0.32), Materials.woodOak);
-      tray.position.set(3.01, 0.91, 9.35);
-      ilhaGroup.add(tray);
-      for (let c = 0; c < 2; c++) {
-        const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.03, 0.07, 12), Materials.porcelainWhite);
-        cup.position.set(3.01, 0.95, 9.28 + c * 0.14);
-        ilhaGroup.add(cup);
-      }
-
-      registerInteractive(ilhaGroup, "Balcão Americano Integrado", "Bancada passa-pratos em granito com 3 banquetas altas e pendentes, interligando a Cozinha Gourmet à Sala em conceito aberto.", "1,68 × 1,26 m");
-      kGroup.add(ilhaGroup);
-
-      // ---------------------------------------------------------
-      // [CENTRO] NOVA BANCADA CENTRAL (2,14 x 0,54 m)
-      // Meio da cozinha: X = 4.20 a 6.34, Z = 8.30 a 8.84
-      // ---------------------------------------------------------
-      const centroGroup = new THREE.Group();
-      const cCab = new THREE.Mesh(new THREE.BoxGeometry(2.12, 0.77, 0.52), defaultCabinetMat);
-      cCab.position.set(5.27, 0.485, 8.57);
-      cCab.castShadow = true;
-      centroGroup.add(cCab);
-
-      const cTop = new THREE.Mesh(new THREE.BoxGeometry(2.14, 0.03, 0.54), Materials.granite);
-      cTop.position.set(5.27, 0.885, 8.57);
-      cTop.castShadow = true;
-      centroGroup.add(cTop);
-
-      registerInteractive(centroGroup, "Centro: Bancada Central", "Bancada ilha no miolo da cozinha para preparo gourmet.", "2,14 × 0,54 m");
-      kGroup.add(centroGroup);
-
-      // ---------------------------------------------------------
-      // [BL] BANCADA LATERAL (1,97 x 0,51 m)
-      // Paralela abaixo do centro: X = 4.28 a 6.25, Z = 9.40 a 9.91
-      // ---------------------------------------------------------
-      const blGroup = new THREE.Group();
-      const blCab = new THREE.Mesh(new THREE.BoxGeometry(1.95, 0.77, 0.49), defaultCabinetMat);
-      blCab.position.set(5.265, 0.485, 9.655);
-      blCab.castShadow = true;
-      blGroup.add(blCab);
-
-      const blTop = new THREE.Mesh(new THREE.BoxGeometry(1.97, 0.03, 0.51), Materials.granite);
-      blTop.position.set(5.265, 0.885, 9.655);
-      blTop.castShadow = true;
-      blGroup.add(blTop);
-
-      registerInteractive(blGroup, "BL: Bancada Lateral", "Bancada solta de apoio com gaveteiros verde-sálvia.", "1,97 × 0,51 m");
-      kGroup.add(blGroup);
-
-      // ---------------------------------------------------------
-      // [AM] ARMÁRIO VERTICAL FORNO (0,66 x 0,54 m, Alt. 2,20 m)
-      // Canto inferior esquerdo: X = 3.01 a 3.67, Z = 10.55 a 11.09
-      // ---------------------------------------------------------
-      const amGroup = new THREE.Group();
-      const amTower = new THREE.Mesh(new THREE.BoxGeometry(0.66, 2.20, 0.54), defaultCabinetMat);
-      amTower.position.set(3.34, 1.10, 10.82);
-      amTower.castShadow = true;
-      amGroup.add(amTower);
-
-      const oven = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.44, 0.02), Materials.ovenGlass);
-      oven.position.set(3.34, 1.15, 10.54);
-      amGroup.add(oven);
-
-      registerInteractive(amGroup, "AM: Torre do Forno", "Armário vertical torre quente com forno embutido em inox.", "0,66 × 0,54 m (Alt. 2,20 m)");
-      kGroup.add(amGroup);
-
-      // ---------------------------------------------------------
-      // [AC] BANCADA DE CANTO EM L (1,33 x 0,94 m)
-      // Canto inferior direito com corte diagonal a 45 graus
-      // ---------------------------------------------------------
-      const acGroup = new THREE.Group();
-      const lShape = new THREE.Shape();
-      lShape.moveTo(0.00, 0.00);
-      lShape.lineTo(1.33, 0.00);
-      lShape.lineTo(1.33, -0.94);
-      lShape.lineTo(0.78, -0.94);
-      lShape.lineTo(0.00, -0.55);
-      lShape.closePath();
-
-      const acGeo = new THREE.ExtrudeGeometry(lShape, { depth: 0.77, bevelEnabled: false });
-      const acMesh = new THREE.Mesh(acGeo, defaultCabinetMat);
-      acMesh.rotation.x = Math.PI / 2;
-      acMesh.position.set(5.10, 0.87, 11.09);
-      acMesh.castShadow = true;
-      acGroup.add(acMesh);
-
-      const acTopGeo = new THREE.ExtrudeGeometry(lShape, { depth: 0.03, bevelEnabled: false });
-      const acTop = new THREE.Mesh(acTopGeo, Materials.granite);
-      acTop.rotation.x = Math.PI / 2;
-      acTop.position.set(5.10, 0.90, 11.09);
-      acTop.castShadow = true;
-      acGroup.add(acTop);
-
-      registerInteractive(acGroup, "AC: Canto em L", "Bancada em L com chanfro interno a 45° idêntico à planta baixa.", "1,33 × 0,94 m");
-      kGroup.add(acGroup);
-
-      // ---------------------------------------------------------
-      // [G] GELADEIRA FRENCH DOOR (0,72 x 0,76 m)
-      // Ao lado de AC: X = 6.45 a 7.17, Z = 10.33 a 11.09
-      // ---------------------------------------------------------
-      const gGroup = new THREE.Group();
-      const fridge = new THREE.Mesh(new THREE.BoxGeometry(0.72, 1.85, 0.76), Materials.stainlessSteel);
-      fridge.position.set(6.81, 0.925, 10.71);
-      fridge.castShadow = true;
-      gGroup.add(fridge);
-
-      registerInteractive(gGroup, "G: Geladeira Inox", "Geladeira moderna French Door de alta capacidade com dispenser.", "0,72 × 0,76 m");
-      kGroup.add(gGroup);
-
-      scene.add(kGroup);
-    }
-
-    /* ==========================================================================
-       8. PISCINA & ÁREA DE LAZER GOURMET
-       ========================================================================== */
-    function buildPoolAndLeisureArea() {
-      const pGroup = new THREE.Group();
-      pGroup.name = "Piscina_e_Lazer";
-
-      // ---------------------------------------------------------
-      // PISCINA EMBUTIDA NO DECK SUPERIOR (2,20 x 3,40 m, prof. 1,40 m)
-      // Varanda Superior: X = 7.17 a 10.51, Z = 0.50 a 4.00
-      // ---------------------------------------------------------
-      const poolBasinGeo = new THREE.BoxGeometry(2.30, 0.02, 3.40);
-      const poolBasin = new THREE.Mesh(poolBasinGeo, Materials.poolTile);
-      poolBasin.position.set(8.84, 0.008, 2.20);
-      poolBasin.receiveShadow = true;
-      pGroup.add(poolBasin);
-
-      // Shimmering Pool Water Surface
-      const poolWaterGeo = new THREE.PlaneGeometry(2.20, 3.30);
-      const poolWater = new THREE.Mesh(poolWaterGeo, Materials.poolWater);
-      poolWater.rotation.x = -Math.PI / 2;
-      poolWater.position.set(8.84, 0.02, 2.20);
-      pGroup.add(poolWater);
-
-      // Pool White Border Curb
-      const poolCurbGeo = new THREE.BoxGeometry(2.40, 0.04, 3.50);
-      const poolCurb = new THREE.Mesh(poolCurbGeo, Materials.porcelainWhite);
-      poolCurb.position.set(8.84, 0.015, 2.20);
-      pGroup.add(poolCurb);
-
-      // Stainless Steel Pool Ladder
-      const ladder = new THREE.Group();
-      for (let lx of [-0.25, 0.25]) {
-        const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.70), Materials.chrome);
-        rail.position.set(lx, 0.35, 0);
-        ladder.add(rail);
-      }
-      for (let r = 0; r < 3; r++) {
-        const rung = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.50), Materials.chrome);
-        rung.rotation.z = Math.PI / 2;
-        rung.position.set(0, 0.15 + r * 0.18, 0);
-        ladder.add(rung);
-      }
-      ladder.position.set(8.84, 0, 0.65);
-      pGroup.add(ladder);
-
-      // 2 Sun Loungers (Espreguiçadeiras)
-      for (let lz of [1.50, 2.90]) {
-        const lounger = new THREE.Group();
-        const base = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.22, 1.80), Materials.woodFurniture);
-        base.position.y = 0.11;
-        lounger.add(base);
-        const cushion = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.08, 1.76), Materials.fabricBed);
-        cushion.position.y = 0.25;
-        lounger.add(cushion);
-        lounger.position.set(10.00, 0, lz);
-        pGroup.add(lounger);
-      }
-
-      registerInteractive(pGroup, "Piscina Aquecida & Deck", "Piscina em pastilhas azuis com água translúcida, borda atérmica e espreguiçadeiras.", "2,20 × 3,40 m");
-
-      // ---------------------------------------------------------
-      // ÁREA DE LAZER GOURMET (Churrasqueira, Mesa 8 lugares, TV)
-      // Varanda Gourmet: X = 7.17 a 10.51, Z = 4.50 a 11.52 (3,34 x 7,02 m)
-      // ---------------------------------------------------------
-      const lGroup = new THREE.Group();
-      lGroup.name = "Area_Lazer_Gourmet";
-
-      // Gourmet Brick Barbecue Grill (Churrasqueira)
-      const bbq = new THREE.Group();
-      const bbqBase = new THREE.Mesh(new THREE.BoxGeometry(1.20, 0.90, 0.80), Materials.brickGourmet);
-      bbqBase.position.set(10.00, 0.45, 5.20);
-      bbqBase.castShadow = true;
-      bbq.add(bbqBase);
-
-      const bbqFirebox = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.50, 0.60), Materials.blackMetal);
-      bbqFirebox.position.set(10.00, 1.15, 5.20);
-      bbq.add(bbqFirebox);
-
-      const bbqChimney = new THREE.Mesh(new THREE.BoxGeometry(0.60, 1.20, 0.60), Materials.brickGourmet);
-      bbqChimney.position.set(10.00, 2.00, 5.20);
-      bbqChimney.castShadow = true;
-      bbq.add(bbqChimney);
-      lGroup.add(bbq);
-
-      // Large 8-seater Solid Wood Dining Table
-      const table = new THREE.Mesh(new THREE.BoxGeometry(1.10, 0.06, 2.40), Materials.woodFurniture);
-      table.position.set(8.84, 0.74, 8.00);
-      table.castShadow = true;
-      lGroup.add(table);
-
-      // Table legs
-      for (let tx of [-0.45, 0.45]) {
-        for (let tz of [-1.05, 1.05]) {
-          const tLeg = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.71, 0.10), Materials.blackMetal);
-          tLeg.position.set(8.84 + tx, 0.355, 8.00 + tz);
-          lGroup.add(tLeg);
-        }
-      }
-
-      // Dining benches / chairs
-      for (let bx of [-0.75, 0.75]) {
-        const bench = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.45, 2.30), Materials.woodFurniture);
-        bench.position.set(8.84 + bx, 0.225, 8.00);
-        bench.castShadow = true;
-        lGroup.add(bench);
-      }
-
-      // Wall-mounted TV Panel & 65" TV
-      const tvPanel = new THREE.Mesh(new THREE.BoxGeometry(0.04, 1.40, 2.00), Materials.woodFurniture);
-      tvPanel.position.set(7.22, 1.50, 9.80);
-      lGroup.add(tvPanel);
-
-      const tv = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.85, 1.45), Materials.blackMetal);
-      tv.position.set(7.26, 1.50, 9.80);
-      tv.castShadow = true;
-      lGroup.add(tv);
-
-      registerInteractive(lGroup, "Varanda Gourmet de Lazer", "Churrasqueira de alvenaria com coifa, mesa de madeira de 8 lugares e TV 65 polegadas.", "3,34 × 7,02 m");
-
-      scene.add(pGroup);
-      scene.add(lGroup);
-    }
-
-    /* ==========================================================================
-       9. OUTDOOR ARCHITECTURAL FEATURES: PERGOLADO, CASAS & HORTA
-       ========================================================================== */
-    function buildOutdoorFeatures() {
-      // ---------------------------------------------------------
-      // 1. PERGOLADO DE MADEIRA (3,05 x 2,91 m)
-      // Jardim inferior direito: X = 7.50 a 10.41, Z = 19.50 a 22.55
-      // ---------------------------------------------------------
-      const pergolado = new THREE.Group();
-      pergolado.name = "Pergolado_Madeira";
-
-      // Elevated deck floor
-      const pergDeck = new THREE.Mesh(new THREE.BoxGeometry(2.91, 0.12, 3.05), Materials.deckFloor);
-      pergDeck.position.set(8.955, 0.06, 21.025);
-      pergDeck.receiveShadow = true;
-      pergolado.add(pergDeck);
-
-      // 4 Robust Timber Pillars
-      const pillarMat = Materials.woodFurniture;
-      const pillarOffsets = [
-        [-1.35, -1.42], [1.35, -1.42],
-        [-1.35, 1.42], [1.35, 1.42]
-      ];
-      pillarOffsets.forEach(([px, pz]) => {
-        const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.50, 0.14), pillarMat);
-        pillar.position.set(8.955 + px, 1.25, 21.025 + pz);
-        pillar.castShadow = true;
-        pergolado.add(pillar);
-      });
-
-      // Overhead Trellis Slats (Ripas de madeira para sombreamento)
-      for (let s = -1.40; s <= 1.40; s += 0.28) {
-        const slat = new THREE.Mesh(new THREE.BoxGeometry(3.05, 0.08, 0.04), pillarMat);
-        slat.position.set(8.955, 2.54, 21.025 + s);
-        slat.castShadow = true;
-        pergolado.add(slat);
-      }
-
-      // Lounge Furniture under Pergola
-      const pSofa = new THREE.Mesh(new THREE.BoxGeometry(1.60, 0.35, 0.70), Materials.fabricSofa);
-      pSofa.position.set(8.955, 0.295, 21.60);
-      pSofa.castShadow = true;
-      pergolado.add(pSofa);
-
-      const pTable = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.30), Materials.woodFurniture);
-      pTable.position.set(8.955, 0.27, 20.80);
-      pergolado.add(pTable);
-
-      registerInteractive(pergolado, "Pergolado de Madeira", "Pergolado ripado com deck elevado e lounge para descanso ao ar livre.", "3,05 × 2,91 m");
-      scene.add(pergolado);
-
-      // ---------------------------------------------------------
-      // 2. CASA DO CACHORRO (Jardim Superior Direito)
-      // X = 8.50 a 10.50, Z = -3.50 a -1.50
-      // ---------------------------------------------------------
-      const dogHouse = new THREE.Group();
-      dogHouse.name = "Casa_do_Cachorro";
-
-      const dhWalls = new THREE.Mesh(new THREE.BoxGeometry(1.40, 1.10, 1.20), Materials.woodFurniture);
-      dhWalls.position.set(9.50, 0.55, -2.50);
-      dhWalls.castShadow = true;
-      dogHouse.add(dhWalls);
-
-      // Pitched Gable Roof
-      const roofL = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.05, 1.30), Materials.brickGourmet);
-      roofL.position.set(9.20, 1.25, -2.50);
-      roofL.rotation.z = 0.55;
-      roofL.castShadow = true;
-      dogHouse.add(roofL);
-
-      const roofR = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.05, 1.30), Materials.brickGourmet);
-      roofR.position.set(9.80, 1.25, -2.50);
-      roofR.rotation.z = -0.55;
-      roofR.castShadow = true;
-      dogHouse.add(roofR);
-
-      // Arched Entrance Doorway
-      const doorHole = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.65, 0.05), Materials.blackMetal);
-      doorHole.position.set(9.50, 0.35, -1.88);
-      dogHouse.add(doorHole);
-
-      registerInteractive(dogHouse, "Casa do Cachorro", "Casinha estruturada em madeira com telhado inclinado e espaço pet.", "1,40 × 1,20 m");
-      scene.add(dogHouse);
-
-      // ---------------------------------------------------------
-      // 3. CASA DA ÁRVORE (Jardim Lateral Esquerdo)
-      // X = -4.50 a -1.50, Z = 15.00 a 18.00
-      // ---------------------------------------------------------
-      const treehouse = new THREE.Group();
-      treehouse.name = "Casa_da_Arvore";
-
-      // Robust Tree Trunk
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.40, 0.55, 3.80, 12), Materials.treeWood);
-      trunk.position.set(-3.20, 1.90, 16.50);
-      trunk.castShadow = true;
-      treehouse.add(trunk);
-
-      // Lush Tree Foliage
-      for (let f = 0; f < 5; f++) {
-        const foliage = new THREE.Mesh(new THREE.SphereGeometry(1.10, 8, 8), Materials.plantGreen);
-        foliage.position.set(-3.20 + (Math.random()-0.5)*1.2, 3.80 + Math.random()*0.8, 16.50 + (Math.random()-0.5)*1.2);
-        foliage.castShadow = true;
-        treehouse.add(foliage);
-      }
-
-      // Elevated Wooden Platform
-      const thPlatform = new THREE.Mesh(new THREE.BoxGeometry(2.40, 0.10, 2.40), Materials.woodFurniture);
-      thPlatform.position.set(-3.20, 1.85, 16.50);
-      thPlatform.castShadow = true;
-      treehouse.add(thPlatform);
-
-      // Treehouse Cabin
-      const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.60, 1.30, 1.60), Materials.woodFurniture);
-      cabin.position.set(-3.20, 2.55, 16.50);
-      cabin.castShadow = true;
-      treehouse.add(cabin);
-
-      // Cabin Roof
-      const thRoof = new THREE.Mesh(new THREE.ConeGeometry(1.35, 0.70, 4), Materials.brickGourmet);
-      thRoof.rotation.y = Math.PI / 4;
-      thRoof.position.set(-3.20, 3.55, 16.50);
-      thRoof.castShadow = true;
-      treehouse.add(thRoof);
-
-      // Wooden Ladder
-      const thLadder = new THREE.Group();
-      for (let s = 0; s < 7; s++) {
-        const step = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.03, 0.06), Materials.woodFurniture);
-        step.position.set(0, 0.25 * s + 0.20, -0.15 * s);
-        thLadder.add(step);
-      }
-      thLadder.position.set(-3.20, 0, 17.80);
-      treehouse.add(thLadder);
-
-      registerInteractive(treehouse, "Casa da Árvore", "Casinha rústica sobre árvore com plataforma elevada a 1,85 m e escada de madeira.", "2,40 × 2,40 m");
-      scene.add(treehouse);
-
-      // ---------------------------------------------------------
-      // 4. HORTA COM CERCA (Lateral Direita)
-      // X = 10.80 a 12.00, Z = 0.50 a 11.50
-      // ---------------------------------------------------------
-      const horta = new THREE.Group();
-      horta.name = "Horta_com_Cerca";
-
-      // 4 Raised Garden Beds (Canteiros elevados com terra e hortaliças)
-      for (let h = 0; h < 4; h++) {
-        const bedZ = 1.50 + h * 2.60;
-        const box = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.25, 2.00), Materials.woodFurniture);
-        box.position.set(11.35, 0.125, bedZ);
-        horta.add(box);
-
-        const soil = new THREE.Mesh(new THREE.BoxGeometry(0.79, 0.05, 1.94), Materials.soilEarth);
-        soil.position.set(11.35, 0.24, bedZ);
-        horta.add(soil);
-
-        // Vegetable crops (alfaces/hortaliças)
-        for (let vx = -0.22; vx <= 0.22; vx += 0.22) {
-          for (let vz = -0.70; vz <= 0.70; vz += 0.35) {
-            const veg = new THREE.Mesh(new THREE.DodecahedronGeometry(0.08, 0), Materials.plantGreen);
-            veg.position.set(11.35 + vx, 0.32, bedZ + vz);
-            horta.add(veg);
-          }
-        }
-      }
-
-      // Wooden Picket Fence along perimeter
-      for (let pz = 0.00; pz <= 11.50; pz += 0.35) {
-        const post = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.85, 0.06), Materials.porcelainWhite);
-        post.position.set(12.00, 0.425, pz);
-        horta.add(post);
-      }
-
-      registerInteractive(horta, "Horta Orgânica com Cerca", "Horta com 4 canteiros elevados com hortaliças e cerquinha de madeira.", "1,20 × 11,50 m");
-      scene.add(horta);
-    }
-
-    /* ==========================================================================
-       10. FURNISHING OTHER ROOMS
-       ========================================================================== */
-    function buildFurnishingsOtherRooms() {
-      const g = new THREE.Group();
-
-      // Quarto 1: Double bed & wardrobe
-      g.add(createBed(1.50, 1.80, 1.60, 2.00));
-      const w1 = new THREE.Mesh(new THREE.BoxGeometry(0.55, 2.20, 1.80), Materials.woodFurniture);
-      w1.position.set(0.35, 1.10, 1.80);
-      g.add(w1);
-
-      // Quarto 2: Double bed & wardrobe
-      g.add(createBed(1.75, 5.30, 1.50, 1.95));
-      const w2 = new THREE.Mesh(new THREE.BoxGeometry(1.60, 2.20, 0.55), Materials.woodFurniture);
-      w2.position.set(1.75, 1.10, 4.35);
-      g.add(w2);
-
-      // Sala de Jantar Integrada à Cozinha Americana (Próxima ao Balcão e Passagem)
-      const diningSet = createDiningSet(1.50, 7.95);
-      registerInteractive(diningSet, "Sala de Jantar Integrada", "Mesa de jantar de 4 lugares com acabamento amadeirado, posicionada ao lado da passagem da cozinha americana.", "1,40 × 0,85 m");
-      g.add(diningSet);
-
-      // Sala de Estar / Home Theater Integrada:
-      // Sofá confortável com encosto e almofadas
-      const sSofa = new THREE.Mesh(new THREE.BoxGeometry(0.90, 0.45, 2.20), Materials.fabricSofa);
-      sSofa.position.set(1.95, 0.225, 10.35);
-      sSofa.castShadow = true;
-      g.add(sSofa);
-
-      const sBack = new THREE.Mesh(new THREE.BoxGeometry(0.20, 0.42, 2.20), Materials.fabricSofa);
-      sBack.position.set(2.40, 0.56, 10.35);
-      sBack.castShadow = true;
-      g.add(sBack);
-
-      for (let az of [-0.65, 0.0, 0.65]) {
-        const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.22, 0.32), Materials.leatherCaramel);
-        pillow.position.set(2.26, 0.52, 10.35 + az);
-        g.add(pillow);
-      }
-
-      // Tapete suave da sala
-      const sRug = new THREE.Mesh(new THREE.PlaneGeometry(1.80, 2.40), new THREE.MeshStandardMaterial({ color: 0xCBD5E1, roughness: 0.9 }));
-      sRug.rotation.x = -Math.PI / 2;
-      sRug.position.set(1.25, 0.008, 10.35);
-      g.add(sRug);
-
-      // Mesa de centro amadeirada
-      const coffeeTable = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.26, 0.90), Materials.woodOak);
-      coffeeTable.position.set(1.20, 0.13, 10.35);
-      coffeeTable.castShadow = true;
-      g.add(coffeeTable);
-
-      // Painel e TV na parede oeste da Sala (X = 0)
-      const tvPanel = new THREE.Mesh(new THREE.BoxGeometry(0.04, 1.80, 2.00), Materials.woodOak);
-      tvPanel.position.set(0.04, 1.30, 10.35);
-      g.add(tvPanel);
-
-      const tvRack = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.38, 1.90), Materials.blackMetal);
-      tvRack.position.set(0.20, 0.19, 10.35);
-      tvRack.castShadow = true;
-      g.add(tvRack);
-
-      const tvScreen = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.76, 1.35), Materials.ovenGlass);
-      tvScreen.position.set(0.08, 1.40, 10.35);
-      g.add(tvScreen);
-
-      // Sala Inferior: Sofá lounge adicional
-      const iSofa = new THREE.Mesh(new THREE.BoxGeometry(2.40, 0.45, 0.90), Materials.fabricSofa);
-      iSofa.position.set(2.30, 0.225, 13.40);
-      g.add(iSofa);
-
-      // Quarto 3 (Home Office / Compacto)
-      const q3Bed = new THREE.Mesh(new THREE.BoxGeometry(1.90, 0.45, 0.80), Materials.fabricBed);
-      q3Bed.position.set(5.70, 0.225, 12.00);
-      g.add(q3Bed);
-
-      // Quarto 4 (Suíte Master): King bed
-      g.add(createBed(2.85, 15.54, 1.90, 2.05));
-
-      // Quarto 5: Double bed
-      g.add(createBed(8.40, 15.54, 1.60, 2.00));
-
-      // Lavanderia: Máquina e Tanque
-      const washer = new THREE.Mesh(new THREE.BoxGeometry(0.60, 0.86, 0.60), Materials.porcelainWhite);
-      washer.position.set(11.80, 0.43, 15.50);
-      g.add(washer);
-
-      const tub = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.85, 0.55), Materials.stainlessSteel);
-      tub.position.set(12.50, 0.425, 15.50);
-      g.add(tub);
-
-      scene.add(g);
-    }
-
-    function createBed(x, z, width, length) {
-      const bg = new THREE.Group();
-      const base = new THREE.Mesh(new THREE.BoxGeometry(width, 0.35, length), Materials.woodFurniture);
-      base.position.set(x, 0.175, z);
-      bg.add(base);
-
-      const mattress = new THREE.Mesh(new THREE.BoxGeometry(width * 0.96, 0.22, length * 0.96), Materials.fabricBed);
-      mattress.position.set(x, 0.40, z);
-      bg.add(mattress);
-
-      for (let px of [-width * 0.24, width * 0.24]) {
-        const pillow = new THREE.Mesh(new THREE.BoxGeometry(width * 0.38, 0.08, 0.35), new THREE.MeshStandardMaterial({ color: 0xF8F9FA }));
-        pillow.position.set(x + px, 0.53, z - length * 0.35);
-        bg.add(pillow);
-      }
-      return bg;
-    }
-
-    /* ==========================================================================
-       11. 3D LABELS & INTERACTIVE ANNOTATIONS (GPU ACCELERATED)
-       ========================================================================== */
-    const roomLabelData = [
-      { name: "Cozinha Americana", dims: "4,16 × 4,08 m • Conceito Aberto", pos: [5.09, 0.05, 9.05] },
-      { name: "Varanda com Piscina", dims: "3,34 × 4,50 m • Deck & Água", pos: [8.84, 0.05, 2.20] },
-      { name: "Área de Lazer Gourmet", dims: "3,34 × 7,02 m • Churrasq. & TV", pos: [8.84, 0.05, 8.00] },
-      { name: "Quarto 1", dims: "3,01 × 4,00 m • 12,0 m²", pos: [1.50, 0.05, 2.00] },
-      { name: "Quarto 2", dims: "3,51 × 3,01 m • 10,5 m²", pos: [1.75, 0.05, 5.50] },
-      { name: "Sala Integrada", dims: "3,01 × 4,01 m • Jantar & Estar", pos: [1.50, 0.05, 9.01] },
-      { name: "Sala Inferior", dims: "4,63 × 3,02 m • 14,0 m²", pos: [2.31, 0.05, 12.53] },
-      { name: "Quarto 3", dims: "2,17 × 1,90 m • 4,1 m²", pos: [5.71, 0.05, 12.04] },
-      { name: "Quarto 4 (Master)", dims: "5,71 × 3,00 m • 17,1 m²", pos: [2.85, 0.05, 15.54] },
-      { name: "Quarto 5", dims: "5,41 × 3,00 m • 16,2 m²", pos: [8.41, 0.05, 15.54] },
-      { name: "Lavanderia", dims: "2,04 × 2,85 m • 5,8 m²", pos: [12.14, 0.05, 15.46] },
-      { name: "Pergolado de Madeira", dims: "3,05 × 2,91 m • Lounge", pos: [8.95, 0.05, 21.02] },
-      { name: "Casa da Árvore", dims: "2,40 × 2,40 m • Alt. 1,85 m", pos: [-3.20, 1.95, 16.50] },
-      { name: "Casa do Cachorro", dims: "1,40 × 1,20 m • Pet", pos: [9.50, 0.05, -2.50] },
-      { name: "Horta Orgânica", dims: "1,20 × 11,50 m • Canteiros", pos: [11.35, 0.05, 5.75] }
-    ];
-
-    const furnitureLabelData = [
-      { tag: "P", dims: "2,00 × 0,60 m", pos: [4.01, 0.95, 7.31] },
-      { tag: "AE", dims: "1,15 × 0,54 m", pos: [5.58, 1.60, 7.28] },
-      { tag: "F", dims: "0,83 × 0,70 m", pos: [6.75, 1.20, 7.36] },
-      { tag: "Balcão Americano", dims: "1,68 × 1,26 m • 3 Banquetas", pos: [2.90, 1.05, 9.04] },
-      { tag: "Centro", dims: "2,14 × 0,54 m", pos: [5.27, 0.95, 8.57] },
-      { tag: "BL", dims: "1,97 × 0,51 m", pos: [5.26, 0.95, 9.65] },
-      { tag: "AC", dims: "1,33 × 0,94 m", pos: [5.80, 0.95, 10.60] },
-      { tag: "G", dims: "0,72 × 0,76 m", pos: [6.81, 1.85, 10.71] },
-      { tag: "AM", dims: "0,66 × 0,54 m", pos: [3.34, 1.80, 10.82] }
-    ];
-
-    function createLabels() {
-      const container = document.getElementById('labels-container');
-      container.innerHTML = '';
-      labelElements = [];
-
-      roomLabelData.forEach(r => {
-        const el = document.createElement('div');
-        el.className = 'annotation-label';
-        el.innerHTML = `
-          <div class="room-badge">
-            <span>${r.name}</span>
-            <span class="sub">${r.dims}</span>
-          </div>
-        `;
-        container.appendChild(el);
-        labelElements.push({ element: el, pos: new THREE.Vector3(...r.pos) });
-      });
-
-      furnitureLabelData.forEach(f => {
-        const el = document.createElement('div');
-        el.className = 'annotation-label';
-        el.innerHTML = `
-          <div class="furniture-badge">
-            <span>${f.tag}</span>
-            <span class="dims">${f.dims}</span>
-          </div>
-        `;
-        container.appendChild(el);
-        labelElements.push({ element: el, pos: new THREE.Vector3(...f.pos) });
-      });
-    }
-
-    function updateLabelPositions() {
-      if (!showLabels) {
-        document.getElementById('labels-container').style.display = 'none';
-        return;
-      }
-      document.getElementById('labels-container').style.display = 'block';
-
-      const widthHalf = window.innerWidth / 2;
-      const heightHalf = window.innerHeight / 2;
-      const tempVec = new THREE.Vector3();
-
-      labelElements.forEach(item => {
-        tempVec.copy(item.pos);
-        tempVec.project(camera);
-
-        if (tempVec.z < 1) {
-          const x = (tempVec.x * widthHalf) + widthHalf;
-          const y = -(tempVec.y * heightHalf) + heightHalf;
-          item.element.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
-          item.element.style.opacity = '1';
-        } else {
-          item.element.style.opacity = '0';
+    document.querySelectorAll('.chip-toggle[data-layer]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        const layerId = btn.getAttribute('data-layer');
+        const layer = document.getElementById(layerId);
+        if (layer) {
+          layer.style.display = btn.classList.contains('active') ? '' : 'none';
         }
       });
-    }
-
-    function registerInteractive(obj, title, desc, dims) {
-      obj.userData = { isInteractive: true, title, desc, dims };
-      obj.traverse(child => {
-        if (child.isMesh) {
-          child.userData = obj.userData;
-          interactiveObjects.push(child);
-        }
-      });
-    }
-
-    function onPointerDown(event) {
-      if (event.clientY < 70 || event.clientY > window.innerHeight - 80) return;
-
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(interactiveObjects, true);
-
-      const card = document.getElementById('info-card');
-      if (intersects.length > 0) {
-        const hit = intersects[0].object.userData;
-        if (hit && hit.title) {
-          document.getElementById('card-title').textContent = hit.title;
-          document.getElementById('card-desc').textContent = hit.desc;
-          document.getElementById('card-dims').textContent = hit.dims;
-          card.classList.add('visible');
-          return;
-        }
-      }
-      card.classList.remove('visible');
-    }
+    });
 
     /* ==========================================================================
-       12. CAMERA VIEWS & ANIMATIONS
+       4. TEMAS VISUAIS (HUMANIZADA, BLUEPRINT CAD)
        ========================================================================== */
-    function setCameraView(viewId, animate = true) {
-      let targetCamPos = new THREE.Vector3();
-      let targetLookAt = new THREE.Vector3();
+    const btnThemeHuman = document.getElementById('btn-theme-human');
+    const btnThemeBlue = document.getElementById('btn-theme-blue');
 
-      switch (viewId) {
-        case '3d':
-          // Overview of entire estate
-          targetCamPos.set(16.0, 22.0, 32.0);
-          targetLookAt.set(4.5, 0.5, 11.0);
-          break;
-        case 'top':
-          // Technical top-down view
-          targetCamPos.set(4.5, 34.0, 11.0);
-          targetLookAt.set(4.5, 0.0, 11.0);
-          break;
-        case 'cozinha':
-          // Foco na Cozinha Americana com vista ampla de ligação a partir da Sala
-          targetCamPos.set(-0.8, 2.6, 10.4);
-          targetLookAt.set(4.2, 1.1, 9.04);
-          break;
-        case 'lazer':
-          // Pool & BBQ deck view
-          targetCamPos.set(14.0, 6.0, 6.0);
-          targetLookAt.set(8.8, 1.0, 5.5);
-          break;
-        case 'jardim':
-          // Lower garden & Pergola view
-          targetCamPos.set(8.9, 5.0, 27.0);
-          targetLookAt.set(8.9, 1.5, 20.5);
-          break;
-      }
+    btnThemeHuman.addEventListener('click', () => {
+      document.body.className = '';
+      btnThemeHuman.classList.add('active');
+      btnThemeBlue.classList.remove('active');
+    });
 
-      if (!animate || typeof TWEEN === 'undefined') {
-        camera.position.copy(targetCamPos);
-        if (controls) {
-          controls.target.copy(targetLookAt);
-          controls.update();
-        } else {
-          camera.lookAt(targetLookAt);
-        }
-        return;
-      }
+    btnThemeBlue.addEventListener('click', () => {
+      document.body.className = 'theme-blueprint';
+      btnThemeBlue.classList.add('active');
+      btnThemeHuman.classList.remove('active');
+    });
 
-      new TWEEN.Tween(camera.position)
-        .to(targetCamPos, 900)
-        .easing(TWEEN.Easing.Cubic.Out)
-        .start();
+    btnThemeHuman.classList.add('active');
 
-      if (controls) {
-        new TWEEN.Tween(controls.target)
-          .to(targetLookAt, 900)
-          .easing(TWEEN.Easing.Cubic.Out)
-          .onUpdate(() => controls.update())
-          .start();
-      }
-    }
-
-    function toggleWallHeight() {
-      areWallsLow = !areWallsLow;
-      const targetH = areWallsLow ? WALL_HEIGHT_LOW : WALL_HEIGHT_HIGH;
-      const btn = document.getElementById('btn-toggle-walls');
-      if (areWallsLow) {
-        btn.classList.add('active');
-        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 7h10v2H7z"/></svg> Paredes Altas`;
-      } else {
-        btn.classList.remove('active');
-        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h10v4H7z"/></svg> Paredes Baixas`;
-      }
-
-      wallMeshes.forEach(mesh => {
-        new TWEEN.Tween(mesh.scale)
-          .to({ y: targetH / WALL_HEIGHT_HIGH }, 600)
-          .easing(TWEEN.Easing.Quadratic.Out)
-          .onUpdate(() => {
-            mesh.position.y = (mesh.scale.y * WALL_HEIGHT_HIGH) / 2;
-          })
-          .start();
-      });
-    }
-
-    function setCabinetColor(hex) {
-      cabinetColorHex = hex;
-      document.getElementById('current-hex').textContent = hex.toUpperCase();
-      document.getElementById('cabinet-color-picker').value = hex;
-
-      const c = new THREE.Color(hex);
-      cabinetMaterials.forEach(mat => {
-        mat.color.copy(c);
-      });
-
-      document.querySelectorAll('.color-swatch').forEach(sw => {
-        if (sw.dataset.color.toLowerCase() === hex.toLowerCase()) {
-          sw.classList.add('active');
-        } else {
-          sw.classList.remove('active');
-        }
-      });
-    }
+    // Botão Imprimir
+    document.getElementById('btn-print').addEventListener('click', () => {
+      window.print();
+    });
 
     /* ==========================================================================
-       13. EVENT LISTENERS & RESIZE
+       5. INSPETOR INTERATIVO AO CLICAR EM QUALQUER ELEMENTO
        ========================================================================== */
-    function setupUIEvents() {
-      const views = ['3d', 'top', 'cozinha', 'lazer', 'jardim'];
-      views.forEach(v => {
-        const btn = document.getElementById(`btn-view-${v}`);
-        if (btn) {
-          btn.addEventListener('click', () => {
-            document.querySelectorAll('#bottom-dock .btn-action').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            setCameraView(v, true);
-          });
+    const inspector = document.getElementById('inspector');
+    const inspTitle = document.getElementById('insp-title');
+    const inspBadge = document.getElementById('insp-badge');
+    const inspDims = document.getElementById('insp-dims');
+    const inspArea = document.getElementById('insp-area');
+    const inspScale = document.getElementById('insp-scale');
+    const inspDesc = document.getElementById('insp-desc');
+    let selectedElement = null;
+
+    function selectElement(id) {
+      const data = floorPlanDatabase[id];
+      if (!data) return;
+
+      if (selectedElement) {
+        selectedElement.classList.remove('room-selected');
+      }
+
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('room-selected');
+        selectedElement = el;
+      }
+
+      inspTitle.textContent = data.name;
+      inspBadge.textContent = data.badge;
+      inspDims.textContent = data.dims;
+      inspArea.textContent = data.area;
+      inspScale.textContent = data.scale;
+      inspDesc.textContent = data.desc;
+
+      inspector.classList.add('open');
+    }
+
+    document.querySelectorAll('.room-poly').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectElement(el.id);
+      });
+    });
+
+    document.getElementById('insp-close').addEventListener('click', () => {
+      inspector.classList.remove('open');
+      if (selectedElement) {
+        selectedElement.classList.remove('room-selected');
+        selectedElement = null;
+      }
+    });
+
+    workspace.addEventListener('click', (e) => {
+      if (!e.target.closest('.room-poly') && !e.target.closest('#inspector')) {
+        inspector.classList.remove('open');
+        if (selectedElement) {
+          selectedElement.classList.remove('room-selected');
+          selectedElement = null;
         }
-      });
+      }
+    });
 
-      document.getElementById('btn-toggle-walls').addEventListener('click', toggleWallHeight);
-
-      const btnLabels = document.getElementById('btn-toggle-labels');
-      btnLabels.addEventListener('click', () => {
-        showLabels = !showLabels;
-        btnLabels.classList.toggle('active', showLabels);
-        updateLabelPositions();
-      });
-
-      document.querySelectorAll('.color-swatch').forEach(sw => {
-        sw.addEventListener('click', () => {
-          setCabinetColor(sw.dataset.color);
-        });
-      });
-
-      document.getElementById('cabinet-color-picker').addEventListener('input', (e) => {
-        setCabinetColor(e.target.value);
-      });
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    /* ==========================================================================
-       14. ANIMATION LOOP
-       ========================================================================== */
-    function animate() {
-      requestAnimationFrame(animate);
-      if (typeof TWEEN !== 'undefined') TWEEN.update();
-      controls.update();
-      updateLabelPositions();
-      renderer.render(scene, camera);
-    }
-
-    window.addEventListener('DOMContentLoaded', init);
+    // Inicia focado suavemente no conjunto residencial
+    resetView();
   </script>
 </body>
 </html>
